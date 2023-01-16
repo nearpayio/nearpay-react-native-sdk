@@ -16,12 +16,43 @@ share later.
 ```
 Plugin will support minimum supported ANDROID SDK version 26 and above only.
 ```
+# Get Started
+
+```js
+import nearpay from 'react-native-nearpay-plugin';
+// init 
+let local = nearpay.Locale.default; // english
+let enviroment = nearpay.Environments.sandbox;
+let authType = nearpay.AuthenticationType.login;
+nearpay.initialise(local,enviroment,authType);
+
+// first time open the app run setup once at least 
+nearpay.setup(authType);
+
+// perform purshase transaction
+let amount = 100.20;
+let customerRefrencNumber = '91f60ed7-1287-4f3f-bf0f-a00cda60bd0c'; // optional
+let enableReceiptUi = true; // optional
+let isEnableReverse = true; // optional
+let timeout = 1000; // optional in milliseconds
+let data = {
+amount:100.20,
+// customerRefrencNumber:'91f60ed7-1287-4f3f-bf0f-a00cda60bd0c',
+// enableReceiptUi:false,
+// isEnableReverse:false,
+// timeout:10000
+}
+let purchase_transaction = await nearpay.purchase(data);
+
+console.log({purchase_transaction})
+```
+
+
 
 # Usage
 
-```react-native
-import { initialize,purchase, refund, reconcile, reverse, logout, setup,Environments, AuthenticationType,Locale  } from 'react-native-nearpay-plugin';
-
+```js
+import nearpay from 'react-native-nearpay-plugin';
 
 ```
 
@@ -34,114 +65,109 @@ Authentication Types
 3. LoginWithMobile
 4. JWT
 
-```
- AuthenticationType.login
- AuthenticationType.email
- AuthenticationType.mobile
- AuthenticationType.jwt
-
+```js
+ nearpay.AuthenticationType.login
+ nearpay.AuthenticationType.email
+ nearpay.AuthenticationType.mobile
+ nearpay.AuthenticationType.jwt
 ```
 
 # 1. Initialize SDK
 
-```
 Parameter position
 
 1. Locale deafult language : Locale.default
 2. Environments availble are sandbox,testing,production :  Environments.sandbox
 3. AuthenticationType available are userenter,email,mobile,jwt : AuthenticationType.email
 4. Authentication input value
-
-initialise(Locale.default,Environments.sandbox,authType, authValue);
+```js
+let local = nearpay.Locale.default; // english
+let enviroment = nearpay.Environments.sandbox;
+let authType = nearpay.AuthenticationType.login;
+nearpay.initialise(local,enviroment,authType);
 
 ```
 
-# 2. Setup function
+# 2. Setup
 
-```
 Parameter
 authType, authValue
-
 1. AuthenticationType available are userenter,email,mobile,jwt : AuthenticationType.email
 2. Authentication input value
-
-setup(authType, authValue);
-
-```
-
-# 3. Purchase function
+```js
+let authType = nearpay.AuthenticationType.login;
+nearpay.setup(authType);
 
 ```
+
+# 3. Purchase
+
 Parameter
-String amountStr, String customerReferenceNumber,Boolean enableReceiptUi,Boolean isEnableReverse,String timeout,String authType, String authValue
 1. Amount for purchase
 2. Customer referening number unique string
-3. Enable Reciept UI enable : boolean parameter
-4. Enable Reverse UI enable : boolean parameter
-5. Timeout : timeout after
-6. AuthenticationType available are userenter,email,mobile,jwt : AuthenticationType.email
-7. Authentication input value
+3. Enable Reciept UI enable : boolean show reciept ui for user
+4. Enable Reverse UI enable : boolean show reverse button for user to cancel transaction
+5. Timeout : end transaction after timeout
+```js
+let amount = 100.20;
+let customerRefrencNumber = '91f60ed7-1287-4f3f-bf0f-a00cda60bd0c'; // optional
+let enableReceiptUi = true; // optional
+let isEnableReverse = true; // optional
+let timeout = 1000; // optional in milliseconds
 
-purchase(String amountStr, String customerReferenceNumber,Boolean enableReceiptUi,Boolean isEnableReverse,String timeout,String authType, String authValue);
-
-Example
-
-"0001","test123456",true,true,timeout,authType, authValue
-
-```
-
-# 4. Refund function
+let purchase_transaction = await nearpay.purchase(amount, customerRefrencNumber, enableReceiptUi, isEnableReverse, timeout);
 
 ```
+
+# 4. Refund
+
 Parameter
-amount,transactionUuid,customerRefNo,isUiEnabled,isEnableReverse,isEditableReversalUI,timeout,authType, authValue
-1. Amount for purchase
-2. Transaction UUID from response - uuid
+1. Amount for Refund
+2. Transaction UUID from response - uuid ( original transaction uuid )
 3. Customer referening number unique string
-4. Enable UI enable : boolean parameter
-5. Enable Reverse UI enable : boolean parameter
-6. Is Editable refund UI enable : boolean parameter
-7. Timeout : timeout after
-8. AuthenticationType available are userenter,email,mobile,jwt : AuthenticationType.email
-9. Authentication input value
+4. Enable UI enable : boolean show reciept ui for user
+5. Enable Reverse UI enable : boolean show reverse button for user to cancel transaction
+6. Is Editable refund UI enable : boolean 
+7. Timeout : end transaction after timeout
+```js
+let amount = 100.20;
+let customerRefrencNumber = '91f60ed7-1287-4f3f-bf0f-a00cda60bd0c'; // optional
+let enableReceiptUi = true; // optional
+let isEnableReverse = true; // optional
+let isEditableReversalUI = true; // optional
+let timeout = 1000; // optional in milliseconds
+let original_transaction = purchase_transaction.uuid;
 
-refund(String amountStr, String customerReferenceNumber,Boolean enableReceiptUi,Boolean isEnableReverse,Boolean isEditableReversalUI,String timeout,String authType, String authValue);
-
+let refund_transactions = await nearpay.refund(amount, original_transaction, customerRefrencNumber, enableReceiptUi, isEnableReverse, isEditableReversalUI, timeout);
 ```
 
-# 5. Reconcile function
+# 5. Reconcile 
 
-```
 Parameter
 isUiEnabled,timeout,authType, authValue
-1. Enable UI enable : boolean parameter
-2. Timeout : timeout after
-3. AuthenticationType available are userenter,email,mobile,jwt : AuthenticationType.email
-4. Authentication input value
-
-reconcile(isUiEnabled,timeout,authType, authValue);
+1. enableReceiptUi : boolean parameter
+```js
+let reconiliation = await nearpay.reconcile();
 
 ```
 
-# 6. Reverse function
+# 6. Reverse
 
-```
+
 Parameter
 transactionID, isUiEnabled, timeout,authType, authValue
 1. Transaction UUID from response - uuid
 2. isUiEnabled : Boolean
 3. Timeout : timeout after
-4. AuthenticationType available are userenter,email,mobile,jwt : AuthenticationType.email
-5. Authentication input value
-
-reverse(transactionID, isUiEnabled, timeout,authType, authValue);
+```js
+let reversed_transaction = await nearpay.reverse(purchase_transaction.uuid);
 
 ```
 
-# 7. Logout function
+# 7. Logout
 
-```
-logout();
+```js
+nearpay.logout();
 ```
 
 ### Response Status
@@ -149,30 +175,26 @@ logout();
 ```
 General Response
 
-200 :  Success
-401 :  Authentication
-402:  General Failure
-403:  Failure Message
+200: Success
+401: Authentication
+402: General Failure
+403: Failure Message
 404: Invalid Status
 
 Purchase Response
-
-405:  Purchase Declined
-406 : Purchase Rejected
+405: Purchase Declined
+406: Purchase Rejected
 
 Refund Response
-
-407 : Refund Declined
+407: Refund Declined
 408: Refund Rejected
 
 Logout Response
-
 409: User Already logout
 
 Setup Response
-
-410:  Already Installed
-411 :  Not Installed
+410: Already Installed
+411: Not Installed
 
 ```
 
