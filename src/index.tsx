@@ -17,32 +17,32 @@ const NearpayPlugin = NativeModules.NearpayPlugin
       }
     );
 
-export function initialize(locale: String, environment: String, authType: String, authValue : String): Promise<String> {
-  return NearpayPlugin.initialize(locale, environment, authType, authValue);
+export function initialize(inputParams: any ): Promise<String> {
+  return NearpayPlugin.initialize(inputParams);
 }
 
-export function purchase(amount: String, custRefNo: String,isEnableUi : boolean,isEnableReverse : boolean,finishTimeout: String,authType: String, authValue : String ): Promise<String> {
-  return NearpayPlugin.purchase(amount, custRefNo, isEnableUi,isEnableReverse,finishTimeout,authType, authValue);
+export function purchase(inputParams: any ): Promise<String> {
+  return NearpayPlugin.purchase(inputParams);
 }
 
-export function refund(amount: String,transactionUDID: String ,custRefNo: String,isEnableUi : boolean,isEnableReversal : boolean,isEditableReversalUI : boolean,finishTimeout: String,authType: String, authValue : String ): Promise<String> {
-  return NearpayPlugin.refund(amount,transactionUDID, custRefNo, isEnableUi,isEnableReversal,isEditableReversalUI,finishTimeout,authType,authValue);
+export function refund(inputParams: any ): Promise<String> {
+  return NearpayPlugin.refund(inputParams);
 }
 
-export function reconcile(isEnableUi : boolean ,finishTimeout: String,authType: String, authValue : String): Promise<String> {
-  return NearpayPlugin.reconcile(isEnableUi,finishTimeout,authType,authValue);
+export function reconcile(inputParams: any): Promise<String> {
+  return NearpayPlugin.reconcile(inputParams);
 }
 
-export function reverse(transactionUDID: String,isEnableUi : boolean,finishTimeout: String,authType: String, authValue : String ): Promise<String> {
-  return NearpayPlugin.reverse(transactionUDID, isEnableUi,finishTimeout,authType,authValue);
+export function reverse(inputParams : any ): Promise<String> {
+  return NearpayPlugin.reverse(inputParams);
 }
 
 export function logout(): Promise<String> {
   return NearpayPlugin.logout();
 }
 
-export function setup(authType: String, authValue : String ): Promise<String> {
-  return NearpayPlugin.setup(authType,authValue);
+export function setup(inputParams : any ): Promise<String> {
+  return NearpayPlugin.setup(inputParams);
 }
 
 

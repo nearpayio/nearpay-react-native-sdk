@@ -20,7 +20,13 @@ export default class App extends Component {
 
     }
     console.log(Locale.default,"initializing",Environments.sandbox);
-    initialize(Locale.default,Environments.sandbox,authType, authValue).then((response) => {
+    var reqData = {
+      "authtype" : authType,
+      "authvalue" : authValue,
+      "locale" : Locale.default,
+      "environment" : Environments.sandbox
+      };
+    initialize(reqData).then((response) => {
       let resultJSON = JSON.parse(response)
       console.log(resultJSON.message,",,,,data....",resultJSON.status);
       if(resultJSON.status == 200){
@@ -40,9 +46,16 @@ export default class App extends Component {
     });
   }
 
-  initiatePurchase(amount , customerRefID, isUiEnabled,isEnableReverse,timeout,authType, authValue ){
+  initiatePurchase(){
+    var reqData = {
+      "amount": "0001", // Required
+      "customer_reference_number": "uuyuyuyuy65565675", // [optional] any number you want to add as a refrence
+      "isEnableUI" : true, // [optional] true will enable the ui and false will disable 
+      "isEnableReversal" : true, // it will allow you to enable or disable the reverse button
+      "finishTimeout" : timeout // [optional] Add the number of seconds      
+    };
     console.log("initializePayment","response");
-    purchase(amount,customerRefID,isUiEnabled,isEnableReverse, timeout,authType, authValue).then((response) => {
+    purchase(reqData).then((response) => {
       let resultJSON = JSON.parse(response);
       console.log(resultJSON,"initializePayment",resultJSON.message);
       if(resultJSON.status == 200){
@@ -54,9 +67,15 @@ export default class App extends Component {
     });
   }
 
-  initiatePurchaseAndRefund(amount , customerRefID, isUiEnabled,isEnableReverse,isEditableReversalUI,timeout,authType, authValue ){
-
-    purchase(amount,customerRefID,isUiEnabled,isEnableReverse,timeout,authType, authValue).then((response) => {
+  initiatePurchaseAndRefund( ){
+    var reqData = {
+      "amount": "0001", 
+      "customer_reference_number": "", // Any string as a reference number
+      "isEnableUI" : true, // Optional
+      "isEnableReversal" : true, // Optional it will allow you to enable or disable the reverse button
+      "finishTimeout" : timeout //Optional 
+    };
+    purchase(reqData).then((response) => {
       var responseJson = JSON.parse(response);
       var status = responseJson.status;
       var message = responseJson.message;
@@ -67,7 +86,7 @@ export default class App extends Component {
             if(purchaseList.length){
               let uuid = purchaseList[0].uuid;
               console.log("response list", uuid);
-              this.initiateRefund("0001",uuid,"test1234567888",isUiEnabled,isEnableReverse,isEditableReversalUI,timeout,authType, authValue);
+              this.initiateRefund(uuid);
             }
           }, 5000);
       }else{
@@ -77,8 +96,17 @@ export default class App extends Component {
     });
   }
 
-  initiateRefund(amount , transactionUuid ,customerRefNo, isUiEnabled,isEnableReverse,isEditableReversalUI,timeout,authType, authValue ){
-    refund(amount,transactionUuid,customerRefNo,isUiEnabled,isEnableReverse,isEditableReversalUI,timeout,authType, authValue).then((response) => {
+  initiateRefund(uuid){
+    var reqData = {
+      "amount": "0001", // Required
+      "transaction_uuid" :uuid, // Required
+      "customer_reference_number": "rerretest123333333", //Optional
+      "isEnableUI" : true, // Optional
+      "isEnableReversal" : true,// Optional
+      "isEditableReversalUI" : true,// Optional
+      "finishTimeout" : timeout // Optional
+    };
+    refund(reqData).then((response) => {
       console.log("initializePayment",response);
       var resultJSON = JSON.parse(response);
       if(resultJSON.status == 200){
@@ -89,8 +117,12 @@ export default class App extends Component {
     });
   }
 
-  initiateReconcile(isUiEnabled,timeout,authType, authValue ){
-    reconcile(isUiEnabled,timeout,authType, authValue).then((response) => {
+  initiateReconcile(){
+    var reqData = {
+      "isEnableUI" : true,// Optional
+      "finishTimeout" : timeout    // Optional
+    };
+    reconcile(reqData).then((response) => {
       console.log("initialisePayment",response);
       var resultJSON = JSON.parse(response);
       if(resultJSON.status == 200){
@@ -101,9 +133,17 @@ export default class App extends Component {
     });
   }
 
-  initiatePurchaseAndReverse(amount , customerRefID, isUiEnabled,isEnableReverse,timeout,authType, authValue ){
+  initiatePurchaseAndReverse( ){
 
-    purchase(amount,customerRefID,isUiEnabled,isEnableReverse,timeout,authType, authValue).then((response) => {
+    var reqData = {
+      "amount": "0001", // Required
+      "customer_reference_number": "uuyuyuyuy65565675", // Optional
+      "isEnableUI" : true, //Optional
+      "isEnableReversal" : true, //it will allow you to enable or disable the reverse button
+      "finishTimeout" : timeout //Optional
+    };
+
+    purchase(reqData).then((response) => {
       print("....initiatePurchaseAndReverse....$response",response);
       var responseJson = JSON.parse(response);
       var status = responseJson.status;
@@ -115,7 +155,7 @@ export default class App extends Component {
             if(purchaseList.length){
               let uuid = purchaseList[0].uuid;
               console.log("...response list...uuid------$uuid..333..", uuid);
-              this.doReverse(uuid,isUiEnabled,timeout,authType, authValue);
+              this.doReverse(uuid);
             }
           }, 5000);
       }else{
@@ -126,8 +166,13 @@ export default class App extends Component {
   }
 
 
-  doReverse( transactionID , isUiEnabled, timeout,authType, authValue ){
-    reverse(transactionID, isUiEnabled, timeout,authType, authValue).then((response) => {
+  doReverse(uuid){
+    var reqData = {
+      "transaction_uuid" :uuid, // Required
+      "isEnableUI" : true, // Optional
+      "finishTimeout" : timeout   // Optional
+    };
+    reverse(reqData).then((response) => {
       console.log("initialisePayment",response);
       var resultJSON = JSON.parse(response);
       if(resultJSON.status == 200){
@@ -152,7 +197,11 @@ export default class App extends Component {
   }
 
   doSetupClick(){
-    setup(authType, authValue).then((response) => {
+    var reqData = {
+      "authtype" : authType, // [optional] Auth type we will pass here
+      "authvalue" : authValue, // [optional] Auth value we will pass here
+    };
+    setup(reqData).then((response) => {
       console.log("doSetupClick",response);
       var resultJSON = JSON.parse(response);
       if(resultJSON.status == 200){
@@ -167,16 +216,16 @@ export default class App extends Component {
     return (
       <View style={styles.container}>
             <View style={styles.containerrow}>
-                <Button title="Purchase" onPress={()=>this.initiatePurchase("0001","test123456",true,true,timeout,authType, authValue)}/>
+                <Button title="Purchase" onPress={()=>this.initiatePurchase()}/>
               </View>
               <View style={styles.containerrow}>
-                <Button title="Purchase and Refund " onPress={()=>this.initiatePurchaseAndRefund("0001","test12464545456",true,true,true,timeout,authType, authValue)}/>
+                <Button title="Purchase and Refund " onPress={()=>this.initiatePurchaseAndRefund()}/>
               </View>
               <View style={styles.containerrow}>
-                <Button title="Purchase and Reverse " onPress={()=>this.initiatePurchaseAndReverse("0001","test12464545456",true,true,timeout,authType, authValue)}/>
+                <Button title="Purchase and Reverse " onPress={()=>this.initiatePurchaseAndReverse()}/>
               </View>
               <View style={styles.containerrow}>
-                <Button title="Reconcile" onPress={()=>this.initiateReconcile(true,timeout,authType, authValue)}/>
+                <Button title="Reconcile" onPress={()=>this.initiateReconcile()}/>
               </View>
               <View style={styles.containerrow} >
                 <Button title="Setup" onPress={()=>this.doSetupClick()} />
