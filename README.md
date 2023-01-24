@@ -20,7 +20,7 @@ Plugin will support minimum supported ANDROID SDK version 21 and above only.
 # Usage
 
 ```react-native
-import { initialize,purchase, refund, reconcile, reverse, logout, setup,Environments, AuthenticationType,Locale  } from 'react-native-nearpay-plugin';
+import { initialize, purchase, refund, reconcile, reverse, logout, setup,Environments, AuthenticationType,Locale  } from 'react-native-nearpay-plugin';
 
 
 ```
@@ -55,7 +55,6 @@ Parameter position
 3. AuthenticationType available are userenter,email,mobile,jwt : AuthenticationType.email
 4. Authentication input value
 
-initialise(Locale.default,Environments.sandbox,authType, authValue);
 
     var reqData = {
         "authtype" : authType, //Same as above reference
@@ -77,7 +76,7 @@ initialise(Locale.default,Environments.sandbox,authType, authValue);
     });
 ```
 
-# 2. Setup function
+# 2. Setup 
 
 ```
 Parameter
@@ -104,7 +103,7 @@ authType, authValue
 
 ```
 
-# 3. Purchase function
+# 3. Purchase 
 
 ```
 Parameter
@@ -141,7 +140,7 @@ purchase(reqData).then((response) => {
 
 ```
 
-# 4. Refund function
+# 4. Refund 
 
 ```
 Parameter
@@ -183,7 +182,7 @@ refund(reqData).then((response) => {
 
 ```
 
-# 5. Reconcile function
+# 5. Reconcile 
 
 ```
 Parameter
@@ -210,7 +209,7 @@ refund(reqData).then((response) => {
 
 ```
 
-# 6. Reverse function
+# 6. Reverse 
 
 ```
 Parameter
@@ -243,7 +242,7 @@ reverse(reqData).then((response) => {
 
 ```
 
-# 7. Logout function
+# 7. Logout 
 
 ```
 logout();
