@@ -17,11 +17,11 @@ share later.
 Plugin will support minimum supported ANDROID SDK version 21 and above only.
 ```
 
-# Usage
+# Import plugin library
 
 ```react-native
-import { initialize, purchase, refund, reconcile, reverse, logout, setup,Environments, AuthenticationType,Locale  } from 'react-native-nearpay-plugin';
 
+import * as Nearpay from 'react-native-nearpay-plugin';
 
 ```
 
@@ -35,12 +35,12 @@ Authentication Types
 4. JWT
 
 ```
- AuthenticationType.login
- AuthenticationType.email
- AuthenticationType.mobile
- AuthenticationType.jwt
+ Nearpay.AuthenticationType.login
+ Nearpay.AuthenticationType.email
+ Nearpay.AuthenticationType.mobile
+ Nearpay.AuthenticationType.jwt
 
- var authType = AuthenticationType.email
+ var authType = Nearpay.AuthenticationType.email
  var authValue = "yourmail@gmail.com"
 
 ```
@@ -62,7 +62,7 @@ Parameter position
         "locale" : Locale.localeDefault, // [optional] locale reference
         "environment" : Environments.sandbox // [Required] environment reference
     };
-    initialize(reqData).then((response) => {
+    Nearpay.initialize(reqData).then((response) => {
         let resultJSON = JSON.parse(response)
         console.log(resultJSON.message,",,,,data....",resultJSON.status);
         if(resultJSON.status == 200){
@@ -82,14 +82,14 @@ Parameter position
 Parameter
 authType, authValue
 
-1. AuthenticationType available are userenter,email,mobile,jwt : AuthenticationType.email
+1. AuthenticationType available are userenter,email,mobile,jwt : Nearpay.AuthenticationType.email
 2. Authentication input value
 
     var reqData = {
       "authtype" : authType, // [optional] Auth type we will pass here
       "authvalue" : authValue, // [optional] Auth value we will pass here
     };
-    setup(reqData).then((response) => {
+    Nearpay.setup(reqData).then((response) => {
       var resultJSON = JSON.parse(response);
       if(resultJSON.status == 200){
         // Initialize Success with 200
@@ -113,7 +113,7 @@ String amountStr, String customerReferenceNumber,Boolean enableReceiptUi,Boolean
 3. Enable Reciept UI enable : boolean parameter
 4. Enable Reverse UI enable : boolean parameter
 5. Timeout : timeout after
-6. AuthenticationType available are userenter,email,mobile,jwt : AuthenticationType.email
+6. AuthenticationType available are userenter,email,mobile,jwt : Nearpay.AuthenticationType.email
 7. Authentication input value
 
 var reqData = {
@@ -124,7 +124,7 @@ var reqData = {
       "finishTimeout" : 2  //[optional] Add the number of seconds
 };
 
-purchase(reqData).then((response) => {
+Nearpay.purchase(reqData).then((response) => {
     let resultJSON = JSON.parse(response);
     if(resultJSON.status == 200){
         // Initialize Success with 200
@@ -165,7 +165,7 @@ var reqData = {
       "finishTimeout" : 2,//[optional] Add the number of seconds
 };
 
-refund(reqData).then((response) => {
+Nearpay.refund(reqData).then((response) => {
     let resultJSON = JSON.parse(response);
     if(resultJSON.status == 200){
         // Initialize Success with 200
@@ -189,7 +189,7 @@ Parameter
 isUiEnabled,timeout,authType, authValue
 1. Enable UI enable : boolean parameter
 2. Timeout : timeout after
-3. AuthenticationType available are userenter,email,mobile,jwt : AuthenticationType.email
+3. AuthenticationType available are userenter,email,mobile,jwt : Nearpay.AuthenticationType.email
 4. Authentication input value
 
 var reqData = {
@@ -197,7 +197,7 @@ var reqData = {
       "finishTimeout" : 2 // [optional] Add the number of seconds
 };
 
-refund(reqData).then((response) => {
+Nearpay.refund(reqData).then((response) => {
     let resultJSON = JSON.parse(response);
     if(resultJSON.status == 200){
         // Initialize Success with 200
@@ -226,7 +226,7 @@ var reqData = {
       "finishTimeout" : 2 // [optional] Add the number of seconds
 };
 
-reverse(reqData).then((response) => {
+Nearpay.reverse(reqData).then((response) => {
     let resultJSON = JSON.parse(response);
     if(resultJSON.statu == 200){
         // Initialize Success with 200
@@ -245,7 +245,7 @@ reverse(reqData).then((response) => {
 # 7. Logout 
 
 ```
-logout();
+Nearpay.logout();
 ```
 
 ### Response Status
@@ -256,7 +256,7 @@ General Response
 200 :  Success
 204 : Initiase Missing
 400 : Invalid arguments
-401 :  Authentication
+401 : Authentication
 402:  General Failure
 403:  Failure Message
 404: Invalid Status

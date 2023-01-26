@@ -17,50 +17,70 @@ const NearpayPlugin = NativeModules.NearpayPlugin
       }
     );
 
-export function initialize(inputParams: any ): Promise<String> {
+
+
+function initialize(inputParams: any ): Promise<String> {
   return NearpayPlugin.initialize(inputParams);
 }
 
-export function purchase(inputParams: any ): Promise<String> {
+
+
+function purchase(inputParams: any ): Promise<String> {
   return NearpayPlugin.purchase(inputParams);
 }
 
-export function refund(inputParams: any ): Promise<String> {
+ 
+
+function refund(inputParams: any ): Promise<String> {
   return NearpayPlugin.refund(inputParams);
 }
 
-export function reconcile(inputParams: any): Promise<String> {
+function reconcile(inputParams: any): Promise<String> {
   return NearpayPlugin.reconcile(inputParams);
 }
 
-export function reverse(inputParams : any ): Promise<String> {
+function reverse(inputParams : any ): Promise<String> {
   return NearpayPlugin.reverse(inputParams);
 }
 
-export function logout(): Promise<String> {
+function logout(): Promise<String> {
   return NearpayPlugin.logout();
 }
 
-export function setup(inputParams : any ): Promise<String> {
+function setup(inputParams : any ): Promise<String> {
   return NearpayPlugin.setup(inputParams);
 }
 
 
 
-export enum Environments {
+enum Environments {
   sandbox = "sandbox",
   testing = "testing",
   production = "production"
   
 }
 
-export enum AuthenticationType{
+enum AuthenticationType{
   login = "userenter",
   email = "email",
   mobile = "mobile",
   jwt = "jwt"
 }
 
-export enum Locale{
+enum Locale{
   default = "default"
+}
+
+
+export {
+  Locale,
+  AuthenticationType,
+  Environments,
+  setup,
+  logout,
+  reverse,
+  reconcile,
+  refund,
+  purchase,
+  initialize
 }
