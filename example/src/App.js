@@ -4,8 +4,7 @@ import { Button, StyleSheet, View, } from 'react-native';
 import * as Nearpay from 'react-native-nearpay-plugin';
 import Toast from 'react-native-toast-message';
 
-//let authValue = "nearpay@nearpay.io";
-let authValue = "rajeshpillai23@gmail.com";
+let authValue = "nearpay@nearpay.io";
 // userenter,email,mobile,jwt
 let authType = Nearpay.AuthenticationType.email;
 //Time out n seconds
