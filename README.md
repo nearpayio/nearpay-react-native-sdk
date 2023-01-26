@@ -6,24 +6,23 @@ Minimum SDK version 26. This plugin will work based on
 
 # Install plugin
 
-```bash
+``` javascript
 npm install react-native-nearpay-plugin
-```
+
 
 Please integrate plugin to a react native project either url or project, that will
 share later.
 
-```
+
 Plugin will support minimum supported ANDROID SDK version 21 and above only.
 ```
 
 # Import plugin library
 
-```react-native
+``` javascript
 
 import * as nearpay from 'react-native-nearpay-plugin';
 
-```
 
 # Authentications
 
@@ -34,7 +33,7 @@ Authentication Types
 3. LoginWithMobile
 4. JWT
 
-```
+
  nearpay.AuthenticationType.login
  nearpay.AuthenticationType.email
  nearpay.AuthenticationType.mobile
@@ -47,15 +46,7 @@ Authentication Types
 
 # 1. Initialize SDK
 
-```
-Parameter details
-
-
-1. AuthenticationType available are userenter,email,mobile,jwt : AuthenticationType.email
-2. Authentication input value
-3. Locale deafult language : Locale.default
-4. Environments availble are sandbox,testing,production :  Environments.sandbox
-
+``` javascript
 
     var reqData = {
         "authtype" : authType, //Same as above reference
@@ -79,11 +70,7 @@ Parameter details
 
 # 2. Setup 
 
-```
-Parameter details
-
-1. AuthenticationType available are userenter,email,mobile,jwt : nearpay.AuthenticationType.email
-2. Authentication input value
+``` javascript
 
     var reqData = {
       "authtype" : authType, // [optional] Auth type we will pass here
@@ -105,14 +92,7 @@ Parameter details
 
 # 3. Purchase 
 
-```
-Parameter Details
-
-1. Amount for purchase
-2. Customer referening number unique string
-3. Enable Reciept UI enable : boolean parameter
-4. Enable Reverse UI enable : boolean parameter
-5. Timeout : timeout after
+``` javascript
 
 var reqData = {
       "amount": 0001, // [Required] ammount you want to set . 
@@ -140,16 +120,8 @@ nearpay.purchase(reqData).then((response) => {
 
 # 4. Refund 
 
-```
-Parameter Details
+``` javascript 
 
-1. Amount for purchase
-2. Transaction UUID from response - uuid
-3. Customer referening number unique string
-4. Enable UI enable : boolean parameter
-5. Enable Reverse UI enable : boolean parameter
-6. Is Editable refund UI enable : boolean parameter
-7. Timeout : timeout after
 
 var reqData = {
       "amount": 0001, // [Required] ammount you want to set . 
@@ -180,12 +152,7 @@ nearpay.refund(reqData).then((response) => {
 
 # 5. Reconcile 
 
-```
-Parameter Details 
-
-1. Enable UI enable : boolean parameter
-2. Timeout : timeout after
-
+``` javascript
 
 var reqData = {
       "isEnableUI" : true, //[optional] true will enable the ui and false will disable 
@@ -206,12 +173,7 @@ nearpay.refund(reqData).then((response) => {
 
 # 6. Reverse 
 
-```
-Parameter Details
-
-1. isUiEnabled : Boolean
-3. Transaction UUID from response - uuid
-3. Timeout : timeout after
+``` javascript
 
 var reqData = {
       "isEnableUI" : true, //[optional] true will enable the ui and false will disable 
@@ -237,13 +199,13 @@ nearpay.reverse(reqData).then((response) => {
 
 # 7. Logout 
 
-```
+``` javascript
 nearpay.logout();
 ```
 
 ### Response Status
 
-```
+``` javascript
 General Response
 
 200 :  Success
