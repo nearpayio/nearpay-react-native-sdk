@@ -1,12 +1,12 @@
 import React, { Component, Props } from 'react';
 
 import { Button, StyleSheet, View, } from 'react-native';
-import * as Nearpay from 'react-native-nearpay-plugin';
+import * as nearpay from 'react-native-nearpay-plugin';
 import Toast from 'react-native-toast-message';
 
 let authValue = "nearpay@nearpay.io";
 // userenter,email,mobile,jwt
-let authType = Nearpay.AuthenticationType.email;
+let authType = nearpay.AuthenticationType.email;
 //Time out n seconds
 let timeout = "60";
 export default class App extends Component {
@@ -22,10 +22,10 @@ export default class App extends Component {
     var reqData = {
       "authtype" : authType,
       "authvalue" : authValue,
-      "locale" : Nearpay.Locale.default,
-      "environment" : Nearpay.Environments.sandbox
+      "locale" : nearpay.Locale.default,
+      "environment" : nearpay.Environments.sandbox
       };
-      Nearpay.initialize(reqData).then((response) => {
+      nearpay.initialize(reqData).then((response) => {
       let resultJSON = JSON.parse(response)
       console.log(resultJSON.message,",,,,data....",resultJSON.status);
       if(resultJSON.status == 200){
@@ -54,7 +54,7 @@ export default class App extends Component {
       "finishTimeout" : timeout // [optional] Add the number of seconds      
     };
     console.log("initializePayment","response");
-    Nearpay.purchase(reqData).then((response) => {
+    nearpay.purchase(reqData).then((response) => {
       let resultJSON = JSON.parse(response);
       console.log(resultJSON,"initializePayment",resultJSON.message);
       if(resultJSON.status == 200){
@@ -74,7 +74,7 @@ export default class App extends Component {
       "isEnableReversal" : true, // Optional it will allow you to enable or disable the reverse button
       "finishTimeout" : timeout //Optional 
     };
-    Nearpay.purchase(reqData).then((response) => {
+    nearpay.purchase(reqData).then((response) => {
       var responseJson = JSON.parse(response);
       var status = responseJson.status;
       var message = responseJson.message;
@@ -105,7 +105,7 @@ export default class App extends Component {
       "isEditableReversalUI" : true,// Optional
       "finishTimeout" : timeout // Optional
     };
-    Nearpay.refund(reqData).then((response) => {
+    nearpay.refund(reqData).then((response) => {
       console.log("initializePayment",response);
       var resultJSON = JSON.parse(response);
       if(resultJSON.status == 200){
@@ -121,7 +121,7 @@ export default class App extends Component {
       "isEnableUI" : true,// Optional
       "finishTimeout" : timeout    // Optional
     };
-    Nearpay.reconcile(reqData).then((response) => {
+    nearpay.reconcile(reqData).then((response) => {
       console.log("initialisePayment",response);
       var resultJSON = JSON.parse(response);
       if(resultJSON.status == 200){
@@ -142,7 +142,7 @@ export default class App extends Component {
       "finishTimeout" : timeout //Optional
     };
 
-    Nearpay.purchase(reqData).then((response) => {
+    nearpay.purchase(reqData).then((response) => {
       print("....initiatePurchaseAndReverse....$response",response);
       var responseJson = JSON.parse(response);
       var status = responseJson.status;
@@ -171,7 +171,7 @@ export default class App extends Component {
       "isEnableUI" : true, // Optional
       "finishTimeout" : timeout   // Optional
     };
-    Nearpay.reverse(reqData).then((response) => {
+    nearpay.reverse(reqData).then((response) => {
       console.log("initialisePayment",response);
       var resultJSON = JSON.parse(response);
       if(resultJSON.status == 200){
@@ -183,7 +183,7 @@ export default class App extends Component {
   }
 
   doLogout(){
-    Nearpay.logout().then((response) => {
+    nearpay.logout().then((response) => {
       console.log("doLogoutAction",response);
       var resultJSON = JSON.parse(response);
       console.log("doLogoutAction",resultJSON.message);
@@ -200,7 +200,7 @@ export default class App extends Component {
       "authtype" : authType, // [optional] Auth type we will pass here
       "authvalue" : authValue, // [optional] Auth value we will pass here
     };
-    Nearpay.setup(reqData).then((response) => {
+    nearpay.setup(reqData).then((response) => {
       console.log("doSetupClick",response);
       var resultJSON = JSON.parse(response);
       if(resultJSON.status == 200){

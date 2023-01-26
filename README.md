@@ -21,7 +21,7 @@ Plugin will support minimum supported ANDROID SDK version 21 and above only.
 
 ```react-native
 
-import * as Nearpay from 'react-native-nearpay-plugin';
+import * as nearpay from 'react-native-nearpay-plugin';
 
 ```
 
@@ -35,12 +35,12 @@ Authentication Types
 4. JWT
 
 ```
- Nearpay.AuthenticationType.login
- Nearpay.AuthenticationType.email
- Nearpay.AuthenticationType.mobile
- Nearpay.AuthenticationType.jwt
+ nearpay.AuthenticationType.login
+ nearpay.AuthenticationType.email
+ nearpay.AuthenticationType.mobile
+ nearpay.AuthenticationType.jwt
 
- var authType = Nearpay.AuthenticationType.email
+ var authType = nearpay.AuthenticationType.email
  var authValue = "yourmail@gmail.com"
 
 ```
@@ -48,12 +48,13 @@ Authentication Types
 # 1. Initialize SDK
 
 ```
-Parameter position
+Parameter details
 
-1. Locale deafult language : Locale.default
-2. Environments availble are sandbox,testing,production :  Environments.sandbox
-3. AuthenticationType available are userenter,email,mobile,jwt : AuthenticationType.email
-4. Authentication input value
+
+1. AuthenticationType available are userenter,email,mobile,jwt : AuthenticationType.email
+2. Authentication input value
+3. Locale deafult language : Locale.default
+4. Environments availble are sandbox,testing,production :  Environments.sandbox
 
 
     var reqData = {
@@ -62,7 +63,7 @@ Parameter position
         "locale" : Locale.localeDefault, // [optional] locale reference
         "environment" : Environments.sandbox // [Required] environment reference
     };
-    Nearpay.initialize(reqData).then((response) => {
+    nearpay.initialize(reqData).then((response) => {
         let resultJSON = JSON.parse(response)
         console.log(resultJSON.message,",,,,data....",resultJSON.status);
         if(resultJSON.status == 200){
@@ -79,17 +80,16 @@ Parameter position
 # 2. Setup 
 
 ```
-Parameter
-authType, authValue
+Parameter details
 
-1. AuthenticationType available are userenter,email,mobile,jwt : Nearpay.AuthenticationType.email
+1. AuthenticationType available are userenter,email,mobile,jwt : nearpay.AuthenticationType.email
 2. Authentication input value
 
     var reqData = {
       "authtype" : authType, // [optional] Auth type we will pass here
       "authvalue" : authValue, // [optional] Auth value we will pass here
     };
-    Nearpay.setup(reqData).then((response) => {
+    nearpay.setup(reqData).then((response) => {
       var resultJSON = JSON.parse(response);
       if(resultJSON.status == 200){
         // Initialize Success with 200
@@ -106,15 +106,13 @@ authType, authValue
 # 3. Purchase 
 
 ```
-Parameter
-String amountStr, String customerReferenceNumber,Boolean enableReceiptUi,Boolean isEnableReverse,String timeout,String authType, String authValue
+Parameter Details
+
 1. Amount for purchase
 2. Customer referening number unique string
 3. Enable Reciept UI enable : boolean parameter
 4. Enable Reverse UI enable : boolean parameter
 5. Timeout : timeout after
-6. AuthenticationType available are userenter,email,mobile,jwt : Nearpay.AuthenticationType.email
-7. Authentication input value
 
 var reqData = {
       "amount": 0001, // [Required] ammount you want to set . 
@@ -124,7 +122,7 @@ var reqData = {
       "finishTimeout" : 2  //[optional] Add the number of seconds
 };
 
-Nearpay.purchase(reqData).then((response) => {
+nearpay.purchase(reqData).then((response) => {
     let resultJSON = JSON.parse(response);
     if(resultJSON.status == 200){
         // Initialize Success with 200
@@ -143,8 +141,8 @@ Nearpay.purchase(reqData).then((response) => {
 # 4. Refund 
 
 ```
-Parameter
-amount,transactionUuid,customerRefNo,isUiEnabled,isEnableReverse,isEditableReversalUI,timeout,authType, authValue
+Parameter Details
+
 1. Amount for purchase
 2. Transaction UUID from response - uuid
 3. Customer referening number unique string
@@ -152,8 +150,6 @@ amount,transactionUuid,customerRefNo,isUiEnabled,isEnableReverse,isEditableRever
 5. Enable Reverse UI enable : boolean parameter
 6. Is Editable refund UI enable : boolean parameter
 7. Timeout : timeout after
-8. AuthenticationType available are userenter,email,mobile,jwt : AuthenticationType.email
-9. Authentication input value
 
 var reqData = {
       "amount": 0001, // [Required] ammount you want to set . 
@@ -165,7 +161,7 @@ var reqData = {
       "finishTimeout" : 2,//[optional] Add the number of seconds
 };
 
-Nearpay.refund(reqData).then((response) => {
+nearpay.refund(reqData).then((response) => {
     let resultJSON = JSON.parse(response);
     if(resultJSON.status == 200){
         // Initialize Success with 200
@@ -185,19 +181,18 @@ Nearpay.refund(reqData).then((response) => {
 # 5. Reconcile 
 
 ```
-Parameter
-isUiEnabled,timeout,authType, authValue
+Parameter Details 
+
 1. Enable UI enable : boolean parameter
 2. Timeout : timeout after
-3. AuthenticationType available are userenter,email,mobile,jwt : Nearpay.AuthenticationType.email
-4. Authentication input value
+
 
 var reqData = {
       "isEnableUI" : true, //[optional] true will enable the ui and false will disable 
       "finishTimeout" : 2 // [optional] Add the number of seconds
 };
 
-Nearpay.refund(reqData).then((response) => {
+nearpay.refund(reqData).then((response) => {
     let resultJSON = JSON.parse(response);
     if(resultJSON.status == 200){
         // Initialize Success with 200
@@ -212,13 +207,11 @@ Nearpay.refund(reqData).then((response) => {
 # 6. Reverse 
 
 ```
-Parameter
-transactionID, isUiEnabled, timeout,authType, authValue
-1. Transaction UUID from response - uuid
-2. isUiEnabled : Boolean
+Parameter Details
+
+1. isUiEnabled : Boolean
+3. Transaction UUID from response - uuid
 3. Timeout : timeout after
-4. AuthenticationType available are userenter,email,mobile,jwt : AuthenticationType.email
-5. Authentication input value
 
 var reqData = {
       "isEnableUI" : true, //[optional] true will enable the ui and false will disable 
@@ -226,7 +219,7 @@ var reqData = {
       "finishTimeout" : 2 // [optional] Add the number of seconds
 };
 
-Nearpay.reverse(reqData).then((response) => {
+nearpay.reverse(reqData).then((response) => {
     let resultJSON = JSON.parse(response);
     if(resultJSON.statu == 200){
         // Initialize Success with 200
@@ -245,7 +238,7 @@ Nearpay.reverse(reqData).then((response) => {
 # 7. Logout 
 
 ```
-Nearpay.logout();
+nearpay.logout();
 ```
 
 ### Response Status
