@@ -95,7 +95,7 @@ Authentication Types
 ``` javascript
 
 var reqData = {
-      "amount": 0001, // [Required] ammount you want to set . 
+      "amount": "0001", // [Required] ammount you want to set . 
       "customer_reference_number": "uuid()", // [optional] any number you want to add as a refrence Any string as a reference number
       "isEnableUI" : true, // [optional] true will enable the ui and false will disable
       "isEnableReversal" : true, // it will allow you to enable or disable the reverse button
@@ -124,7 +124,7 @@ nearpay.purchase(reqData).then((response) => {
 
 
 var reqData = {
-      "amount": 0001, // [Required] ammount you want to set . 
+      "amount": "0001", // [Required] ammount you want to set . 
       "transaction_uuid" :  purchaseReceipt.uuid,// [Required] add Transaction Reference Retrieval Number we need to pass from purchase response list contains uuid dict key "udid",  pass that value here.
       "customer_reference_number": "uuid()", // [optional] any number you want to add as a refrence Any string as a reference number
       "isEnableUI" : true,  // [optional] true will enable the ui and false will disable
