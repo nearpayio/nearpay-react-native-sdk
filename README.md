@@ -6,24 +6,23 @@ Minimum SDK version 26. This plugin will work based on
 
 # Install plugin
 
-```bash
+``` javascript
 npm install react-native-nearpay-plugin
-```
+
 
 Please integrate plugin to a react native project either url or project, that will
 share later.
 
+
+Plugin will support minimum supported ANDROID SDK version 21 and above only.
 ```
-Plugin will support minimum supported ANDROID SDK version 26 and above only.
-```
 
-# Usage
+# Import plugin library
 
-```react-native
-import { initialize,purchase, refund, reconcile, reverse, logout, setup,Environments, AuthenticationType,Locale  } from 'react-native-nearpay-plugin';
+``` javascript
 
+import * as nearpay from 'react-native-nearpay-plugin';
 
-```
 
 # Authentications
 
@@ -34,123 +33,188 @@ Authentication Types
 3. LoginWithMobile
 4. JWT
 
-```
- AuthenticationType.login
- AuthenticationType.email
- AuthenticationType.mobile
- AuthenticationType.jwt
+
+ nearpay.AuthenticationType.login
+ nearpay.AuthenticationType.email
+ nearpay.AuthenticationType.mobile
+ nearpay.AuthenticationType.jwt
+
+ var authType = nearpay.AuthenticationType.email
+ var authValue = "yourmail@gmail.com"
 
 ```
 
 # 1. Initialize SDK
 
-```
-Parameter position
+``` javascript
 
-1. Locale deafult language : Locale.default
-2. Environments availble are sandbox,testing,production :  Environments.sandbox
-3. AuthenticationType available are userenter,email,mobile,jwt : AuthenticationType.email
-4. Authentication input value
-
-initialise(Locale.default,Environments.sandbox,authType, authValue);
-
-```
-
-# 2. Setup function
-
-```
-Parameter
-authType, authValue
-
-1. AuthenticationType available are userenter,email,mobile,jwt : AuthenticationType.email
-2. Authentication input value
-
-setup(authType, authValue);
-
+    var reqData = {
+        "authtype" : authType, //Same as above reference
+        "authvalue" : authValue, // Give auth type value
+        "locale" : Locale.localeDefault, // [optional] locale reference
+        "environment" : Environments.sandbox // [Required] environment reference
+    };
+    nearpay.initialize(reqData).then((response) => {
+        let resultJSON = JSON.parse(response)
+        console.log(resultJSON.message,",,,,data....",resultJSON.status);
+        if(resultJSON.status == 200){
+            // Initialize Success with 200
+        }else if(resultJSON.status == 204){
+            // Initialize Failed with 204, Plugin iniyialize failed with null 
+        }else if(resultJSON.status == 400){
+            // Missing parameter Failed with 400, Authentication paramer missing Auth Type and Auth Value 
+            // Auth type and Auth value missing
+        }
+    });
 ```
 
-# 3. Purchase function
+# 2. Setup 
 
-```
-Parameter
-String amountStr, String customerReferenceNumber,Boolean enableReceiptUi,Boolean isEnableReverse,String timeout,String authType, String authValue
-1. Amount for purchase
-2. Customer referening number unique string
-3. Enable Reciept UI enable : boolean parameter
-4. Enable Reverse UI enable : boolean parameter
-5. Timeout : timeout after
-6. AuthenticationType available are userenter,email,mobile,jwt : AuthenticationType.email
-7. Authentication input value
+``` javascript
 
-purchase(String amountStr, String customerReferenceNumber,Boolean enableReceiptUi,Boolean isEnableReverse,String timeout,String authType, String authValue);
-
-Example
-
-"0001","test123456",true,true,timeout,authType, authValue
+    var reqData = {
+      "authtype" : authType, // [optional] Auth type we will pass here
+      "authvalue" : authValue, // [optional] Auth value we will pass here
+    };
+    nearpay.setup(reqData).then((response) => {
+      var resultJSON = JSON.parse(response);
+      if(resultJSON.status == 200){
+        // Initialize Success with 200
+      }else if(resultJSON.status == 204){
+        // Initialize Failed with 204, Plugin iniyialize failed with null 
+      }else if(resultJSON.status == 400){
+        // Missing parameter Failed with 400, Authentication paramer missing Auth Type and Auth Value 
+        // Auth type and Auth value missing
+      }
+    });
 
 ```
 
-# 4. Refund function
+# 3. Purchase 
 
-```
-Parameter
-amount,transactionUuid,customerRefNo,isUiEnabled,isEnableReverse,isEditableReversalUI,timeout,authType, authValue
-1. Amount for purchase
-2. Transaction UUID from response - uuid
-3. Customer referening number unique string
-4. Enable UI enable : boolean parameter
-5. Enable Reverse UI enable : boolean parameter
-6. Is Editable refund UI enable : boolean parameter
-7. Timeout : timeout after
-8. AuthenticationType available are userenter,email,mobile,jwt : AuthenticationType.email
-9. Authentication input value
+``` javascript
 
-refund(String amountStr, String customerReferenceNumber,Boolean enableReceiptUi,Boolean isEnableReverse,Boolean isEditableReversalUI,String timeout,String authType, String authValue);
+var reqData = {
+      "amount": "0001", // [Required] ammount you want to set . 
+      "customer_reference_number": "uuid()", // [optional] any number you want to add as a refrence Any string as a reference number
+      "isEnableUI" : true, // [optional] true will enable the ui and false will disable
+      "isEnableReversal" : true, // it will allow you to enable or disable the reverse button
+      "finishTimeout" : 2  //[optional] Add the number of seconds
+};
 
-```
+nearpay.purchase(reqData).then((response) => {
+    let resultJSON = JSON.parse(response);
+    if(resultJSON.status == 200){
+        // Initialize Success with 200
+    }else if(resultJSON.status == 204){
+        // Initialize Failed with 204, Plugin iniyialize failed with null 
+    }else if(resultJSON.status == 400){
+        // Missing parameter Failed with 400, Authentication paramer missing Auth Type and Auth Value 
+        // Auth type and Auth value missing
+        //Amount parameter null
+    }
+});
 
-# 5. Reconcile function
-
-```
-Parameter
-isUiEnabled,timeout,authType, authValue
-1. Enable UI enable : boolean parameter
-2. Timeout : timeout after
-3. AuthenticationType available are userenter,email,mobile,jwt : AuthenticationType.email
-4. Authentication input value
-
-reconcile(isUiEnabled,timeout,authType, authValue);
 
 ```
 
-# 6. Reverse function
+# 4. Refund 
+
+``` javascript 
+
+
+var reqData = {
+      "amount": "0001", // [Required] ammount you want to set . 
+      "transaction_uuid" :  purchaseReceipt.uuid,// [Required] add Transaction Reference Retrieval Number we need to pass from purchase response list contains uuid dict key "udid",  pass that value here.
+      "customer_reference_number": "uuid()", // [optional] any number you want to add as a refrence Any string as a reference number
+      "isEnableUI" : true,  // [optional] true will enable the ui and false will disable
+      "isEnableReversal" : true, // it will allow you to enable or disable the reverse button
+      "isEditableReversalUI" : true, // [optional] true will enable the ui and false will disable
+      "finishTimeout" : 2,//[optional] Add the number of seconds
+      "adminPin" : "0000", // [optional] when you add the admin pin here , the UI for admin pin won't be shown.
+
+};
+
+nearpay.refund(reqData).then((response) => {
+    let resultJSON = JSON.parse(response);
+    if(resultJSON.status == 200){
+        // Initialize Success with 200
+    }else if(resultJSON.status == 204){
+        // Initialize Failed with 204, Plugin iniyialize failed with null 
+    }else if(resultJSON.status == 400){
+        // Missing parameter Failed with 400, Authentication paramer missing Auth Type and Auth Value 
+        // Auth type and Auth value missing
+        // Amount parameter null
+        // Transaction UUID null
+    }
+});
+
 
 ```
-Parameter
-transactionID, isUiEnabled, timeout,authType, authValue
-1. Transaction UUID from response - uuid
-2. isUiEnabled : Boolean
-3. Timeout : timeout after
-4. AuthenticationType available are userenter,email,mobile,jwt : AuthenticationType.email
-5. Authentication input value
 
-reverse(transactionID, isUiEnabled, timeout,authType, authValue);
+# 5. Reconcile 
+
+``` javascript
+
+var reqData = {
+      "isEnableUI" : true, //[optional] true will enable the ui and false will disable 
+      "finishTimeout" : 2, // [optional] Add the number of seconds
+      "adminPin" : "0000" // [optional] when you add the admin pin here , the UI for admin pin won't be shown.
+};
+
+nearpay.refund(reqData).then((response) => {
+    let resultJSON = JSON.parse(response);
+    if(resultJSON.status == 200){
+        // Initialize Success with 200
+    }else if(resultJSON.status == 204){
+        // Initialize Failed with 204, Plugin iniyialize failed with null 
+    }
+});
+
 
 ```
 
-# 7. Logout function
+# 6. Reverse 
+
+``` javascript
+
+var reqData = {
+      "isEnableUI" : true, //[optional] true will enable the ui and false will disable 
+      "transaction_uuid" :purchaseReceipt.uuid, //[Required] add Transaction Reference Retrieval Number we need to pass from purchase response list contains uuid dict key "udid",  pass that value here.
+      "finishTimeout" : 2 // [optional] Add the number of seconds
+};
+
+nearpay.reverse(reqData).then((response) => {
+    let resultJSON = JSON.parse(response);
+    if(resultJSON.statu == 200){
+        // Initialize Success with 200
+    }else if(resultJSON.statu == 204){
+        // Initialize Failed with 204, Plugin iniyialize failed with null 
+    }else if(resultJSON.statu == 400){
+        // Missing parameter Failed with 400, Authentication paramer missing Auth Type and Auth Value 
+        // Auth type and Auth value missing
+        // Transaction UUID null
+    }
+});    
+
 
 ```
-logout();
+
+# 7. Logout 
+
+``` javascript
+nearpay.logout();
 ```
 
 ### Response Status
 
-```
+``` javascript
 General Response
 
 200 :  Success
-401 :  Authentication
+204 : Initiase Missing
+400 : Invalid arguments
+401 : Authentication
 402:  General Failure
 403:  Failure Message
 404: Invalid Status
@@ -173,6 +237,7 @@ Setup Response
 
 410:  Already Installed
 411 :  Not Installed
+
 
 ```
 

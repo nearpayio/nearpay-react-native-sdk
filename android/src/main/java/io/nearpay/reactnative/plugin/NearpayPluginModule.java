@@ -17,6 +17,12 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.module.annotations.ReactModule;
+import com.facebook.react.bridge.ReadableMap;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 
 import io.nearpay.sdk.Environments;
 import io.nearpay.sdk.NearPay;
@@ -54,6 +60,9 @@ public class NearpayPluginModule extends ReactContextBaseJavaModule {
   private NearPay nearPay;
   private Context context;
   private String jwtKey = "jwt";
+  private String timeOutDefault = "10";
+  private String authTypeShared = "";
+  private String authValueShared = "";
 
   public NearpayPluginModule(ReactApplicationContext reactContext) {
     super(reactContext);
@@ -74,15 +83,37 @@ public class NearpayPluginModule extends ReactContextBaseJavaModule {
   return authentication;
   }
 
+  public boolean isAuthInputValidation(String authType, String  inputValue){
+    boolean isAuthValidate= authType.equals("userenter")  ? true : inputValue == "" ? false : true;
+    return isAuthValidate;
+  }
+
 
 
   @ReactMethod
-  public void initialize(String localeStr, String environment,String authType, String authValue, Promise promise) {
+  public void initialize(ReadableMap params, Promise promise) {
+      JSONObject options = NearPayUtil.readableMapToJson(params);
+      String authValue = options.optString("authvalue","") ;
+      String authType = options.optString("authtype","");
+      this.authTypeShared = authType;
+      this.authValueShared = authValue;
+      boolean isAuthValidated = isAuthInputValidation(authType,authValue);
+
+      String localeStr = options.optString("locale","") ;
       Locale locale = localeStr.equals("default") ? Locale.getDefault() : Locale.getDefault();
-      Environments env = environment.equals("sandbox") ? Environments.SANDBOX : environment.equals("production") ? Environments.PRODUCTION : Environments.TESTING;
-      this.nearPay = new NearPay(this.context,getAuthType(authType,authValue), locale, env);
-      Map<String, Object> paramMap = commonResponse(ErrorStatus.success_code,"NearPay initialized");
-      promise.resolve(toJson(paramMap));
+
+      String environmentStr = options.optString("environment","");
+      Environments env = environmentStr.equals("sandbox") ? Environments.SANDBOX : environmentStr.equals("production") ? Environments.PRODUCTION : Environments.TESTING;
+      
+      if(!isAuthValidated) {
+          Map<String, Object> paramMap = commonResponse(ErrorStatus.invalid_argument_code,"Authentication parameter missing");
+          promise.resolve(toJson(paramMap));
+      }else{
+          this.nearPay = new NearPay(this.context,getAuthType(authType,authValue), locale, env);
+          Map<String, Object> paramMap = commonResponse(ErrorStatus.success_code,"NearPay initialized");
+          promise.resolve(toJson(paramMap));
+      }
+
   }
 
 
@@ -90,9 +121,46 @@ public class NearpayPluginModule extends ReactContextBaseJavaModule {
 
 
   @ReactMethod
-  public void purchase(String amountStr, String customerReferenceNumber,Boolean enableReceiptUi,Boolean isEnableReverse,String timeout,String authType, String authValue,Promise promise) {
-    Long amount =  Long.valueOf(amountStr);
-    Long finishTimeOut =  Long.valueOf(timeout);
+  public void purchase(ReadableMap params, Promise promise) {
+    if(this.nearPay != null){
+        this.purchaseValidation(params,promise);
+    }else{
+      Log.i("purchase....", "initialise nil");
+      Map<String, Object> paramMap = commonResponse(ErrorStatus.initialise_failed_code,"Plugin Initialise missing, please initialise");
+      promise.resolve(toJson(paramMap));
+    }
+  }
+
+  private void purchaseValidation(ReadableMap params, Promise promise){
+    JSONObject options = NearPayUtil.readableMapToJson(params);
+    String amountStr = options.optString("amount","");
+    String customer_reference_number = options.optString("customer_reference_number","");
+    Boolean isEnableUI = options.optBoolean("isEnableUI",true) ;
+    Boolean isEnableReverse = options.optBoolean("isEnableReversal",true);
+
+    String authValue = options.optString("authvalue", this.authValueShared);
+    String authType = options.optString("authtype",this.authTypeShared);
+    boolean isAuthValidated = isAuthInputValidation(authType,authValue);
+
+    String finishTimeout = options.optString("finishTimeout",timeOutDefault) ;
+    Long timeout =  Long.valueOf(finishTimeout);
+
+    if(amountStr == ""){
+        Map<String, Object> paramMap = commonResponse(ErrorStatus.invalid_argument_code,"Purchase amount parameter missing");
+        promise.resolve(toJson(paramMap));
+    }
+    else if(!isAuthValidated) {
+        Map<String, Object> paramMap = commonResponse(ErrorStatus.invalid_argument_code,"Authentication parameter missing");
+        promise.resolve(toJson(paramMap));
+    }else{
+        Long amount =  Long.valueOf(amountStr); 
+        doPurchase(amount,customer_reference_number,isEnableUI,isEnableReverse,timeout,authType ,authValue,promise);
+
+    }
+
+  }
+
+  public void doPurchase(Long amount, String customerReferenceNumber,Boolean enableReceiptUi,Boolean isEnableReverse,Long finishTimeOut,String authType, String authValue,Promise promise) {
     this.nearPay.purchase(amount, customerReferenceNumber, enableReceiptUi,isEnableReverse,finishTimeOut, new PurchaseListener() {
       @Override
       public void onPurchaseFailed(@NonNull PurchaseFailure purchaseFailure) {
@@ -147,16 +215,62 @@ public class NearpayPluginModule extends ReactContextBaseJavaModule {
   }
 
 
+
+
   private static String toJson(Map<String, Object> paramMap) {
     Gson gson = new Gson();
     return gson.toJson(paramMap);
   }
 
   @ReactMethod
-  private void refund(String amountStr,String transactionReferenceRetrievalNumber, String customerReferenceNumber,Boolean enableReceiptUi,Boolean isEnableReverse,Boolean isEditableReversalUI,String timeout,String authType, String authValue,Promise promise) {
-    Long amount =  Long.valueOf(amountStr);
-    Long finishTimeOut =  Long.valueOf(timeout);
-    nearPay.refund(amount, transactionReferenceRetrievalNumber, customerReferenceNumber, enableReceiptUi,isEnableReverse,isEditableReversalUI,finishTimeOut, new RefundListener() {
+  private void refund(ReadableMap params, Promise promise) {
+    if(nearPay != null){
+       refundValidation(params, promise);
+    }else{
+      Log.i("purchase....", "initialise nil");
+      Map<String, Object> paramMap = commonResponse(ErrorStatus.initialise_failed_code,"Plugin Initialise missing, please initialise");
+      promise.resolve(toJson(paramMap));
+    }
+  }
+
+  private void refundValidation(ReadableMap params, Promise promise){
+    JSONObject options = NearPayUtil.readableMapToJson(params);
+    String amountStr = options.optString("amount","") ;
+    String reference_retrieval_number = options.optString("transaction_uuid","") ;
+    String customer_reference_number = options.optString("customer_reference_number","") ;
+    Boolean isEnableUI = options.optBoolean("isEnableUI", true);
+    String authValue = options.optString("authvalue",this.authValueShared);
+    String authType = options.optString("authtype",this.authTypeShared);
+    Boolean isEnableReverse = options.optBoolean("isEnableReversal",true);
+    Boolean isEditableReversalUI = options.optBoolean("isEditableReversalUI",true);
+    String adminPin = options.optString("adminPin",null);
+
+
+    String finishTimeout = options.optString("finishTimeout",timeOutDefault);
+    Long timeout =  Long.valueOf(finishTimeout);
+
+    boolean isAuthValidated = isAuthInputValidation(authType,authValue);
+
+    if(amountStr == ""){
+        Map<String, Object> paramMap = commonResponse(ErrorStatus.invalid_argument_code,"Purchase amount parameter missing");
+        promise.resolve(toJson(paramMap));
+    }
+    else if(reference_retrieval_number == ""){
+        Map<String, Object> paramMap = commonResponse(ErrorStatus.invalid_argument_code,"Transaction UUID parameter missing");
+        promise.resolve(toJson(paramMap));
+    }
+    else if(!isAuthValidated) {
+        Map<String, Object> paramMap = commonResponse(ErrorStatus.invalid_argument_code,"Authentication parameter missing");
+        promise.resolve(toJson(paramMap));
+    }else{
+        Long amount =  Long.valueOf(amountStr); 
+        doRefundAction(amount,reference_retrieval_number, customer_reference_number,isEnableUI,isEnableReverse,isEditableReversalUI,authType,authValue,timeout,adminPin,promise );
+    }
+
+  }
+
+  private void doRefundAction(Long amount ,String transactionReferenceRetrievalNumber, String customerReferenceNumber,Boolean enableReceiptUi,Boolean isEnableReverse,Boolean isEditableReversalUI,String authType, String authValue,Long finishTimeOut,String adminPin,Promise promise) {
+    nearPay.refund(amount, transactionReferenceRetrievalNumber, customerReferenceNumber, enableReceiptUi,isEnableReverse,isEditableReversalUI,finishTimeOut,adminPin, new RefundListener() {
       @Override
       public void onRefundFailed(@NonNull RefundFailure refundFailure) {
 
@@ -374,50 +488,78 @@ public class NearpayPluginModule extends ReactContextBaseJavaModule {
 
 
   @ReactMethod
-  private void reconcile(Boolean enableReceiptUi,String timeout,String authType, String authValue, Promise promise){
+  private void reconcile(ReadableMap params, Promise promise){
     Log.i("doReconcile....", "doReconcile.......first....");
-    Long finishTimeOut =  Long.valueOf(timeout);
-    nearPay.reconcile(enableReceiptUi,finishTimeOut, new ReconcileListener() {
-      @Override
-      public void onReconcileFinished(@Nullable ReconciliationReceipt reconciliationReceipt) {
-        // you can use the object to get the reconciliationReceipt data .
-        // write your code here
-        Map<String, Object> responseDict = reconcileGetResponse(reconciliationReceipt,"Successfull Reconcile");
-        promise.resolve(toJson(responseDict));
+    JSONObject options = NearPayUtil.readableMapToJson(params);
+    if(this.nearPay != null){
+      Boolean isEnableUI = options.optBoolean("isEnableUI", true);
+      String authvalue = options.optString("authvalue",this.authValueShared );
+      String authType = options.optString("authtype",this.authTypeShared);
+      String finishTimeout = options.optString("finishTimeout",timeOutDefault);
+      Long timeout =  Long.valueOf(finishTimeout); 
+      boolean isAuthValidated = isAuthInputValidation(authType,authvalue);
+      String adminPin = options.optString("adminPin",null);
+
+
+      if(!isAuthValidated) {
+          Map<String, Object> paramMap = commonResponse(ErrorStatus.invalid_argument_code,"Authentication parameter missing");
+          promise.resolve(toJson(paramMap));
+      }else{
+          doReconcileAction(isEnableUI,authType,authvalue,timeout,adminPin,promise);
       }
-      @Override
-      public void onReconcileFailed(@NonNull ReconcileFailure reconcileFailure) {
-        if (reconcileFailure instanceof ReconcileFailure.AuthenticationFailed) {
-          // when the Authentication is failed
-          String messageResp = ((ReconcileFailure.AuthenticationFailed) reconcileFailure).toString();
-          String message = messageResp != "" && messageResp.length() > 0 ? messageResp : ErrorStatus.authentication_failed_message;
-          Map<String, Object> paramMap = commonResponse(ErrorStatus.auth_failed_code,message);
-          if(authType.equalsIgnoreCase(jwtKey)){
-            Log.d("..call jwt call.1111...", authValue);
-            nearPay.updateAuthentication(getAuthType(authType, authValue));
-          }
-          promise.resolve(toJson(paramMap));
-        }
-        else if (reconcileFailure instanceof ReconcileFailure.GeneralFailure){
-          // when there is general error .
-          Map<String, Object> paramMap = commonResponse(ErrorStatus.general_failure_code,ErrorStatus.general_messsage);
-          promise.resolve(toJson(paramMap));
-        }
-        else if (reconcileFailure instanceof ReconcileFailure.FailureMessage){
-          // when there is FailureMessage
-          Map<String, Object> paramMap = commonResponse(ErrorStatus.failure_code,ErrorStatus.failure_messsage);
-          promise.resolve(toJson(paramMap));
-        }
-        else if (reconcileFailure instanceof ReconcileFailure.InvalidStatus){
-          // you can get the status using following code
-          String messageResp = ((ReconcileFailure.InvalidStatus) reconcileFailure).toString();
-          String message = messageResp != "" && messageResp.length() > 0 ? messageResp : ErrorStatus.invalid_status_messsage;
-          Map<String, Object> paramMap = commonResponse(ErrorStatus.invalid_code,message);
-          promise.resolve(toJson(paramMap));
-        }
-      }
-    });
+
+    }else{
+        Log.i("purchase....", "initialise nil");
+        Map<String, Object> paramMap = commonResponse(ErrorStatus.initialise_failed_code,"Plugin Initialise missing, please initialise");
+        promise.resolve(toJson(paramMap));
+    }
+ 
   }
+
+  private void doReconcileAction(Boolean enableReceiptUi, String authType,String inputValue, long finishTimeOut, String adminPin,Promise promise){
+        Log.i("doReconcile....", "doReconcile.......first....");
+        nearPay.reconcile(enableReceiptUi,adminPin,finishTimeOut, new ReconcileListener() {
+            @Override
+            public void onReconcileFinished(@Nullable ReconciliationReceipt reconciliationReceipt) {
+                // you can use the object to get the reconciliationReceipt data .
+                // write your code here
+                Map<String, Object> responseDict = reconcileGetResponse(reconciliationReceipt,"Successfull Reconcile");
+                promise.resolve(toJson(responseDict));
+            }
+            @Override
+            public void onReconcileFailed(@NonNull ReconcileFailure reconcileFailure) {
+                if (reconcileFailure instanceof ReconcileFailure.AuthenticationFailed) {
+                    // when the Authentication is failed
+                    String messageResp = ((ReconcileFailure.AuthenticationFailed) reconcileFailure).toString();
+                    String message = messageResp != "" && messageResp.length() > 0 ? messageResp : ErrorStatus.authentication_failed_message;
+                    Map<String, Object> paramMap = commonResponse(ErrorStatus.auth_failed_code,message);
+                    promise.resolve(toJson(paramMap));
+                    if(authType.equalsIgnoreCase(jwtKey)){
+                        Log.d("..call jwt call.1111...", inputValue);
+                        nearPay.updateAuthentication(getAuthType(authType, inputValue));
+                    }
+                }
+                else if (reconcileFailure instanceof ReconcileFailure.GeneralFailure){
+                    // when there is general error .
+                    Map<String, Object> paramMap = commonResponse(ErrorStatus.general_failure_code,ErrorStatus.general_messsage);
+                    promise.resolve(toJson(paramMap));
+                }
+                else if (reconcileFailure instanceof ReconcileFailure.FailureMessage){
+                    // when there is FailureMessage
+                    Map<String, Object> paramMap = commonResponse(ErrorStatus.failure_code,ErrorStatus.failure_messsage);
+                    promise.resolve(toJson(paramMap));
+                }
+                else if (reconcileFailure instanceof ReconcileFailure.InvalidStatus){
+                    // you can get the status using following code
+                    String messageResp = ((ReconcileFailure.InvalidStatus) reconcileFailure).toString();
+                    String message = messageResp != "" && messageResp.length() > 0 ? messageResp : ErrorStatus.invalid_status_messsage;
+
+                    Map<String, Object> paramMap = commonResponse(ErrorStatus.invalid_code,message);
+                    promise.resolve(toJson(paramMap));                    
+                }
+            }
+        });
+    }
 
 
   private static Map<String, Object> reconcileGetResponse(ReconciliationReceipt reconcileReceipt,String message){
@@ -562,7 +704,36 @@ public class NearpayPluginModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  private void reverse(String transactionUuid,Boolean enableReceiptUi,String timeout,String authType, String authValue, Promise promise){
+  private void reverse(ReadableMap params, Promise promise){
+    if(this.nearPay != null){
+      JSONObject options = NearPayUtil.readableMapToJson(params);
+      String transactionUuid = options.optString("transaction_uuid","");
+      Boolean isEnableUI = options.optBoolean("isEnableUI", true);
+      String authvalue = options.optString("authvalue", this.authValueShared);
+      String authType = options.optString("authtype", this.authTypeShared);
+      String finishTimeout = options.optString("finishTimeout",timeOutDefault);
+      Long timeout =  Long.valueOf(finishTimeout); 
+      boolean isAuthValidated = isAuthInputValidation(authType,authvalue);
+
+      if(transactionUuid == ""){
+          Map<String, Object> paramMap = commonResponse(ErrorStatus.invalid_argument_code,"Transaction UUID parameter missing");
+          promise.resolve(toJson(paramMap));
+      }else if(!isAuthValidated) {
+          Map<String, Object> paramMap = commonResponse(ErrorStatus.invalid_argument_code,"Authentication parameter missing");
+          promise.resolve(toJson(paramMap));
+      }else{
+          doReverseAction(transactionUuid,isEnableUI,authType,authvalue,timeout,promise);
+      }
+
+  }else{
+      Log.i("purchase....", "initialise nil");
+      Map<String, Object> paramMap = commonResponse(ErrorStatus.initialise_failed_code,"Plugin Initialise missing, please initialise");
+      promise.resolve(toJson(paramMap));
+  }
+
+  }
+
+  private void doReverseAction(String transactionUuid,Boolean enableReceiptUi,String authType, String authValue, Long timeout,Promise promise){
     Log.i("doReverseAction....", "doReverseAction.......first....");
     Long finishTimeOut =  Long.valueOf(timeout);
 
@@ -640,7 +811,26 @@ public class NearpayPluginModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  private void setup(String authType, String authValue, Promise promise){
+  private void setup(ReadableMap params, Promise promise){
+    if(this.nearPay != null){
+      JSONObject options = NearPayUtil.readableMapToJson(params);
+      String authvalue = options.optString("authvalue",this.authValueShared);
+      String authType = options.optString("authtype",this.authTypeShared);
+      boolean isAuthValidated = isAuthInputValidation(authType,authvalue);
+      if(!isAuthValidated) {
+          Map<String, Object> paramMap = commonResponse(ErrorStatus.invalid_argument_code,"Authentication parameter missing");
+          promise.resolve(toJson(paramMap));
+      }else{
+          setupAction(authType,authvalue,promise);
+      }
+    }else{
+      Log.i("purchase....", "initialise nil");
+      Map<String, Object> paramMap = commonResponse(ErrorStatus.initialise_failed_code,"Plugin Initialise missing, please initialise");
+      promise.resolve(toJson(paramMap));
+    } 
+  }
+
+  private void setupAction(String authType, String authValue, Promise promise){
     nearPay.setup(new SetupListener() {
       @Override
       public void onSetupCompleted() {
@@ -686,5 +876,7 @@ public class NearpayPluginModule extends ReactContextBaseJavaModule {
       }
     });
   }
+
+  
 
 }
