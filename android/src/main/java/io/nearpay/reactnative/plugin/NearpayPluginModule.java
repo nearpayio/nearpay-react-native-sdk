@@ -243,6 +243,8 @@ public class NearpayPluginModule extends ReactContextBaseJavaModule {
     String authType = options.optString("authtype",this.authTypeShared);
     Boolean isEnableReverse = options.optBoolean("isEnableReversal",true);
     Boolean isEditableReversalUI = options.optBoolean("isEditableReversalUI",true);
+    String adminPin = options.optString("adminPin",null);
+
 
     String finishTimeout = options.optString("finishTimeout",timeOutDefault);
     Long timeout =  Long.valueOf(finishTimeout);
@@ -262,13 +264,13 @@ public class NearpayPluginModule extends ReactContextBaseJavaModule {
         promise.resolve(toJson(paramMap));
     }else{
         Long amount =  Long.valueOf(amountStr); 
-        doRefundAction(amount,reference_retrieval_number, customer_reference_number,isEnableUI,isEnableReverse,isEditableReversalUI,authType,authValue,timeout,promise );
+        doRefundAction(amount,reference_retrieval_number, customer_reference_number,isEnableUI,isEnableReverse,isEditableReversalUI,authType,authValue,timeout,adminPin,promise );
     }
 
   }
 
-  private void doRefundAction(Long amount ,String transactionReferenceRetrievalNumber, String customerReferenceNumber,Boolean enableReceiptUi,Boolean isEnableReverse,Boolean isEditableReversalUI,String authType, String authValue,Long finishTimeOut,Promise promise) {
-    nearPay.refund(amount, transactionReferenceRetrievalNumber, customerReferenceNumber, enableReceiptUi,isEnableReverse,isEditableReversalUI,finishTimeOut, new RefundListener() {
+  private void doRefundAction(Long amount ,String transactionReferenceRetrievalNumber, String customerReferenceNumber,Boolean enableReceiptUi,Boolean isEnableReverse,Boolean isEditableReversalUI,String authType, String authValue,Long finishTimeOut,String adminPin,Promise promise) {
+    nearPay.refund(amount, transactionReferenceRetrievalNumber, customerReferenceNumber, enableReceiptUi,isEnableReverse,isEditableReversalUI,finishTimeOut,adminPin, new RefundListener() {
       @Override
       public void onRefundFailed(@NonNull RefundFailure refundFailure) {
 
@@ -496,12 +498,14 @@ public class NearpayPluginModule extends ReactContextBaseJavaModule {
       String finishTimeout = options.optString("finishTimeout",timeOutDefault);
       Long timeout =  Long.valueOf(finishTimeout); 
       boolean isAuthValidated = isAuthInputValidation(authType,authvalue);
+      String adminPin = options.optString("adminPin",null);
+
 
       if(!isAuthValidated) {
           Map<String, Object> paramMap = commonResponse(ErrorStatus.invalid_argument_code,"Authentication parameter missing");
           promise.resolve(toJson(paramMap));
       }else{
-          doReconcileAction(isEnableUI,authType,authvalue,timeout,promise);
+          doReconcileAction(isEnableUI,authType,authvalue,timeout,adminPin,promise);
       }
 
     }else{
@@ -512,9 +516,9 @@ public class NearpayPluginModule extends ReactContextBaseJavaModule {
  
   }
 
-  private void doReconcileAction(Boolean enableReceiptUi, String authType,String inputValue, long finishTimeOut, Promise promise){
+  private void doReconcileAction(Boolean enableReceiptUi, String authType,String inputValue, long finishTimeOut, String adminPin,Promise promise){
         Log.i("doReconcile....", "doReconcile.......first....");
-        nearPay.reconcile(enableReceiptUi,finishTimeOut, new ReconcileListener() {
+        nearPay.reconcile(enableReceiptUi,adminPin,finishTimeOut, new ReconcileListener() {
             @Override
             public void onReconcileFinished(@Nullable ReconciliationReceipt reconciliationReceipt) {
                 // you can use the object to get the reconciliationReceipt data .

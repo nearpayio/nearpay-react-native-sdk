@@ -103,7 +103,9 @@ export default class App extends Component {
       "isEnableUI" : true, // Optional
       "isEnableReversal" : true,// Optional
       "isEditableReversalUI" : true,// Optional
-      "finishTimeout" : timeout // Optional
+      "finishTimeout" : timeout, // Optional
+      "adminPin" : "0000", // [optional] when you add the admin pin here , the UI for admin pin won't be shown.
+
     };
     nearpay.refund(reqData).then((response) => {
       console.log("initializePayment",response);
@@ -119,7 +121,8 @@ export default class App extends Component {
   initiateReconcile(){
     var reqData = {
       "isEnableUI" : true,// Optional
-      "finishTimeout" : timeout    // Optional
+      "finishTimeout" : timeout,    // Optional
+      //"adminPin" : "0000", // [optional] when you add the admin pin here , the UI for admin pin won't be shown.
     };
     nearpay.reconcile(reqData).then((response) => {
       console.log("initialisePayment",response);
