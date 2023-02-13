@@ -28,7 +28,7 @@ import * as nearpay from 'react-native-nearpay-plugin';
 
 Authentication Types
 
-1. Login ( support both Email or Mobile user will chose ) (AuthenticationType.login.values)
+1. Login ( support both Email or Mobile user will chose ) (nearpay.AuthenticationType.login.values)
 2. LoginWithEmail
 3. LoginWithMobile
 4. JWT
@@ -51,8 +51,8 @@ Authentication Types
     var reqData = {
         "authtype" : authType, //Same as above reference
         "authvalue" : authValue, // Give auth type value
-        "locale" : Locale.localeDefault, // [optional] locale reference
-        "environment" : Environments.sandbox // [Required] environment reference
+        "locale" : nearpay.Locale.localeDefault, // [optional] locale reference
+        "environment" : nearpay.Environments.sandbox // [Required] environment reference
     };
     nearpay.initialize(reqData).then((response) => {
         let resultJSON = JSON.parse(response)
