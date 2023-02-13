@@ -1,58 +1,60 @@
 # Nearpay SDK React Native Plugin For Android
 
 Nearpay plugin for Android device payment using NFC. Plugin supported from
-Minimum SDK version 26. This plugin will work based on
+Minimum SDK version 21. This plugin will work based on
 [Nearpay SDK](https://docs.nearpay.io/sdk/)
 
 # Install plugin
 
 ``` javascript
-npm install react-native-nearpay-plugin
 
-
-Please integrate plugin to a react native project either url or project, that will
-share later.
-
+npm install "https://github.com/nearpayio/nearpay-react-native-sdk.git#main" --save
 
 Plugin will support minimum supported ANDROID SDK version 21 and above only.
+
 ```
 
-# Import plugin library
+# Usage
 
 ``` javascript
 
 import * as nearpay from 'react-native-nearpay-plugin';
 
+```
 
-# Authentications
+# 1. Authentications
 
 Authentication Types
 
-1. Login ( support both Email or Mobile user will chose ) (AuthenticationType.login.values)
-2. LoginWithEmail
-3. LoginWithMobile
-4. JWT
+- Login ( support both Email or Mobile user will chose )
+- Email
+- Mobile
+- JWT
 
-
- nearpay.AuthenticationType.login
- nearpay.AuthenticationType.email
- nearpay.AuthenticationType.mobile
- nearpay.AuthenticationType.jwt
-
- var authType = nearpay.AuthenticationType.email
- var authValue = "yourmail@gmail.com"
-
+``` javascript
+ nearpay.AuthenticationType.login.values // If you want user to decide what will use to login email or mobile
+ nearpay.AuthenticationType.email.values // if you want restrict only email and you need to provide it to the auth value
+ nearpay.AuthenticationType.mobile.values // if you want restrict only mobile and you need to provide it to the auth value
+ nearpay.AuthenticationType.jwt.values // if you want restrict only jwt and you need to provide it to the auth value
 ```
 
-# 1. Initialize SDK
+### loggedin user information
+
+``` javascript
+var authType = nearpay.AuthenticationType.email.values
+var authValue = "youremail@email.com"
+```
+
+
+# 2. Initialize SDK
 
 ``` javascript
 
     var reqData = {
         "authtype" : authType, //Same as above reference
         "authvalue" : authValue, // Give auth type value
-        "locale" : Locale.localeDefault, // [optional] locale reference
-        "environment" : Environments.sandbox // [Required] environment reference
+        "locale" : nearpay.Locale.localeDefault, // [optional] locale reference
+        "environment" : nearpay.Environments.sandbox // [Required] environment reference
     };
     nearpay.initialize(reqData).then((response) => {
         let resultJSON = JSON.parse(response)
@@ -68,7 +70,7 @@ Authentication Types
     });
 ```
 
-# 2. Setup 
+# 3. Setup 
 
 ``` javascript
 
@@ -90,7 +92,7 @@ Authentication Types
 
 ```
 
-# 3. Purchase 
+# 4. Purchase 
 
 ``` javascript
 
@@ -118,7 +120,7 @@ nearpay.purchase(reqData).then((response) => {
 
 ```
 
-# 4. Refund 
+# 5. Refund 
 
 ``` javascript 
 
@@ -152,7 +154,7 @@ nearpay.refund(reqData).then((response) => {
 
 ```
 
-# 5. Reconcile 
+# 6. Reconcile 
 
 ``` javascript
 
@@ -174,7 +176,7 @@ nearpay.refund(reqData).then((response) => {
 
 ```
 
-# 6. Reverse 
+# 7. Reverse 
 
 ``` javascript
 
@@ -200,7 +202,7 @@ nearpay.reverse(reqData).then((response) => {
 
 ```
 
-# 7. Logout 
+# 8. Logout 
 
 ``` javascript
 nearpay.logout();
@@ -208,13 +210,14 @@ nearpay.logout();
 
 ### Response Status
 
-``` javascript
+``` Javascript 
+
 General Response
 
 200 :  Success
 204 : Initiase Missing
 400 : Invalid arguments
-401 : Authentication
+401 :  Authentication
 402:  General Failure
 403:  Failure Message
 404: Invalid Status
@@ -238,10 +241,8 @@ Setup Response
 410:  Already Installed
 411 :  Not Installed
 
-
 ```
 
 ## Nearpay plugin response will be be in below formats
 
 [Model Response](https://docs.nearpay.io/sdk/sdk-models)
-# nearpay-react-native-sdk
