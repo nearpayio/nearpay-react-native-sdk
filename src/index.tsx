@@ -47,8 +47,8 @@ function logout(): Promise<String> {
   return NearpayPlugin.logout();
 }
 
-function setup(inputParams : any ): Promise<String> {
-  return NearpayPlugin.setup(inputParams);
+function setup(): Promise<String> {
+  return NearpayPlugin.setup();
 }
 
 

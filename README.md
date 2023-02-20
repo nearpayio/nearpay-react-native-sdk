@@ -18,7 +18,7 @@ Plugin will support minimum supported ANDROID SDK version 21 and above only.
 
 ``` javascript
 
-import * as nearpay from 'react-native-nearpay-plugin';
+import * as Nearpay from 'react-native-nearpay-plugin';
 
 ```
 
@@ -32,16 +32,16 @@ Authentication Types
 - JWT
 
 ``` javascript
- nearpay.AuthenticationType.login.values // If you want user to decide what will use to login email or mobile
- nearpay.AuthenticationType.email.values // if you want restrict only email and you need to provide it to the auth value
- nearpay.AuthenticationType.mobile.values // if you want restrict only mobile and you need to provide it to the auth value
- nearpay.AuthenticationType.jwt.values // if you want restrict only jwt and you need to provide it to the auth value
+ Nearpay.AuthenticationType.login.values // If you want user to decide what will use to login email or mobile
+ Nearpay.AuthenticationType.email.values // if you want restrict only email and you need to provide it to the auth value
+ Nearpay.AuthenticationType.mobile.values // if you want restrict only mobile and you need to provide it to the auth value
+ Nearpay.AuthenticationType.jwt.values // if you want restrict only jwt and you need to provide it to the auth value
 ```
 
 ### loggedin user information
 
 ``` javascript
-var authType = nearpay.AuthenticationType.email.values
+var authType = Nearpay.AuthenticationType.email.values
 var authValue = "youremail@email.com"
 ```
 
@@ -53,10 +53,10 @@ var authValue = "youremail@email.com"
     var reqData = {
         "authtype" : authType, //Same as above reference
         "authvalue" : authValue, // Give auth type value
-        "locale" : nearpay.Locale.localeDefault, // [optional] locale reference
-        "environment" : nearpay.Environments.sandbox // [Required] environment reference
+        "locale" : Nearpay.Locale.localeDefault, // [optional] locale reference
+        "environment" : Nearpay.Environments.sandbox // [Required] environment reference
     };
-    nearpay.initialize(reqData).then((response) => {
+    Nearpay.initialize(reqData).then((response) => {
         let resultJSON = JSON.parse(response)
         console.log(resultJSON.message,",,,,data....",resultJSON.status);
         if(resultJSON.status == 200){
@@ -74,11 +74,7 @@ var authValue = "youremail@email.com"
 
 ``` javascript
 
-    var reqData = {
-      "authtype" : authType, // [optional] Auth type we will pass here
-      "authvalue" : authValue, // [optional] Auth value we will pass here
-    };
-    nearpay.setup(reqData).then((response) => {
+    Nearpay.setup().then((response) => {
       var resultJSON = JSON.parse(response);
       if(resultJSON.status == 200){
         // Initialize Success with 200
@@ -104,7 +100,7 @@ var reqData = {
       "finishTimeout" : 2  //[optional] Add the number of seconds
 };
 
-nearpay.purchase(reqData).then((response) => {
+Nearpay.purchase(reqData).then((response) => {
     let resultJSON = JSON.parse(response);
     if(resultJSON.status == 200){
         // Initialize Success with 200
@@ -137,7 +133,7 @@ var reqData = {
 
 };
 
-nearpay.refund(reqData).then((response) => {
+Nearpay.refund(reqData).then((response) => {
     let resultJSON = JSON.parse(response);
     if(resultJSON.status == 200){
         // Initialize Success with 200
@@ -164,7 +160,7 @@ var reqData = {
       "adminPin" : "0000" // [optional] when you add the admin pin here , the UI for admin pin won't be shown.
 };
 
-nearpay.refund(reqData).then((response) => {
+Nearpay.refund(reqData).then((response) => {
     let resultJSON = JSON.parse(response);
     if(resultJSON.status == 200){
         // Initialize Success with 200
@@ -186,7 +182,7 @@ var reqData = {
       "finishTimeout" : 2 // [optional] Add the number of seconds
 };
 
-nearpay.reverse(reqData).then((response) => {
+Nearpay.reverse(reqData).then((response) => {
     let resultJSON = JSON.parse(response);
     if(resultJSON.statu == 200){
         // Initialize Success with 200
@@ -205,7 +201,14 @@ nearpay.reverse(reqData).then((response) => {
 # 8. Logout 
 
 ``` javascript
-nearpay.logout();
+    Nearpay.logout().then((response) => {
+        var resultJSON = JSON.parse(response);
+        if(resultJSON.status == 200){
+
+        }else{
+
+        }
+    });
 ```
 
 ### Response Status
