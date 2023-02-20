@@ -811,11 +811,10 @@ public class NearpayPluginModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  private void setup(ReadableMap params, Promise promise){
+  private void setup(Promise promise){
     if(this.nearPay != null){
-      JSONObject options = NearPayUtil.readableMapToJson(params);
-      String authvalue = options.optString("authvalue",this.authValueShared);
-      String authType = options.optString("authtype",this.authTypeShared);
+      String authvalue = this.authValueShared;
+      String authType = this.authTypeShared;
       boolean isAuthValidated = isAuthInputValidation(authType,authvalue);
       if(!isAuthValidated) {
           Map<String, Object> paramMap = commonResponse(ErrorStatus.invalid_argument_code,"Authentication parameter missing");
