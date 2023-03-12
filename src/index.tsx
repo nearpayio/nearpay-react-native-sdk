@@ -17,50 +17,70 @@ const NearpayPlugin = NativeModules.NearpayPlugin
       }
     );
 
-export function initialize(locale: String, environment: String, authType: String, authValue : String): Promise<String> {
-  return NearpayPlugin.initialize(locale, environment, authType, authValue);
+
+
+function initialize(inputParams: any ): Promise<String> {
+  return NearpayPlugin.initialize(inputParams);
 }
 
-export function purchase(amount: String, custRefNo: String,isEnableUi : boolean,isEnableReverse : boolean,finishTimeout: String,authType: String, authValue : String ): Promise<String> {
-  return NearpayPlugin.purchase(amount, custRefNo, isEnableUi,isEnableReverse,finishTimeout,authType, authValue);
+
+
+function purchase(inputParams: any ): Promise<String> {
+  return NearpayPlugin.purchase(inputParams);
 }
 
-export function refund(amount: String,transactionUDID: String ,custRefNo: String,isEnableUi : boolean,isEnableReversal : boolean,isEditableReversalUI : boolean,finishTimeout: String,authType: String, authValue : String ): Promise<String> {
-  return NearpayPlugin.refund(amount,transactionUDID, custRefNo, isEnableUi,isEnableReversal,isEditableReversalUI,finishTimeout,authType,authValue);
+ 
+
+function refund(inputParams: any ): Promise<String> {
+  return NearpayPlugin.refund(inputParams);
 }
 
-export function reconcile(isEnableUi : boolean ,finishTimeout: String,authType: String, authValue : String): Promise<String> {
-  return NearpayPlugin.reconcile(isEnableUi,finishTimeout,authType,authValue);
+function reconcile(inputParams: any): Promise<String> {
+  return NearpayPlugin.reconcile(inputParams);
 }
 
-export function reverse(transactionUDID: String,isEnableUi : boolean,finishTimeout: String,authType: String, authValue : String ): Promise<String> {
-  return NearpayPlugin.reverse(transactionUDID, isEnableUi,finishTimeout,authType,authValue);
+function reverse(inputParams : any ): Promise<String> {
+  return NearpayPlugin.reverse(inputParams);
 }
 
-export function logout(): Promise<String> {
+function logout(): Promise<String> {
   return NearpayPlugin.logout();
 }
 
-export function setup(authType: String, authValue : String ): Promise<String> {
-  return NearpayPlugin.setup(authType,authValue);
+function setup(): Promise<String> {
+  return NearpayPlugin.setup();
 }
 
 
 
-export enum Environments {
+enum Environments {
   sandbox = "sandbox",
   testing = "testing",
   production = "production"
   
 }
 
-export enum AuthenticationType{
+enum AuthenticationType{
   login = "userenter",
   email = "email",
   mobile = "mobile",
   jwt = "jwt"
 }
 
-export enum Locale{
+enum Locale{
   default = "default"
+}
+
+
+export {
+  Locale,
+  AuthenticationType,
+  Environments,
+  setup,
+  logout,
+  reverse,
+  reconcile,
+  refund,
+  purchase,
+  initialize
 }
