@@ -198,6 +198,26 @@ Nearpay.reverse(reqData).then((response) => {
 
 ```
 
+# 8. Session
+
+``` javascript
+    var reqData = {
+      "sessionID" :"ea5e30d4-54c7-4ad9-8372-f798259ff589", // Required
+      "isEnableUI" : true, //Optional
+      "isEnableReversal" : true, 
+      "finishTimeout" : timeout  // Optional
+    };
+     Nearpay.session(reqData).then((response) => {
+        var resultJSON = JSON.parse(response);
+        if(resultJSON.status == 200){
+
+        }else{
+
+        }
+    });
+```
+
+
 # 8. Logout 
 
 ``` javascript
