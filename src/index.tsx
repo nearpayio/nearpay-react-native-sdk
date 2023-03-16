@@ -51,6 +51,16 @@ function setup(): Promise<String> {
   return NearpayPlugin.setup();
 }
 
+function session(inputParams : any)  : Promise<String>  {
+  return NearpayPlugin.session(inputParams);
+}
+
+function receiptToImage(inputParams : any)  : Promise<String>  {
+  return NearpayPlugin.recieptToImage(inputParams);
+}
+
+
+
 
 
 enum Environments {
@@ -82,5 +92,7 @@ export {
   reconcile,
   refund,
   purchase,
-  initialize
+  initialize,
+  session,
+  receiptToImage
 }
