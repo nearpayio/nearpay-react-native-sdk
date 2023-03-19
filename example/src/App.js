@@ -232,10 +232,31 @@ export default class App extends Component {
               <View style={styles.containerrow} >
                 <Button title="Logout" onPress={()=>this.doLogout()} />
               </View>
+              <View style={styles.containerrow} >
+                <Button title="Session" onPress={()=>this.doSession()} />
+              </View>
             <Toast />
 
             </View>
     )
+  }
+
+  doSession(){
+    var reqData = {
+      "sessionID" :"ea5e30d4-54c7-4ad9-8372-f798259ff589", // Required
+      //"isEnableUI" : true, //Optional
+      //"isEnableReversal" : true, 
+      //"finishTimeout" : timeout  // Optional
+    };
+    Nearpay.session(reqData).then((response) => {
+      console.log("doSession",response);
+      var resultJSON = JSON.parse(response);
+      if(resultJSON.status == 200){
+        this.showToast('success','Session Success',resultJSON.message )
+      }else{
+        this.showToast('error','Session Failed',resultJSON.message )
+      }
+    });
   }
 
 }

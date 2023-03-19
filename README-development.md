@@ -17,3 +17,5 @@ cd example
 # Navigate to example project
 
 npx react-native run-android
+
+adb -s 1c69f22f reverse tcp:8081 tcp:8081
