@@ -1,4 +1,13 @@
 import { NativeModules, Platform } from 'react-native';
+import {
+  Locale,
+  SessionOptions,
+  ReverseOptions,
+  ReconcileOptions,
+  RefundOptions,
+  PurchaseOptions,
+  InitializeOptions,
+} from './types';
 
 const LINKING_ERROR =
   `The package 'react-native-nearpay-plugin' doesn't seem to be linked. Make sure: \n\n` +
@@ -17,75 +26,132 @@ const NearpayPlugin = NativeModules.NearpayPlugin
       }
     );
 
-
-
-function initialize(inputParams: any ): Promise<String> {
-  return NearpayPlugin.initialize(inputParams);
+function initialize({
+  authtype,
+  authvalue,
+  environment,
+  locale = Locale.default,
+}: InitializeOptions): Promise<string> {
+  const data = {
+    authtype,
+    authvalue,
+    environment,
+    locale,
+  };
+  return NearpayPlugin.initialize(data);
 }
 
-
-
-function purchase(inputParams: any ): Promise<String> {
-  return NearpayPlugin.purchase(inputParams);
+function purchase({
+  amount,
+  customerReferenceNumber = '',
+  finishTimeout = '60',
+  enableReversal = true,
+  enableReceiptUi = true,
+}: PurchaseOptions): Promise<string> {
+  const data = {
+    amount,
+    customer_reference_number: customerReferenceNumber,
+    finishTimeout,
+    isEnableReversal: enableReversal,
+    isEnableUI: enableReceiptUi,
+  };
+  return NearpayPlugin.purchase(data);
 }
 
- 
-
-function refund(inputParams: any ): Promise<String> {
-  return NearpayPlugin.refund(inputParams);
+function refund({
+  amount,
+  transactionUUID,
+  customerReferenceNumber = '',
+  finishTimeout = '60',
+  enableReversal = true,
+  enableReceiptUi = true,
+  editableReversalUI = true,
+  adminPin,
+}: RefundOptions): Promise<string> {
+  const data = {
+    amount,
+    transaction_uuid: transactionUUID,
+    customer_reference_number: customerReferenceNumber,
+    finishTimeout,
+    isEnableReversal: enableReversal,
+    isEnableUI: enableReceiptUi,
+    isEditableReversalUI: editableReversalUI,
+    ...(adminPin !== undefined ? { adminPin } : null),
+  };
+  return NearpayPlugin.refund(data);
 }
 
-function reconcile(inputParams: any): Promise<String> {
-  return NearpayPlugin.reconcile(inputParams);
+function reconcile({
+  finishTimeout = '60',
+  enableReceiptUi = true,
+  adminPin,
+}: ReconcileOptions): Promise<string> {
+  const data = {
+    finishTimeout,
+    isEnableUI: enableReceiptUi,
+    ...(adminPin !== undefined ? { adminPin } : null),
+  };
+  return NearpayPlugin.reconcile(data);
 }
 
-function reverse(inputParams : any ): Promise<String> {
-  return NearpayPlugin.reverse(inputParams);
+function reverse({
+  transactionUUID,
+  finishTimeout = '60',
+  enableReceiptUi = true,
+}: ReverseOptions): Promise<string> {
+  const data = {
+    transaction_uuid: transactionUUID,
+    finishTimeout,
+    isEnableUI: enableReceiptUi,
+  };
+  return NearpayPlugin.reverse(data);
 }
 
-function logout(): Promise<String> {
+function logout(): Promise<string> {
   return NearpayPlugin.logout();
 }
 
-function setup(): Promise<String> {
+function setup(): Promise<string> {
   return NearpayPlugin.setup();
 }
 
-function session(inputParams : any)  : Promise<String>  {
-  return NearpayPlugin.session(inputParams);
+function session({
+  sessionID,
+  finishTimeout = '60',
+  enableReversal = true,
+  enableReceiptUi = true,
+}: SessionOptions): Promise<string> {
+  const data = {
+    sessionID,
+    finishTimeout,
+    isEnableReversal: enableReversal,
+    isEnableUI: enableReceiptUi,
+  };
+  return NearpayPlugin.session(data);
 }
 
-function receiptToImage(inputParams : any)  : Promise<String>  {
+function receiptToImage(inputParams: any): Promise<string> {
   return NearpayPlugin.recieptToImage(inputParams);
 }
 
+// enum Environments {
+//   sandbox = 'sandbox',
+//   testing = 'testing',
+//   production = 'production',
+// }
 
+// enum AuthenticationType {
+//   login = 'userenter',
+//   email = 'email',
+//   mobile = 'mobile',
+//   jwt = 'jwt',
+// }
 
-
-
-enum Environments {
-  sandbox = "sandbox",
-  testing = "testing",
-  production = "production"
-  
-}
-
-enum AuthenticationType{
-  login = "userenter",
-  email = "email",
-  mobile = "mobile",
-  jwt = "jwt"
-}
-
-enum Locale{
-  default = "default"
-}
-
+// enum Locale {
+//   default = 'default',
+// }
 
 export {
-  Locale,
-  AuthenticationType,
-  Environments,
   setup,
   logout,
   reverse,
@@ -94,5 +160,6 @@ export {
   purchase,
   initialize,
   session,
-  receiptToImage
-}
+  receiptToImage,
+};
+export { Locale, AuthenticationType, Environments } from './types';
