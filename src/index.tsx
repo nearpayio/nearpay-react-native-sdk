@@ -162,4 +162,15 @@ export {
   session,
   receiptToImage,
 };
-export { Locale, AuthenticationType, Environments } from './types';
+
+export {
+  Locale,
+  AuthenticationType,
+  Environments,
+  InitializeOptions,
+  PurchaseOptions,
+  ReconcileOptions,
+  RefundOptions,
+  ReverseOptions,
+  SessionOptions,
+} from './types';

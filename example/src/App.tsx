@@ -44,13 +44,6 @@ export default class App extends Component {
   }
 
   initiatePurchase() {
-    // var reqData = {
-    //   amount: '0001', // Required
-    //   customer_reference_number: 'uuyuyuyuy65565675', // [optional] any number you want to add as a refrence
-    //   isEnableUI: true, // [optional] true will enable the ui and false will disable
-    //   isEnableReversal: true, // it will allow you to enable or disable the reverse button
-    //   finishTimeout: timeout, // [optional] Add the number of seconds
-    // };
     console.log('initializePayment', 'response');
     Nearpay.purchase({
       amount: '0001', // Required
@@ -70,14 +63,13 @@ export default class App extends Component {
   }
 
   initiatePurchaseAndRefund() {
-    var reqData = {
+    Nearpay.purchase({
       amount: '0001',
-      customerReference_number: '', // Any string as a reference number
-      isEnableUI: true, // Optional
-      isEnableReversal: true, // Optional it will allow you to enable or disable the reverse button
+      customerReferenceNumber: '', // Any string as a reference number
+      enableReceiptUi: true, // Optional
+      enableReversal: true, // Optional it will allow you to enable or disable the reverse button
       finishTimeout: timeout, //Optional
-    };
-    Nearpay.purchase(reqData).then((response) => {
+    }).then((response) => {
       var responseJson = JSON.parse(response);
       var status = responseJson.status;
       var message = responseJson.message;
@@ -99,16 +91,6 @@ export default class App extends Component {
   }
 
   initiateRefund(uuid: string) {
-    // var reqData = {
-    //   amount: '0001', // Required
-    //   transaction_uuid: uuid, // Required
-    //   customer_reference_number: 'rerretest123333333', //Optional
-    //   isEnableUI: true, // Optional
-    //   isEnableReversal: true, // Optional
-    //   isEditableReversalUI: true, // Optional
-    //   finishTimeout: timeout, // Optional
-    //   adminPin: '0000', // [optional] when you add the admin pin here , the UI for admin pin won't be shown.
-    // };
     Nearpay.refund({
       amount: '0001', // Required
       transactionUUID: uuid, // Required
@@ -130,12 +112,11 @@ export default class App extends Component {
   }
 
   initiateReconcile() {
-    var reqData = {
-      isEnableUI: true, // Optional
+    Nearpay.reconcile({
+      enableReceiptUi: true, // Optional
       finishTimeout: timeout, // Optional
       adminPin: '0000', // [optional] when you add the admin pin here , the UI for admin pin won't be shown.
-    };
-    Nearpay.reconcile(reqData).then((response) => {
+    }).then((response) => {
       console.log('initialisePayment', response);
       var resultJSON = JSON.parse(response);
       if (resultJSON.status == 200) {
@@ -147,15 +128,13 @@ export default class App extends Component {
   }
 
   initiatePurchaseAndReverse() {
-    var reqData = {
+    Nearpay.purchase({
       amount: '0001', // Required
-      customer_reference_number: 'uuyuyuyuy65565675', // Optional
-      isEnableUI: true, //Optional
-      isEnableReversal: true, //it will allow you to enable or disable the reverse button
+      customerReferenceNumber: 'uuyuyuyuy65565675', // Optional
+      enableReceiptUi: true, //Optional
+      enableReversal: true, //it will allow you to enable or disable the reverse button
       finishTimeout: timeout, //Optional
-    };
-
-    Nearpay.purchase(reqData).then((response) => {
+    }).then((response) => {
       console.log('....initiatePurchaseAndReverse....$response', response);
       var responseJson = JSON.parse(response);
       var status = responseJson.status;
@@ -178,11 +157,6 @@ export default class App extends Component {
   }
 
   doReverse(uuid: string) {
-    // var reqData = {
-    //   transaction_uuid: uuid, // Required
-    //   isEnableUI: true, // Optional
-    //   finishTimeout: timeout, // Optional
-    // };
     Nearpay.reverse({
       transactionUUID: uuid, // Required
       enableReceiptUi: true, // Optional
@@ -224,6 +198,23 @@ export default class App extends Component {
     });
   }
 
+  doSession() {
+    Nearpay.session({
+      sessionID: 'ea5e30d4-54c7-4ad9-8372-f798259ff589', // Required
+      enableReceiptUi: true, //Optional
+      enableReversal: true,
+      finishTimeout: timeout, // Optional
+    }).then((response) => {
+      console.log('doSession', response);
+      var resultJSON = JSON.parse(response);
+      if (resultJSON.status == 200) {
+        this.showToast('success', 'Session Success', resultJSON.message);
+      } else {
+        this.showToast('error', 'Session Failed', resultJSON.message);
+      }
+    });
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -257,29 +248,6 @@ export default class App extends Component {
         <Toast />
       </View>
     );
-  }
-
-  doSession() {
-    // var reqData = {
-    //   sessionID: 'ea5e30d4-54c7-4ad9-8372-f798259ff589', // Required
-    //   //"isEnableUI" : true, //Optional
-    //   //"isEnableReversal" : true,
-    //   //"finishTimeout" : timeout  // Optional
-    // };
-    Nearpay.session({
-      sessionID: 'ea5e30d4-54c7-4ad9-8372-f798259ff589', // Required
-      //"isEnableUI" : true, //Optional
-      //"isEnableReversal" : true,
-      //"finishTimeout" : timeout  // Optional
-    }).then((response) => {
-      console.log('doSession', response);
-      var resultJSON = JSON.parse(response);
-      if (resultJSON.status == 200) {
-        this.showToast('success', 'Session Success', resultJSON.message);
-      } else {
-        this.showToast('error', 'Session Failed', resultJSON.message);
-      }
-    });
   }
 }
 
