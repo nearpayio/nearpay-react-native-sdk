@@ -23,39 +23,39 @@ export type InitializeOptions = {
 };
 
 export type PurchaseOptions = {
-  amount: string;
+  amount: number;
   customerReferenceNumber?: string;
   enableReceiptUi?: boolean;
   enableReversal?: boolean;
-  finishTimeout?: string;
+  finishTimeout?: number;
 };
 
 export type RefundOptions = {
-  amount: string;
+  amount: number;
   transactionUUID: string;
   customerReferenceNumber?: string;
   enableReceiptUi?: boolean;
   enableReversal?: boolean;
   editableReversalUI?: boolean;
-  finishTimeout?: string;
+  finishTimeout?: number;
   adminPin?: string;
 };
 
 export type ReconcileOptions = {
   enableReceiptUi?: boolean;
-  finishTimeout?: string;
+  finishTimeout?: number;
   adminPin?: string;
 };
 
 export type ReverseOptions = {
   transactionUUID: string;
   enableReceiptUi?: boolean;
-  finishTimeout?: string;
+  finishTimeout?: number;
 };
 
 export type SessionOptions = {
   sessionID: string;
   enableReceiptUi?: boolean;
   enableReversal?: boolean;
-  finishTimeout?: string;
+  finishTimeout?: number;
 };

@@ -1,6 +1,5 @@
 import { NativeModules, Platform } from 'react-native';
 import {
-  Locale,
   SessionOptions,
   ReverseOptions,
   ReconcileOptions,
@@ -26,142 +25,230 @@ const NearpayPlugin = NativeModules.NearpayPlugin
       }
     );
 
-function initialize({
-  authtype,
-  authvalue,
-  environment,
-  locale = Locale.default,
-}: InitializeOptions): Promise<string> {
-  const data = {
-    authtype,
-    authvalue,
-    environment,
-    locale,
-  };
-  return NearpayPlugin.initialize(data);
-}
+export class Nearpay {
+  constructor({ authtype, authvalue, environment, locale }: InitializeOptions) {
+    const data = {
+      authtype,
+      authvalue,
+      environment,
+      locale,
+    };
 
-function purchase({
-  amount,
-  customerReferenceNumber = '',
-  finishTimeout = '60',
-  enableReversal = true,
-  enableReceiptUi = true,
-}: PurchaseOptions): Promise<string> {
-  const data = {
+    NearpayPlugin.initialize(data);
+  }
+
+  public purchase({
     amount,
-    customer_reference_number: customerReferenceNumber,
-    finishTimeout,
-    isEnableReversal: enableReversal,
-    isEnableUI: enableReceiptUi,
-  };
-  return NearpayPlugin.purchase(data);
-}
+    customerReferenceNumber = '',
+    finishTimeout = 60,
+    enableReversal = true,
+    enableReceiptUi = true,
+  }: PurchaseOptions): Promise<string> {
+    const data = {
+      amount,
+      customer_reference_number: customerReferenceNumber,
+      finishTimeout,
+      isEnableReversal: enableReversal,
+      isEnableUI: enableReceiptUi,
+    };
 
-function refund({
-  amount,
-  transactionUUID,
-  customerReferenceNumber = '',
-  finishTimeout = '60',
-  enableReversal = true,
-  enableReceiptUi = true,
-  editableReversalUI = true,
-  adminPin,
-}: RefundOptions): Promise<string> {
-  const data = {
+    return NearpayPlugin.purchase(data);
+  }
+
+  public refund({
     amount,
-    transaction_uuid: transactionUUID,
-    customer_reference_number: customerReferenceNumber,
-    finishTimeout,
-    isEnableReversal: enableReversal,
-    isEnableUI: enableReceiptUi,
-    isEditableReversalUI: editableReversalUI,
-    ...(adminPin !== undefined ? { adminPin } : null),
-  };
-  return NearpayPlugin.refund(data);
-}
+    transactionUUID,
+    customerReferenceNumber = '',
+    finishTimeout = 60,
+    enableReversal = true,
+    enableReceiptUi = true,
+    editableReversalUI = true,
+    adminPin,
+  }: RefundOptions): Promise<string> {
+    const data = {
+      amount,
+      transaction_uuid: transactionUUID,
+      customer_reference_number: customerReferenceNumber,
+      finishTimeout,
+      isEnableReversal: enableReversal,
+      isEnableUI: enableReceiptUi,
+      isEditableReversalUI: editableReversalUI,
+      ...(adminPin !== undefined ? { adminPin } : null),
+    };
 
-function reconcile({
-  finishTimeout = '60',
-  enableReceiptUi = true,
-  adminPin,
-}: ReconcileOptions): Promise<string> {
-  const data = {
-    finishTimeout,
-    isEnableUI: enableReceiptUi,
-    ...(adminPin !== undefined ? { adminPin } : null),
-  };
-  return NearpayPlugin.reconcile(data);
-}
+    return NearpayPlugin.refund(data);
+  }
 
-function reverse({
-  transactionUUID,
-  finishTimeout = '60',
-  enableReceiptUi = true,
-}: ReverseOptions): Promise<string> {
-  const data = {
-    transaction_uuid: transactionUUID,
-    finishTimeout,
-    isEnableUI: enableReceiptUi,
-  };
-  return NearpayPlugin.reverse(data);
-}
+  public reconcile({
+    finishTimeout = 60,
+    enableReceiptUi = true,
+    adminPin,
+  }: ReconcileOptions): Promise<string> {
+    const data = {
+      finishTimeout,
+      isEnableUI: enableReceiptUi,
+      ...(adminPin !== undefined ? { adminPin } : null),
+    };
 
-function logout(): Promise<string> {
-  return NearpayPlugin.logout();
-}
+    return NearpayPlugin.reconcile(data);
+  }
 
-function setup(): Promise<string> {
-  return NearpayPlugin.setup();
-}
+  public reverse({
+    transactionUUID,
+    finishTimeout = 60,
+    enableReceiptUi = true,
+  }: ReverseOptions): Promise<string> {
+    const data = {
+      transaction_uuid: transactionUUID,
+      finishTimeout,
+      isEnableUI: enableReceiptUi,
+    };
 
-function session({
-  sessionID,
-  finishTimeout = '60',
-  enableReversal = true,
-  enableReceiptUi = true,
-}: SessionOptions): Promise<string> {
-  const data = {
+    return NearpayPlugin.reverse(data);
+  }
+
+  public logout(): Promise<string> {
+    return NearpayPlugin.logout();
+  }
+
+  public setup(): Promise<string> {
+    return NearpayPlugin.setup();
+  }
+
+  public session({
     sessionID,
-    finishTimeout,
-    isEnableReversal: enableReversal,
-    isEnableUI: enableReceiptUi,
-  };
-  return NearpayPlugin.session(data);
+    finishTimeout = 60,
+    enableReversal = true,
+    enableReceiptUi = true,
+  }: SessionOptions): Promise<string> {
+    const data = {
+      sessionID,
+      finishTimeout,
+      isEnableReversal: enableReversal,
+      isEnableUI: enableReceiptUi,
+    };
+
+    return NearpayPlugin.session(data);
+  }
+
+  public receiptToImage(inputParams: any): Promise<string> {
+    return NearpayPlugin.recieptToImage(inputParams);
+  }
 }
 
-function receiptToImage(inputParams: any): Promise<string> {
-  return NearpayPlugin.recieptToImage(inputParams);
-}
+// function initialize({
+//   authtype,
+//   authvalue,
+//   environment,
+//   locale = Locale.default,
+// }: InitializeOptions): Promise<string> {
+//   const data = {
+//     authtype,
+//     authvalue,
+//     environment,
+//     locale,
+//   };
 
-// enum Environments {
-//   sandbox = 'sandbox',
-//   testing = 'testing',
-//   production = 'production',
+//   return NearpayPlugin.initialize(data);
 // }
 
-// enum AuthenticationType {
-//   login = 'userenter',
-//   email = 'email',
-//   mobile = 'mobile',
-//   jwt = 'jwt',
+// function purchase({
+//   amount,
+//   customerReferenceNumber = '',
+//   finishTimeout = 60,
+//   enableReversal = true,
+//   enableReceiptUi = true,
+// }: PurchaseOptions): Promise<string> {
+//   const data = {
+//     amount,
+//     customer_reference_number: customerReferenceNumber,
+//     finishTimeout,
+//     isEnableReversal: enableReversal,
+//     isEnableUI: enableReceiptUi,
+//   };
+
+//   return NearpayPlugin.purchase(data);
 // }
 
-// enum Locale {
-//   default = 'default',
+// function refund({
+//   amount,
+//   transactionUUID,
+//   customerReferenceNumber = '',
+//   finishTimeout = 60,
+//   enableReversal = true,
+//   enableReceiptUi = true,
+//   editableReversalUI = true,
+//   adminPin,
+// }: RefundOptions): Promise<string> {
+//   const data = {
+//     amount,
+//     transaction_uuid: transactionUUID,
+//     customer_reference_number: customerReferenceNumber,
+//     finishTimeout,
+//     isEnableReversal: enableReversal,
+//     isEnableUI: enableReceiptUi,
+//     isEditableReversalUI: editableReversalUI,
+//     ...(adminPin !== undefined ? { adminPin } : null),
+//   };
+
+//   return NearpayPlugin.refund(data);
 // }
 
-export {
-  setup,
-  logout,
-  reverse,
-  reconcile,
-  refund,
-  purchase,
-  initialize,
-  session,
-  receiptToImage,
-};
+// function reconcile({
+//   finishTimeout = 60,
+//   enableReceiptUi = true,
+//   adminPin,
+// }: ReconcileOptions): Promise<string> {
+//   const data = {
+//     finishTimeout,
+//     isEnableUI: enableReceiptUi,
+//     ...(adminPin !== undefined ? { adminPin } : null),
+//   };
+
+//   return NearpayPlugin.reconcile(data);
+// }
+
+// function reverse({
+//   transactionUUID,
+//   finishTimeout = 60,
+//   enableReceiptUi = true,
+// }: ReverseOptions): Promise<string> {
+//   const data = {
+//     transaction_uuid: transactionUUID,
+//     finishTimeout,
+//     isEnableUI: enableReceiptUi,
+//   };
+
+//   return NearpayPlugin.reverse(data);
+// }
+
+// function logout(): Promise<string> {
+//   return NearpayPlugin.logout();
+// }
+
+// function setup(): Promise<string> {
+//   return NearpayPlugin.setup();
+// }
+
+// function session({
+//   sessionID,
+//   finishTimeout = 60,
+//   enableReversal = true,
+//   enableReceiptUi = true,
+// }: SessionOptions): Promise<string> {
+//   const data = {
+//     sessionID,
+//     finishTimeout,
+//     isEnableReversal: enableReversal,
+//     isEnableUI: enableReceiptUi,
+//   };
+
+//   return NearpayPlugin.session(data);
+// }
+
+// function receiptToImage(inputParams: any): Promise<string> {
+//   return NearpayPlugin.recieptToImage(inputParams);
+// }
 
 export {
   Locale,
