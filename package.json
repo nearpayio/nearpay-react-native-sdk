@@ -58,6 +58,7 @@
     "@types/jest": "^28.1.2",
     "@types/react": "~17.0.21",
     "@types/react-native": "0.70.0",
+    "@types/uuid": "^9.0.1",
     "commitlint": "^17.0.2",
     "eslint": "^8.4.1",
     "eslint-config-prettier": "^8.5.0",
@@ -69,6 +70,7 @@
     "react-native": "0.70.4",
     "react-native-builder-bob": "^0.20.0",
     "release-it": "^15.0.0",
+    "test-nearpay-sdk-ramadan": "file:../Node/nearpay-sdk/test-nearpay-sdk-ramadan-1.0.15.tgz",
     "typescript": "^4.5.2"
   },
   "resolutions": {
@@ -150,5 +152,13 @@
         }
       ]
     ]
+  },
+  "dependencies": {
+    "@gorhom/bottom-sheet": "^4.4.5",
+    "@react-native-async-storage/async-storage": "^1.18.1",
+    "react-native-gesture-handler": "^2.9.0",
+    "react-native-get-random-values": "^1.8.0",
+    "react-native-reanimated": "^2.9.1",
+    "uuid": "^9.0.0"
   }
 }

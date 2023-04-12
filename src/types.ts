@@ -22,7 +22,7 @@ export type InitializeOptions = {
   environment: Environments;
 };
 
-export type PurchaseOptions = {
+export type EmbededPurchaseOptions = {
   amount: number;
   customerReferenceNumber?: string;
   enableReceiptUi?: boolean;
@@ -30,7 +30,7 @@ export type PurchaseOptions = {
   finishTimeout?: number;
 };
 
-export type RefundOptions = {
+export type EmbededRefundOptions = {
   amount: number;
   transactionUUID: string;
   customerReferenceNumber?: string;
@@ -41,7 +41,7 @@ export type RefundOptions = {
   adminPin?: string;
 };
 
-export type ReconcileOptions = {
+export type EmbededReconcileOptions = {
   enableReceiptUi?: boolean;
   finishTimeout?: number;
   adminPin?: string;
