@@ -23,6 +23,8 @@ import {
   WsConnectionInfo,
 } from 'test-nearpay-sdk-ramadan';
 import { usersKey } from './keys';
+
+// import  AsyncStorage  from '@react-native-async-storage/async-storage';
 import { AsyncStorage } from 'react-native';
 
 export function ConnectionsAreEqual(

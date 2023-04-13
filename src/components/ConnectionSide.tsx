@@ -19,8 +19,13 @@ export default function ConnectionSide() {
         ip,
         port,
       })
+      .then(() => {
+        console.log('success');
+      })
       .catch((e) => {
-        console.log(e);
+        console.log('errrrrrr');
+
+        console.log({ e });
       })
       .finally(() => setLoading(false));
   }

@@ -3,10 +3,24 @@ import { Button, StyleSheet, Text, View } from 'react-native';
 import {
   CONNECTION_STATE,
   NEARPAY_CONNECTOR,
+  NearpayProvider,
+  RemoteNearPay,
   useNearpay,
-} from 'react-native-nearpay-plugin';
+} from 'react-native-nearpay-sdk';
+
+const remoteNearpay: RemoteNearPay = new RemoteNearPay();
+remoteNearpay.addAutoReconnect();
+remoteNearpay.connectToLastUser();
 
 export default function ProxySide() {
+  return (
+    <NearpayProvider nearpay={remoteNearpay}>
+      <Wrapped />
+    </NearpayProvider>
+  );
+}
+
+function Wrapped() {
   const { nearpay, connectionState, setup } = useNearpay();
 
   return (
@@ -17,10 +31,29 @@ export default function ProxySide() {
         <Button
           title="connect"
           onPress={() => {
-            nearpay.connect({
-              type: NEARPAY_CONNECTOR.WS,
-              ip: '172.20.10.4',
-              port: '8080',
+            console.log('adasdsad');
+
+            nearpay
+              .connect({
+                type: NEARPAY_CONNECTOR.WS,
+                ip: '172.20.10.4',
+                port: '8080',
+              })
+              .then(() => {
+                console.log('success');
+              })
+              .catch((e) => {
+                console.log('err', e);
+              });
+          }}
+        />
+      </View>
+      <View>
+        <Button
+          title="pay"
+          onPress={() => {
+            nearpay.getTerminal().purchase({
+              amount: 100,
             });
           }}
         />

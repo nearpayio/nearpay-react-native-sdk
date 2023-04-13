@@ -1,5 +1,5 @@
 import { NativeModules, Platform } from 'react-native';
-import {
+import type {
   SessionOptions,
   ReverseOptions,
   EmbededReconcileOptions,
@@ -14,8 +14,8 @@ const LINKING_ERROR =
   '- You rebuilt the app after installing the package\n' +
   '- You are not using Expo Go\n';
 
-const NearpayPlugin = NativeModules.NearpayPlugin
-  ? NativeModules.NearpayPlugin
+const NearpayPlugin = NativeModules.NearpaySdk
+  ? NativeModules.NearpaySdk
   : new Proxy(
       {},
       {
@@ -27,6 +27,12 @@ const NearpayPlugin = NativeModules.NearpayPlugin
 
 export class EmbededNearpay {
   constructor({ authtype, authvalue, environment, locale }: InitializeOptions) {
+    const isAndroid = Platform.select({ android: true });
+
+    if (!isAndroid) {
+      throw `Nearpay: the Embeded SDK is avalible only in Android`;
+    }
+
     const data = {
       authtype,
       authvalue,
@@ -41,7 +47,6 @@ export class EmbededNearpay {
     methodFunc: () => Promise<any>
   ): Promise<any> {
     const res = JSON.parse(await methodFunc());
-    console.log('response in _callPluginMethod', res);
 
     if (res.status === 200) {
       return res;

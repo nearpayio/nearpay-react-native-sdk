@@ -3,7 +3,7 @@ const pak = require('../package.json');
 
 module.exports = {
   dependencies: {
-    [pak.name]: {
+    'react-native-nearpay-sdk': {
       root: path.join(__dirname, '..'),
     },
   },

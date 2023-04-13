@@ -15,6 +15,7 @@ const map: Record<CONNECTION_STATE, () => JSX.Element> = {
 // type props ={}
 export default function MainSdk() {
   const { connectionState } = useNearpay();
+  // @ts-ignore
   const Elm = useMemo(() => map[connectionState], [connectionState]);
 
   return (

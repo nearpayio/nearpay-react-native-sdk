@@ -6,10 +6,10 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
+// import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import MainSdk from '../components/MainSdk';
-import { RemoteNearPay } from 'src/libs/remote/remoteNearpay';
-import { CONNECTION_STATE } from 'test-nearpay-sdk-ramadan';
+import type { RemoteNearPay } from '../libs/remote/remoteNearpay';
+import type { CONNECTION_STATE } from 'test-nearpay-sdk-ramadan';
 // import BottomSheet from '@gorhom/bottom-sheet';
 
 type props = {
@@ -62,7 +62,7 @@ export default function NearpayProvider({
 
   return (
     <ctx.Provider value={values}>
-      <GestureHandlerRootView style={styles.container}>
+      <View style={styles.container}>
         {children}
 
         {showSdk && (
@@ -76,7 +76,7 @@ export default function NearpayProvider({
             <MainSdk />
           </View>
         )}
-      </GestureHandlerRootView>
+      </View>
     </ctx.Provider>
   );
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { TextInput } from 'react-native-gesture-handler';
+import { TextInput } from 'react-native';
 
 type props = {
   onSubmit: () => void;
