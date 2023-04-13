@@ -92,6 +92,7 @@ public class PurchaseOperation extends BaseOperation {
                         Map<String, Object> responseDict = NearpayLib.commonResponse(ErrorStatus.success_code,
                                 "Payment Success");
                         responseDict.put("list", transactionList);
+                        Log.i("ReactNative", "Purchase approved");
                         promise.complete(responseDict);
                     }
                 });

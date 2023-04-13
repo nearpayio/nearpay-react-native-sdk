@@ -31,18 +31,6 @@ remoteNearpay.addAutoReconnect();
 remoteNearpay.connectToLastUser();
 
 export default function App() {
-  const [connectionState, setConnectionState] = useState<CONNECTION_STATE>(
-    CONNECTION_STATE.LOGGED_OUT
-  );
-
-  useEffect(() => {
-    const remover = remoteNearpay.addConnectivityListener(setConnectionState);
-
-    return () => {
-      remover();
-    };
-  }, [remoteNearpay]);
-
   function showToast(type: any, title: any, message: any) {
     Toast.show({
       type: type,
@@ -51,40 +39,33 @@ export default function App() {
     });
   }
 
-  function initiatePurchase() {
-    console.log('initializePayment', 'response');
-    doPurchase()
-      .then((response) => {
-        let resultJSON = JSON.parse(response);
-        if (resultJSON.status == 200) {
-          showToast('success', 'Purchase Success', resultJSON.messsage);
-        } else {
-          showToast('error', 'Purchase Failed', resultJSON.message);
-        }
+  async function doPurchase(amount: number) {
+    console.log(`=-=-=-= purchse start =-=-=-=`);
+    return embededNearpay
+      .purchase({
+        amount: amount, // Required
+        customerReferenceNumber: 'uuyuyuyuy65565675', // Optional
+        enableReceiptUi: true, //Optional
+        enableReversal: true, //it will allow you to enable or disable the reverse button
+        finishTimeout: timeout, //Optional
       })
-      .catch((e) => console.log({ e }));
+      .then((response) => {
+        console.log(`=-=-=-= purchse success =-=-=-=`);
+        console.log(`purchse respone: ${response}`);
+        return response;
+      })
+      .catch((e) => {
+        console.log(`=-=-=-= purchse failed =-=-=-=`);
+        console.log(`error: ${e}`);
+        throw e;
+      });
   }
 
-  function initiatePurchaseAndRefund() {
-    doPurchase().then((response) => {
-      var responseJson = JSON.parse(response);
-      var purchaseList = responseJson.list;
-
-      setTimeout(() => {
-        console.log(purchaseList.length, 'paymentresponse', purchaseList);
-        if (purchaseList.length) {
-          let uuid = purchaseList[0].uuid;
-          console.log('response list', uuid);
-          initiateRefund(uuid);
-        }
-      }, 5000);
-    });
-  }
-
-  function initiateRefund(uuid: string) {
+  function doRefund(amount: number, uuid: string) {
+    console.log(`=-=-=-= refund start =-=-=-=`);
     embededNearpay
       .refund({
-        amount: 100, // [Required]
+        amount: amount, // [Required]
         transactionUUID: uuid, // [Required]
         customerReferenceNumber: 'rerretest123333333', //[Optional]
         enableReceiptUi: true, // [Optional]
@@ -94,51 +75,19 @@ export default function App() {
         adminPin: '0000', // [Optional] when you add the admin pin here , the UI for admin pin won't be shown.
       })
       .then((response) => {
-        var resultJSON = JSON.parse(response);
-        console.log('initialize refund', JSON.stringify(resultJSON, null, 2));
-        if (resultJSON.status == 200) {
-          showToast('success', 'Refund Success', resultJSON.message);
-        } else {
-          showToast('error', 'Refund Failed', resultJSON.message);
-        }
-      });
-  }
-
-  function initiateReconcile() {
-    embededNearpay
-      .reconcile({
-        enableReceiptUi: true, // Optional
-        finishTimeout: timeout, // Optional
-        adminPin: '0000', // [optional] when you add the admin pin here , the UI for admin pin won't be shown.
+        console.log(`=-=-=-= refund success =-=-=-=`);
+        console.log(`refund respone: ${response}`);
+        return response;
       })
-      .then((response) => {
-        console.log('initialisePayment', response);
-        var resultJSON = JSON.parse(response);
-        if (resultJSON.status == 200) {
-          showToast('success', 'Reconcile Success', resultJSON.message);
-        } else {
-          showToast('error', 'Reconcile Failed', resultJSON.message);
-        }
+      .catch((e) => {
+        console.log(`=-=-=-= refund failed =-=-=-=`);
+        console.log(`error: ${e}`);
+        throw e;
       });
   }
 
-  function initiatePurchaseAndReverse() {
-    doPurchase().then((response) => {
-      var responseJson = JSON.parse(response);
-      var purchaseList = responseJson.list;
-
-      setTimeout(() => {
-        console.log(purchaseList.length, 'paymentresponse', purchaseList);
-        if (purchaseList.length) {
-          let uuid = purchaseList[0].uuid;
-          console.log('...response list...uuid------$uuid..333..', uuid);
-          initiateReverse(uuid);
-        }
-      }, 5000);
-    });
-  }
-
-  function initiateReverse(uuid: string) {
+  function doReverse(uuid: string) {
+    console.log(`=-=-=-= reverse start =-=-=-=`);
     embededNearpay
       .reverse({
         transactionUUID: uuid, // Required
@@ -146,74 +95,99 @@ export default function App() {
         finishTimeout: timeout, // Optional
       })
       .then((response) => {
-        var resultJSON = JSON.parse(response);
-        console.log('initialise Reverse', JSON.stringify(resultJSON, null, 2));
-        if (resultJSON.status == 200) {
-          showToast('success', 'Reverse Success', resultJSON.message);
-        } else {
-          showToast('error', 'Reverse Failed', resultJSON.message);
-        }
+        console.log(`=-=-=-= reverse success =-=-=-=`);
+        console.log(`reverse respone: ${response}`);
+        return response;
+      })
+      .catch((e) => {
+        console.log(`=-=-=-= reverse failed =-=-=-=`);
+        console.log(`error: ${e}`);
+        throw e;
       });
   }
 
-  async function doPurchase() {
-    return embededNearpay
-      .purchase({
-        amount: 100, // Required
-        customerReferenceNumber: 'uuyuyuyuy65565675', // Optional
-        enableReceiptUi: true, //Optional
-        enableReversal: true, //it will allow you to enable or disable the reverse button
-        finishTimeout: timeout, //Optional
+  function doReconcile() {
+    console.log(`=-=-=-= reconcile start =-=-=-=`);
+    embededNearpay
+      .reconcile({
+        enableReceiptUi: true, // Optional
+        finishTimeout: timeout, // Optional
+        adminPin: '0000', // [optional] when you add the admin pin here , the UI for admin pin won't be shown.
       })
       .then((response) => {
-        console.log('purchase');
-
-        // var responseJson = JSON.parse(response);
-        // var status = responseJson.status;
-        // var message = responseJson.message;
-
-        // console.log({
-        //   purchase_response: JSON.stringify(responseJson, null, 2),
-        //   status,
-        //   message,
-        // });
-
-        // if (status !== 200) {
-        //   showToast('error', 'Purchase Failed', responseJson.message);
-        //   throw `purchase failed`;
-        // }
-
+        console.log(`=-=-=-= reconcile success =-=-=-=`);
+        console.log(`reconcile respone: ${response}`);
         return response;
+      })
+      .catch((e) => {
+        console.log(`=-=-=-= reconcile failed =-=-=-=`);
+        console.log(`error: ${e}`);
+        throw e;
+      });
+  }
+
+  async function doPurchaseAndRefund() {
+    console.log(`=-=-=-= purchse then refund start =-=-=-=`);
+    await doPurchase(100)
+      .then((response) => {
+        var purchaseList = response.list;
+        let uuid = purchaseList[0].transaction_uuid;
+        doRefund(100, uuid);
+      })
+      .catch((e) => {
+        console.log(`=-=-=-= purchse then refund failed =-=-=-=`);
+        console.log(`error: ${e}`);
+      });
+  }
+
+  async function doPurchaseAndReverse() {
+    console.log(`=-=-=-= purchse then reverse start =-=-=-=`);
+    await doPurchase(100)
+      .then((response) => {
+        var purchaseList = response.list;
+        let uuid = purchaseList[0].transaction_uuid;
+        doReverse(uuid);
+      })
+      .catch((e) => {
+        console.log(`=-=-=-= purchse then reverse failed =-=-=-=`);
+        console.log(`error: ${e}`);
       });
   }
 
   function doLogout() {
-    embededNearpay.logout().then((response) => {
-      console.log('doLogoutAction', response);
-      var resultJSON = JSON.parse(response);
-      console.log('doLogoutAction', resultJSON.message);
-      if (resultJSON.status == 200) {
-        showToast('success', 'Logout Success', resultJSON.message);
-      } else {
-        showToast('error', 'Logout Failed', resultJSON.message);
-      }
-    });
+    console.log(`=-=-=-= logout start =-=-=-=`);
+    embededNearpay
+      .logout()
+      .then((response) => {
+        console.log(`=-=-=-= logout success =-=-=-=`);
+        console.log(`logout respone: ${response}`);
+        return response;
+      })
+      .catch((e) => {
+        console.log(`=-=-=-= logout failed =-=-=-=`);
+        console.log(`error: ${e}`);
+        throw e;
+      });
   }
 
   function doSetupClick() {
-    embededNearpay.setup().then((response) => {
-      console.log('doSetupClick', response);
-      var resultJSON = JSON.parse(response);
-      console.log('doSetupClick', resultJSON.messsage);
-      if (resultJSON.status == 200) {
-        showToast('success', 'Setup Success', resultJSON.messsage);
-      } else {
-        showToast('error', 'Setup Failed', resultJSON.messsage);
-      }
-    });
+    console.log(`=-=-=-= setup start =-=-=-=`);
+    embededNearpay
+      .setup()
+      .then((response) => {
+        console.log(`=-=-=-= setup success =-=-=-=`);
+        console.log(`setup respone: ${response}`);
+        return response;
+      })
+      .catch((e) => {
+        console.log(`=-=-=-= setup failed =-=-=-=`);
+        console.log(`error: ${e}`);
+        throw e;
+      });
   }
 
   function doSession() {
+    console.log(`=-=-=-= session start =-=-=-=`);
     embededNearpay
       .session({
         sessionID: 'ea5e30d4-54c7-4ad9-8372-f798259ff589', // Required
@@ -222,13 +196,14 @@ export default function App() {
         finishTimeout: timeout, // Optional
       })
       .then((response) => {
-        console.log('doSession', response);
-        var resultJSON = JSON.parse(response);
-        if (resultJSON.status == 200) {
-          showToast('success', 'Session Success', resultJSON.message);
-        } else {
-          showToast('error', 'Session Failed', resultJSON.message);
-        }
+        console.log(`=-=-=-= session success =-=-=-=`);
+        console.log(`session respone: ${response}`);
+        return response;
+      })
+      .catch((e) => {
+        console.log(`=-=-=-= session failed =-=-=-=`);
+        console.log(`error: ${e}`);
+        throw e;
       });
   }
 
@@ -243,22 +218,22 @@ export default function App() {
         </View>
 
         <View style={styles.containerrow}>
-          <Button title="Purchase" onPress={() => initiatePurchase()} />
+          <Button title="Purchase" onPress={() => doPurchase(100)} />
         </View>
         <View style={styles.containerrow}>
           <Button
             title="Purchase and Refund "
-            onPress={() => initiatePurchaseAndRefund()}
+            onPress={() => doPurchaseAndRefund()}
           />
         </View>
         <View style={styles.containerrow}>
           <Button
             title="Purchase and Reverse "
-            onPress={() => initiatePurchaseAndReverse()}
+            onPress={() => doPurchaseAndReverse()}
           />
         </View>
         <View style={styles.containerrow}>
-          <Button title="Reconcile" onPress={() => initiateReconcile()} />
+          <Button title="Reconcile" onPress={() => doReconcile()} />
         </View>
         <View style={styles.containerrow}>
           <Button title="Setup" onPress={() => doSetupClick()} />
@@ -273,34 +248,7 @@ export default function App() {
         {/* Proxy side */}
         <View style={styles.hr}></View>
         <ProxySide />
-        {/* <View style={styles.containerrow}>
-        <Button title='show/hide' onPress={}/>
-        <Button
-          title="connect"
-          onPress={() => {
-            remoteNearpay
-              .connect({
-                type: NEARPAY_CONNECTOR.WS,
-                ip: '172.20.10.4',
-                port: '8080',
-              })
-              .then((res) => {
-                console.log({ success: res });
-              })
-              .catch((e) => {
-                console.log({ err: e });
-              });
-          }}
-        />
-      </View>
-      <View style={styles.containerrow}>
-        <Text>connection state: {connectionState}</Text>
-      </View>
-      {connectionState === CONNECTION_STATE.CONNECTED && (
-        <View style={styles.containerrow}>
-          <TextInput></TextInput>
-        </View>
-      )} */}
+
         <Toast />
       </View>
     </NearpayProvider>

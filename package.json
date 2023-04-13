@@ -70,7 +70,6 @@
     "react-native": "0.70.4",
     "react-native-builder-bob": "^0.20.0",
     "release-it": "^15.0.0",
-    "test-nearpay-sdk-ramadan": "^1.0.16",
     "typescript": "^4.5.2"
   },
   "resolutions": {
@@ -159,6 +158,7 @@
     "react-native-gesture-handler": "^2.9.0",
     "react-native-get-random-values": "^1.8.0",
     "react-native-reanimated": "^2.9.1",
+    "test-nearpay-sdk-ramadan": "^1.0.17",
     "uuid": "^9.0.0"
   }
 }
