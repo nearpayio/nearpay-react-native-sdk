@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import {
   StyleSheet,
-  Text,
+
   // TouchableHighlight,
   TouchableOpacity,
   View,

@@ -1,21 +1,14 @@
 import React, { useState } from 'react';
-import {
-  ActivityIndicator,
-  Button,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import ConnectionForm from './ConnectionForm';
 import { useNearpay } from '../context/NearpayContext';
-import { CONNECTION_STATE, NEARPAY_CONNECTOR } from 'test-nearpay-sdk-ramadan';
+import { NEARPAY_CONNECTOR } from 'test-nearpay-sdk-ramadan';
 import NpButton from './NpButton';
-import { block } from 'react-native-reanimated';
 
 export default function ConnectionSide() {
   const [ip, setIp] = useState<string>('');
   const [port, setPort] = useState<string>('');
-  const { nearpay, close, connectionState } = useNearpay();
+  const { nearpay } = useNearpay();
   const [loading, setLoading] = useState(false);
 
   function onSubmit() {
@@ -46,13 +39,9 @@ export default function ConnectionSide() {
       </View>
       <View>
         <NpButton onPress={() => onSubmit()} style={styles.connect_button}>
-          {connectionState === CONNECTION_STATE.CONNECTING && (
-            <ActivityIndicator color={'white'} size={'small'} />
-          )}
+          {loading && <ActivityIndicator color={'white'} size={'small'} />}
 
-          {connectionState !== CONNECTION_STATE.CONNECTING && (
-            <Text style={{ color: 'white' }}>Connect</Text>
-          )}
+          {!loading && <Text style={{ color: 'white' }}>Connect</Text>}
         </NpButton>
         {/* <Button color={'black'} title="Connect" onPress={() => onSubmit()} /> */}
       </View>
