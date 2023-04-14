@@ -3,8 +3,8 @@ import type { ProfileType } from 'test-nearpay-sdk-ramadan';
 import { v4 as uuid } from 'uuid';
 export const PROFILE_DB_KEY = 'PROFILE_KEY';
 
-// import AsyncStorage from '@react-native-async-storage/async-storage';
-import { AsyncStorage } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+// import { AsyncStorage } from 'react-native';
 
 /**
  * profile is used to connect the sdk with the pos device
