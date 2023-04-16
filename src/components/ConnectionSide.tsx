@@ -25,7 +25,7 @@ export default function ConnectionSide() {
       .catch((e) => {
         console.log('errrrrrr');
 
-        console.log({ e });
+        console.log({ e: e.stack });
       })
       .finally(() => setLoading(false));
   }

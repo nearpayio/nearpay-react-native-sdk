@@ -5,6 +5,12 @@ export const PROFILE_DB_KEY = 'PROFILE_KEY';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 // import { AsyncStorage } from 'react-native';
+// import EncryptedStorage from 'react-native-encrypted-storage';
+// import RNSecureStorage, { ACCESSIBLE } from 'rn-secure-storage';
+
+// import { MMKVLoader } from 'react-native-mmkv-storage';
+
+// const storage = new MMKVLoader().initialize();
 
 /**
  * profile is used to connect the sdk with the pos device

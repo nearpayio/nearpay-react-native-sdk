@@ -23,9 +23,14 @@ import {
   WsConnectionInfo,
 } from 'test-nearpay-sdk-ramadan';
 import { usersKey } from './keys';
-
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
 // import { AsyncStorage } from 'react-native';
+// import EncryptedStorage from 'react-native-encrypted-storage';
+
+// import { MMKVLoader } from 'react-native-mmkv-storage';
+
+// const storage = new MMKVLoader().initialize();
 
 export function ConnectionsAreEqual(
   user1: ConnectionInfo,
@@ -42,7 +47,7 @@ export async function dbSaveUsers(users: ConnectionInfo[]) {
 export async function dbGetUsers(): Promise<ConnectionInfo[]> {
   const users = await AsyncStorage.getItem(usersKey());
 
-  return users !== null
+  return users
     ? (JSON.parse(users) as ConnectionInfo[])
     : ([] as ConnectionInfo[]);
 }
