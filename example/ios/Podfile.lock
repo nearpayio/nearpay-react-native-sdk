@@ -632,7 +632,7 @@ SPEC CHECKSUMS:
   React-jsinspector: d5ce2ef3eb8fd30c28389d0bc577918c70821bd6
   React-logger: 9332c3e7b4ef007a0211c0a9868253aac3e1da82
   react-native-get-random-values: a6ea6a8a65dc93e96e24a11105b1a9c8cfe1d72a
-  react-native-nearpay-sdk: be68b8c07abb7723dbd9d24ec1685826b6cd684f
+  react-native-nearpay-sdk: 2dfd0d71c6878e74c57690f2526ba9f4cbd0c877
   react-native-safe-area-context: f5549f36508b1b7497434baa0cd97d7e470920d4
   React-perflogger: 43392072a5b867a504e2b4857606f8fc5a403d7f
   React-RCTActionSheet: c7b67c125bebeda9fb19fc7b200d85cb9d6899c4
@@ -653,6 +653,6 @@ SPEC CHECKSUMS:
   Yoga: ba09b6b11e6139e3df8229238aa794205ca6a02a
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: be6a6cd0cfd33500b3ae388b5bc926a8b88c3592
+PODFILE CHECKSUM: 0b1d2b694b3c85c977a9bd0291d27ba1b73bbf1d
 
 COCOAPODS: 1.12.0

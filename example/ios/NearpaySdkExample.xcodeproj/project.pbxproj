@@ -8,12 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* NearpaySdkExampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* NearpaySdkExampleTests.m */; };
+		0856D6EBA0BF280F813F02A9 /* libPods-NearpaySdkExample-NearpaySdkExampleTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B8132C9A7292D6682EC37104 /* libPods-NearpaySdkExample-NearpaySdkExampleTests.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		29642666A6BF5032774D4E74 /* libPods-NearpaySdkExample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 514A7431174FD8B6294E60CF /* libPods-NearpaySdkExample.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		BB4AF5FFE08BEBB1AC41D835 /* libPods-NearpaySdkExample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E5812B86C40A42F5EF87E1A8 /* libPods-NearpaySdkExample.a */; };
-		EB99A668DD67D2E2A060F2CE /* libPods-NearpaySdkExample-NearpaySdkExampleTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5670CE54CFBA12909FB1B3FF /* libPods-NearpaySdkExample-NearpaySdkExampleTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,14 +36,14 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = NearpaySdkExample/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = NearpaySdkExample/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = NearpaySdkExample/main.m; sourceTree = "<group>"; };
-		3986964A4A504142779EFAFA /* Pods-NearpaySdkExample-NearpaySdkExampleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NearpaySdkExample-NearpaySdkExampleTests.debug.xcconfig"; path = "Target Support Files/Pods-NearpaySdkExample-NearpaySdkExampleTests/Pods-NearpaySdkExample-NearpaySdkExampleTests.debug.xcconfig"; sourceTree = "<group>"; };
-		5670CE54CFBA12909FB1B3FF /* libPods-NearpaySdkExample-NearpaySdkExampleTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NearpaySdkExample-NearpaySdkExampleTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		514A7431174FD8B6294E60CF /* libPods-NearpaySdkExample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NearpaySdkExample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = NearpaySdkExample/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		9B14923A4EC0E41034C9F9A4 /* Pods-NearpaySdkExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NearpaySdkExample.debug.xcconfig"; path = "Target Support Files/Pods-NearpaySdkExample/Pods-NearpaySdkExample.debug.xcconfig"; sourceTree = "<group>"; };
-		B1962F4B6C2C2CD577593DB8 /* Pods-NearpaySdkExample-NearpaySdkExampleTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NearpaySdkExample-NearpaySdkExampleTests.release.xcconfig"; path = "Target Support Files/Pods-NearpaySdkExample-NearpaySdkExampleTests/Pods-NearpaySdkExample-NearpaySdkExampleTests.release.xcconfig"; sourceTree = "<group>"; };
-		E5812B86C40A42F5EF87E1A8 /* libPods-NearpaySdkExample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NearpaySdkExample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9181090608E2A63504B3B065 /* Pods-NearpaySdkExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NearpaySdkExample.debug.xcconfig"; path = "Target Support Files/Pods-NearpaySdkExample/Pods-NearpaySdkExample.debug.xcconfig"; sourceTree = "<group>"; };
+		95F246684123CE77CBBF6C6C /* Pods-NearpaySdkExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NearpaySdkExample.release.xcconfig"; path = "Target Support Files/Pods-NearpaySdkExample/Pods-NearpaySdkExample.release.xcconfig"; sourceTree = "<group>"; };
+		B8132C9A7292D6682EC37104 /* libPods-NearpaySdkExample-NearpaySdkExampleTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NearpaySdkExample-NearpaySdkExampleTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C2087AF19FE8FA55F0C2BC79 /* Pods-NearpaySdkExample-NearpaySdkExampleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NearpaySdkExample-NearpaySdkExampleTests.debug.xcconfig"; path = "Target Support Files/Pods-NearpaySdkExample-NearpaySdkExampleTests/Pods-NearpaySdkExample-NearpaySdkExampleTests.debug.xcconfig"; sourceTree = "<group>"; };
+		DAF9F9AF8C7DFAEEB8F14EFE /* Pods-NearpaySdkExample-NearpaySdkExampleTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NearpaySdkExample-NearpaySdkExampleTests.release.xcconfig"; path = "Target Support Files/Pods-NearpaySdkExample-NearpaySdkExampleTests/Pods-NearpaySdkExample-NearpaySdkExampleTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		F3FB1E9A136B04F923B8180C /* Pods-NearpaySdkExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NearpaySdkExample.release.xcconfig"; path = "Target Support Files/Pods-NearpaySdkExample/Pods-NearpaySdkExample.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,7 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EB99A668DD67D2E2A060F2CE /* libPods-NearpaySdkExample-NearpaySdkExampleTests.a in Frameworks */,
+				0856D6EBA0BF280F813F02A9 /* libPods-NearpaySdkExample-NearpaySdkExampleTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,7 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BB4AF5FFE08BEBB1AC41D835 /* libPods-NearpaySdkExample.a in Frameworks */,
+				29642666A6BF5032774D4E74 /* libPods-NearpaySdkExample.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,8 +100,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				E5812B86C40A42F5EF87E1A8 /* libPods-NearpaySdkExample.a */,
-				5670CE54CFBA12909FB1B3FF /* libPods-NearpaySdkExample-NearpaySdkExampleTests.a */,
+				514A7431174FD8B6294E60CF /* libPods-NearpaySdkExample.a */,
+				B8132C9A7292D6682EC37104 /* libPods-NearpaySdkExample-NearpaySdkExampleTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -140,10 +140,10 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				9B14923A4EC0E41034C9F9A4 /* Pods-NearpaySdkExample.debug.xcconfig */,
-				F3FB1E9A136B04F923B8180C /* Pods-NearpaySdkExample.release.xcconfig */,
-				3986964A4A504142779EFAFA /* Pods-NearpaySdkExample-NearpaySdkExampleTests.debug.xcconfig */,
-				B1962F4B6C2C2CD577593DB8 /* Pods-NearpaySdkExample-NearpaySdkExampleTests.release.xcconfig */,
+				9181090608E2A63504B3B065 /* Pods-NearpaySdkExample.debug.xcconfig */,
+				95F246684123CE77CBBF6C6C /* Pods-NearpaySdkExample.release.xcconfig */,
+				C2087AF19FE8FA55F0C2BC79 /* Pods-NearpaySdkExample-NearpaySdkExampleTests.debug.xcconfig */,
+				DAF9F9AF8C7DFAEEB8F14EFE /* Pods-NearpaySdkExample-NearpaySdkExampleTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -155,12 +155,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "NearpaySdkExampleTests" */;
 			buildPhases = (
-				2B15BED66B1ABE6059DB6595 /* [CP] Check Pods Manifest.lock */,
+				287438ADBE537DD541665922 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				89872DEEFE443095627C180B /* [CP] Embed Pods Frameworks */,
-				CCE5A37205EEAE046887F1A6 /* [CP] Copy Pods Resources */,
+				6B856CD5A8C3C9827BB31195 /* [CP] Embed Pods Frameworks */,
+				828F7AF4152450A2FB4A5DF3 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -176,14 +176,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "NearpaySdkExample" */;
 			buildPhases = (
-				EE19F6D9D4B164CB937432B3 /* [CP] Check Pods Manifest.lock */,
+				B680492DDE455D41F1D7A7BF /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				228B7BCF4B477986E1A56C53 /* [CP] Embed Pods Frameworks */,
-				BEE1B2A9DDD808063A357C44 /* [CP] Copy Pods Resources */,
+				3216807A0DDA4C18B67806A5 /* [CP] Embed Pods Frameworks */,
+				A9D47D5F0EA602BF644EB1B1 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -266,24 +266,7 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"../node_modules/react-native/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"../node_modules/react-native/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
 		};
-		228B7BCF4B477986E1A56C53 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-NearpaySdkExample/Pods-NearpaySdkExample-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-NearpaySdkExample/Pods-NearpaySdkExample-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-NearpaySdkExample/Pods-NearpaySdkExample-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		2B15BED66B1ABE6059DB6595 /* [CP] Check Pods Manifest.lock */ = {
+		287438ADBE537DD541665922 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -305,7 +288,24 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		89872DEEFE443095627C180B /* [CP] Embed Pods Frameworks */ = {
+		3216807A0DDA4C18B67806A5 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-NearpaySdkExample/Pods-NearpaySdkExample-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-NearpaySdkExample/Pods-NearpaySdkExample-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-NearpaySdkExample/Pods-NearpaySdkExample-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6B856CD5A8C3C9827BB31195 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -322,24 +322,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-NearpaySdkExample-NearpaySdkExampleTests/Pods-NearpaySdkExample-NearpaySdkExampleTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		BEE1B2A9DDD808063A357C44 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-NearpaySdkExample/Pods-NearpaySdkExample-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-NearpaySdkExample/Pods-NearpaySdkExample-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-NearpaySdkExample/Pods-NearpaySdkExample-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		CCE5A37205EEAE046887F1A6 /* [CP] Copy Pods Resources */ = {
+		828F7AF4152450A2FB4A5DF3 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -356,7 +339,24 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-NearpaySdkExample-NearpaySdkExampleTests/Pods-NearpaySdkExample-NearpaySdkExampleTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		EE19F6D9D4B164CB937432B3 /* [CP] Check Pods Manifest.lock */ = {
+		A9D47D5F0EA602BF644EB1B1 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-NearpaySdkExample/Pods-NearpaySdkExample-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-NearpaySdkExample/Pods-NearpaySdkExample-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-NearpaySdkExample/Pods-NearpaySdkExample-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B680492DDE455D41F1D7A7BF /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -430,7 +430,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3986964A4A504142779EFAFA /* Pods-NearpaySdkExample-NearpaySdkExampleTests.debug.xcconfig */;
+			baseConfigurationReference = C2087AF19FE8FA55F0C2BC79 /* Pods-NearpaySdkExample-NearpaySdkExampleTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -457,7 +457,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B1962F4B6C2C2CD577593DB8 /* Pods-NearpaySdkExample-NearpaySdkExampleTests.release.xcconfig */;
+			baseConfigurationReference = DAF9F9AF8C7DFAEEB8F14EFE /* Pods-NearpaySdkExample-NearpaySdkExampleTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -481,14 +481,12 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9B14923A4EC0E41034C9F9A4 /* Pods-NearpaySdkExample.debug.xcconfig */;
+			baseConfigurationReference = 9181090608E2A63504B3B065 /* Pods-NearpaySdkExample.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
-				EXCLUDED_ARCHS = "";
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64 i386";
 				INFOPLIST_FILE = NearpaySdkExample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -510,12 +508,11 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F3FB1E9A136B04F923B8180C /* Pods-NearpaySdkExample.release.xcconfig */;
+			baseConfigurationReference = 95F246684123CE77CBBF6C6C /* Pods-NearpaySdkExample.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64 i386";
 				INFOPLIST_FILE = NearpaySdkExample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

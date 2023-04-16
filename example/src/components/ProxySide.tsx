@@ -31,29 +31,10 @@ function Wrapped() {
         <Button
           title="connect"
           onPress={() => {
-            console.log('adasdsad');
-
-            nearpay
-              .connect({
-                type: NEARPAY_CONNECTOR.WS,
-                ip: '172.20.10.4',
-                port: '8080',
-              })
-              .then(() => {
-                console.log('success');
-              })
-              .catch((e) => {
-                console.log('err', e);
-              });
-          }}
-        />
-      </View>
-      <View>
-        <Button
-          title="pay"
-          onPress={() => {
-            nearpay.getTerminal().purchase({
-              amount: 100,
+            nearpay.connect({
+              type: NEARPAY_CONNECTOR.WS,
+              ip: '172.20.10.4',
+              port: '8080',
             });
           }}
         />
