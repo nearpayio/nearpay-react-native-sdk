@@ -5,6 +5,7 @@ import {
   EmbededNearpay,
   Environments,
 } from 'react-native-nearpay-sdk';
+import { v4 as uuidv4 } from 'uuid';
 
 // userenter,email,mobile,jwt
 let authtype = AuthenticationType.email;
@@ -35,10 +36,12 @@ export default function EmbededSide() {
     return embededNearpay
       .current!.purchase({
         amount: amount, // Required
-        customerReferenceNumber: 'uuyuyuyuy65565675', // Optional
-        enableReceiptUi: true, //Optional
-        enableReversal: true, //it will allow you to enable or disable the reverse button
-        finishTimeout: timeout, //Optional
+        transactionUUID: uuidv4(), //[Optional] speacify the transaction uuid
+        customerReferenceNumber: '', // [Optional] referance nuber for customer use only
+        enableReceiptUi: true, // [Optional] show the reciept in ui
+        enableReversalUi: true, //[Optional] enable reversal of transaction from ui
+        finishTimeout: timeout, //[Optional] finish timeout in seconds
+        enableUiDismiss: true, //[Optional] the ui is dimissible
       })
       .then((response) => {
         console.log(`=-=-=-= purchse success =-=-=-=`);
@@ -58,12 +61,14 @@ export default function EmbededSide() {
     embededNearpay
       .current!.refund({
         amount: amount, // [Required]
-        originalTransactionUUID: uuid, // [Required]
+        originalTransactionUUID: uuid, // [Required] the orginal trnasaction uuid that you want to reverse
+        transactionUUID: uuidv4(), //[Optional] speacify the transaction uuid
         customerReferenceNumber: 'rerretest123333333', //[Optional]
-        enableReceiptUi: true, // [Optional]
-        enableReversal: true, // [Optional]
-        editableReversalUI: true, // [Optional]
-        finishTimeout: timeout, // [Optional]
+        enableReceiptUi: true, // [Optional] show the reciept in ui
+        enableReversalUi: true, //[Optional] enable reversal of transaction from ui
+        editableReversalAmountUI: true, // [Optional] edit the reversal amount from uid
+        finishTimeout: timeout, //[Optional] finish timeout in seconds
+        enableUiDismiss: true, //[Optional] the ui is dimissible
         adminPin: '0000', // [Optional] when you add the admin pin here , the UI for admin pin won't be shown.
       })
       .then((response) => {
@@ -82,9 +87,10 @@ export default function EmbededSide() {
     console.log(`=-=-=-= reverse start =-=-=-=`);
     embededNearpay
       .current!.reverse({
-        transactionUUID: uuid, // Required
-        enableReceiptUi: true, // Optional
-        finishTimeout: timeout, // Optional
+        originalTransactionUUID: uuid, // [Required] the orginal trnasaction uuid that you want to reverse
+        enableReceiptUi: true, // [Optional] show the reciept in ui
+        finishTimeout: timeout, //[Optional] finish timeout in seconds
+        enableUiDismiss: true, //[Optional] the ui is dimissible
       })
       .then((response) => {
         console.log(`=-=-=-= reverse success =-=-=-=`);
@@ -103,8 +109,9 @@ export default function EmbededSide() {
     console.log(`=-=-=-= reconcile start =-=-=-=`);
     embededNearpay
       .current!.reconcile({
-        enableReceiptUi: true, // Optional
-        finishTimeout: timeout, // Optional
+        enableReceiptUi: true, // [Optional] show the reciept in ui
+        finishTimeout: timeout, //[Optional] finish timeout in seconds
+        enableUiDismiss: true, //[Optional] the ui is dimissible
         adminPin: '0000', // [optional] when you add the admin pin here , the UI for admin pin won't be shown.
       })
       .then((response) => {
@@ -185,9 +192,10 @@ export default function EmbededSide() {
     embededNearpay
       .current!.session({
         sessionID: 'ea5e30d4-54c7-4ad9-8372-f798259ff589', // Required
-        enableReceiptUi: true, //Optional
-        enableReversal: true,
-        finishTimeout: timeout, // Optional
+        enableReceiptUi: true, // [Optional] show the reciept in ui
+        enableReversalUi: true, //[Optional] enable reversal of transaction from ui
+        finishTimeout: timeout, //[Optional] finish timeout in seconds
+        enableUiDismiss: true, //[Optional] the ui is dimissible
       })
       .then((response) => {
         console.log(`=-=-=-= session success =-=-=-=`);

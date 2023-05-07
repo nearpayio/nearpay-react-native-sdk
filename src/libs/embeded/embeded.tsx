@@ -60,7 +60,7 @@ export class EmbededNearpay {
     transactionUUID,
     customerReferenceNumber = '',
     finishTimeout = 60,
-    enableReversal = true,
+    enableReversalUi = true,
     enableReceiptUi = true,
     enableUiDismiss = true,
   }: EmbededPurchaseOptions) {
@@ -68,7 +68,7 @@ export class EmbededNearpay {
       amount,
       customer_reference_number: customerReferenceNumber,
       finishTimeout,
-      enableReversal: enableReversal,
+      enableReversal: enableReversalUi,
       enableReceiptUi: enableReceiptUi,
       enableUiDismiss: enableUiDismiss,
       transaction_uuid: transactionUUID,
@@ -83,10 +83,10 @@ export class EmbededNearpay {
     transactionUUID,
     customerReferenceNumber = '',
     finishTimeout = 60,
-    enableReversal = true,
+    enableReversalUi = true,
     enableReceiptUi = true,
     enableUiDismiss = true,
-    editableReversalUI = true,
+    editableReversalAmountUI = true,
     adminPin,
   }: EmbededRefundOptions): Promise<string> {
     const data = {
@@ -95,10 +95,10 @@ export class EmbededNearpay {
       transaction_uuid: transactionUUID,
       customer_reference_number: customerReferenceNumber,
       finishTimeout,
-      enableReversal: enableReversal,
+      enableReversal: enableReversalUi,
       enableReceiptUi: enableReceiptUi,
       enableUiDismiss: enableUiDismiss,
-      enableEditableRefundAmountUi: editableReversalUI,
+      enableEditableRefundAmountUi: editableReversalAmountUI,
       ...(adminPin !== undefined ? { adminPin } : null),
     };
 
@@ -122,13 +122,13 @@ export class EmbededNearpay {
   }
 
   public reverse({
-    transactionUUID,
+    originalTransactionUUID,
     finishTimeout = 60,
     enableReceiptUi = true,
     enableUiDismiss = true,
   }: ReverseOptions): Promise<string> {
     const data = {
-      original_transaction_uuid: transactionUUID,
+      original_transaction_uuid: originalTransactionUUID,
       finishTimeout,
       enableUiDismiss: enableUiDismiss,
       enableReceiptUi: enableReceiptUi,
@@ -152,7 +152,7 @@ export class EmbededNearpay {
   public session({
     sessionID,
     finishTimeout = 60,
-    enableReversal = true,
+    enableReversalUi = true,
     enableReceiptUi = true,
     enableUiDismiss = true,
   }: SessionOptions): Promise<string> {
@@ -160,7 +160,7 @@ export class EmbededNearpay {
       sessionID,
       finishTimeout,
       enableUiDismiss: enableUiDismiss,
-      enableReversal: enableReversal,
+      enableReversal: enableReversalUi,
       enableReceiptUi: enableReceiptUi,
     };
 

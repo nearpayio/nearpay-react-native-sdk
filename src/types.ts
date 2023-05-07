@@ -27,7 +27,7 @@ export type EmbededPurchaseOptions = {
   transactionUUID?: string;
   customerReferenceNumber?: string;
   enableReceiptUi?: boolean;
-  enableReversal?: boolean;
+  enableReversalUi?: boolean;
   enableUiDismiss?: boolean;
   finishTimeout?: number;
 };
@@ -38,8 +38,8 @@ export type EmbededRefundOptions = {
   transactionUUID?: string;
   customerReferenceNumber?: string;
   enableReceiptUi?: boolean;
-  enableReversal?: boolean;
-  editableReversalUI?: boolean;
+  enableReversalUi?: boolean;
+  editableReversalAmountUI?: boolean;
   enableUiDismiss?: boolean;
   finishTimeout?: number;
   adminPin?: string;
@@ -53,7 +53,7 @@ export type EmbededReconcileOptions = {
 };
 
 export type ReverseOptions = {
-  transactionUUID: string;
+  originalTransactionUUID: string;
   enableReceiptUi?: boolean;
   finishTimeout?: number;
   enableUiDismiss?: boolean;
@@ -62,7 +62,7 @@ export type ReverseOptions = {
 export type SessionOptions = {
   sessionID: string;
   enableReceiptUi?: boolean;
-  enableReversal?: boolean;
+  enableReversalUi?: boolean;
   finishTimeout?: number;
   enableUiDismiss?: boolean;
 };
