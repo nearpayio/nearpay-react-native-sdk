@@ -57,7 +57,7 @@ export default function EmbededSide() {
     embededNearpay
       .current!.refund({
         amount: amount, // [Required]
-        transactionUUID: uuid, // [Required]
+        originalTransactionUUID: uuid, // [Required]
         customerReferenceNumber: 'rerretest123333333', //[Optional]
         enableReceiptUi: true, // [Optional]
         enableReversal: true, // [Optional]
