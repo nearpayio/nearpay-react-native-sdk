@@ -1,9 +1,10 @@
 {
   "compilerOptions": {
     "baseUrl": "./",
-    // "paths": {
-    //   "react-native-nearpay-sdk": ["./src/index"]
-    // },
+    "paths": {
+      "react-native-nearpay-sdk": ["./src/index"],
+      // "@nearpaydev/nearpay-ts-sdk": ["../Node/nearpay-sdk/src/index"]
+    },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "esModuleInterop": true,

@@ -9,7 +9,7 @@ import {
 // import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import MainSdk from '../components/MainSdk';
 import type { RemoteNearPay } from '../libs/remote/remoteNearpay';
-import type { CONNECTION_STATE } from 'test-nearpay-sdk-ramadan';
+import type { CONNECTION_STATE } from '@nearpaydev/nearpay-ts-sdk';
 // import BottomSheet from '@gorhom/bottom-sheet';
 
 type props = {

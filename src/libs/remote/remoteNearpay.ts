@@ -2,7 +2,7 @@ import {
   NearPay as BaseNearPay,
   ConnectionInfo,
   ProfileType,
-} from 'test-nearpay-sdk-ramadan';
+} from '@nearpaydev/nearpay-ts-sdk';
 import { Profile } from './profile';
 import { dbAddUser, dbGetLastUser } from '../db/db';
 

@@ -67,3 +67,5 @@ android/keystores/debug.keystore
 lib/
 
 android/java_pid28889.hprof 
+link.sh
+unlink.sh

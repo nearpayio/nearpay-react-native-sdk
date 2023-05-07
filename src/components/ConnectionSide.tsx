@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import ConnectionForm from './ConnectionForm';
 import { useNearpay } from '../context/NearpayContext';
-import { NEARPAY_CONNECTOR } from 'test-nearpay-sdk-ramadan';
+import { NEARPAY_CONNECTOR } from '@nearpaydev/nearpay-ts-sdk';
 import NpButton from './NpButton';
 
 export default function ConnectionSide() {

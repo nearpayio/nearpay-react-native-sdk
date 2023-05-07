@@ -21,7 +21,7 @@ import {
   ConnectionInfo,
   NEARPAY_CONNECTOR,
   WsConnectionInfo,
-} from 'test-nearpay-sdk-ramadan';
+} from '@nearpaydev/nearpay-ts-sdk';
 import { usersKey } from './keys';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import NpButton from './NpButton';
 import { useNearpay } from '../context/NearpayContext';
-import { CONNECTION_STATE } from 'test-nearpay-sdk-ramadan';
+import { CONNECTION_STATE } from '@nearpaydev/nearpay-ts-sdk';
 
 export default function AfterConnectionSide() {
   const { nearpay, connectionState } = useNearpay();

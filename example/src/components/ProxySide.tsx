@@ -38,7 +38,17 @@ function Wrapped() {
             });
           }}
         />
+        <Button
+          title="pay"
+          onPress={() => {
+            nearpay.cancelJob();
+            nearpay.getTerminal().purchase({
+              amount: 100,
+            });
+          }}
+        />
       </View>
+
       <View style={styles.containerrow}>
         <Text>connection state: {connectionState}</Text>
       </View>

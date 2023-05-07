@@ -14,7 +14,7 @@ export {
   REFUND_STATUS,
   TRANSACTIONS_QUERY_STATUS,
   TRANSACTION_QUERY_STATUS,
-} from 'test-nearpay-sdk-ramadan';
+} from '@nearpaydev/nearpay-ts-sdk';
 export type {
   ConnectionInfo,
   ConnectorInfo,
@@ -29,7 +29,7 @@ export type {
   RemoteReconciliationResponse,
   RemoteReversalResponse,
   ReversalOptions,
-} from 'test-nearpay-sdk-ramadan';
+} from '@nearpaydev/nearpay-ts-sdk';
 
 export { RemoteNearPay } from './libs/remote/remoteNearpay';
 export { EmbededNearpay } from './libs/embeded/embeded';

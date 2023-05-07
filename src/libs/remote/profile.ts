@@ -1,5 +1,5 @@
 import 'react-native-get-random-values';
-import type { ProfileType } from 'test-nearpay-sdk-ramadan';
+import type { ProfileType } from '@nearpaydev/nearpay-ts-sdk';
 import { v4 as uuid } from 'uuid';
 export const PROFILE_DB_KEY = 'PROFILE_KEY';
 

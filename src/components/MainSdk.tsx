@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { CONNECTION_STATE } from 'test-nearpay-sdk-ramadan';
+import { CONNECTION_STATE } from '@nearpaydev/nearpay-ts-sdk';
 import AfterConnectionSide from './AfterConnectionSide';
 import ConnectionSide from './ConnectionSide';
 import { useNearpay } from '../context/NearpayContext';
