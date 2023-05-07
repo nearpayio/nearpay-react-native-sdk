@@ -93,7 +93,8 @@ export default function EmbededSide() {
       })
       .catch((e) => {
         console.log(`=-=-=-= reverse failed =-=-=-=`);
-        console.log(`error: ${e}`);
+        console.log(`error:`);
+        console.log(JSON.stringify(e, null, 2));
         throw e;
       });
   }
@@ -142,7 +143,8 @@ export default function EmbededSide() {
       })
       .catch((e) => {
         console.log(`=-=-=-= purchse then reverse failed =-=-=-=`);
-        console.log(`error: ${e}`);
+        console.log(`error:`);
+        console.log(JSON.stringify(e, null, 2));
       });
   }
 

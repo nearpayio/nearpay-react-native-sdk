@@ -128,7 +128,7 @@ export class EmbededNearpay {
     enableUiDismiss = true,
   }: ReverseOptions): Promise<string> {
     const data = {
-      transaction_uuid: transactionUUID,
+      original_transaction_uuid: transactionUUID,
       finishTimeout,
       enableUiDismiss: enableUiDismiss,
       enableReceiptUi: enableReceiptUi,
