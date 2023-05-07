@@ -42,7 +42,8 @@ export default function EmbededSide() {
       })
       .then((response) => {
         console.log(`=-=-=-= purchse success =-=-=-=`);
-        console.log(`purchse respone: ${response}`);
+        console.log(`purchse respone:`);
+        console.log(JSON.stringify(response, null, 2));
         return response;
       })
       .catch((e) => {
@@ -121,7 +122,7 @@ export default function EmbededSide() {
     console.log(`=-=-=-= purchse then refund start =-=-=-=`);
     await doPurchase(100)
       .then((response) => {
-        var purchaseList = response.list;
+        var purchaseList = response.receipts;
         let uuid = purchaseList[0].transaction_uuid;
         doRefund(100, uuid);
       })
@@ -135,7 +136,7 @@ export default function EmbededSide() {
     console.log(`=-=-=-= purchse then reverse start =-=-=-=`);
     await doPurchase(100)
       .then((response) => {
-        var purchaseList = response.list;
+        var purchaseList = response.receipts;
         let uuid = purchaseList[0].transaction_uuid;
         doReverse(uuid);
       })
