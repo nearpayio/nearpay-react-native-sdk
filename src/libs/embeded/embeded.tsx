@@ -1,13 +1,26 @@
 import { NativeModules, Platform } from 'react-native';
 import type {
   SessionOptions,
-  ReverseOptions,
+  EmbededReverseOptions,
   EmbededReconcileOptions,
   EmbededRefundOptions,
   EmbededPurchaseOptions,
   InitializeOptions,
 } from '../../types';
-
+import { DeviceEventEmitter } from 'react-native';
+import { v4 } from 'uuid';
+import {
+  PurchaseErrorMap,
+  ReconcileErrorMap,
+  RefundErrorMap,
+  ReverseErrorMap,
+  SessionErrorMap,
+} from '../../models/error_status_map';
+import { ApiResponse } from '../../models/ApiResponse';
+import {
+  ReconciliationRecipt,
+  TransactionRecipt,
+} from '@nearpaydev/nearpay-ts-sdk';
 const LINKING_ERROR =
   `The package 'react-native-nearpay-plugin' doesn't seem to be linked. Make sure: \n\n` +
   Platform.select({ ios: "- You have run 'pod install'\n", default: '' }) +
@@ -40,19 +53,29 @@ export class EmbededNearpay {
       locale,
     };
 
-    NearpayPlugin.initialize(data);
+    this._callPluginMethod(NearpayPlugin.initialize, data, () => {});
   }
 
   private async _callPluginMethod(
-    methodFunc: () => Promise<any>
+    methodFunc: (data: any) => Promise<any>,
+    data: any,
+    callback: (response: ApiResponse) => void
   ): Promise<any> {
-    const res = JSON.parse(await methodFunc());
+    const channel_name = v4();
+    data['channel_name'] = channel_name;
+    console.log(data);
 
-    if (res.status === 200) {
-      return res;
-    } else {
-      throw res;
-    }
+    const xxxxxx = await methodFunc(data);
+    DeviceEventEmitter.addListener(channel_name, (response) => {
+      const JsonResponse: ApiResponse = JSON.parse(response);
+      callback(JsonResponse);
+    });
+
+    // if (res.status === 200) {
+    //   return res;
+    // } else {
+    //   throw res;
+    // }
   }
 
   public async purchase({
@@ -63,6 +86,8 @@ export class EmbededNearpay {
     enableReversalUi = true,
     enableReceiptUi = true,
     enableUiDismiss = true,
+    onPurchaseSuccess,
+    onPurchaseFailed,
   }: EmbededPurchaseOptions) {
     const data = {
       amount,
@@ -74,7 +99,16 @@ export class EmbededNearpay {
       transaction_uuid: transactionUUID,
     };
 
-    return this._callPluginMethod(async () => NearpayPlugin.purchase(data));
+    return this._callPluginMethod(NearpayPlugin.purchase, data, (response) => {
+      if (response.status === 200) {
+        onPurchaseSuccess !== undefined &&
+          onPurchaseSuccess(response.receipts as TransactionRecipt[]);
+      } else {
+        const err = PurchaseErrorMap(response);
+        onPurchaseFailed !== undefined && onPurchaseFailed(err);
+      }
+      console.log({ response });
+    });
   }
 
   public refund({
@@ -88,6 +122,8 @@ export class EmbededNearpay {
     enableUiDismiss = true,
     editableReversalAmountUI = true,
     adminPin,
+    onRefundSuccess,
+    onRefundFailed,
   }: EmbededRefundOptions): Promise<string> {
     const data = {
       amount,
@@ -102,7 +138,17 @@ export class EmbededNearpay {
       ...(adminPin !== undefined ? { adminPin } : null),
     };
 
-    return this._callPluginMethod(async () => NearpayPlugin.refund(data));
+    return this._callPluginMethod(NearpayPlugin.refund, data, (response) => {
+      if (response.status === 200) {
+        onRefundSuccess !== undefined &&
+          onRefundSuccess(response.receipts as TransactionRecipt[]);
+      } else {
+        const err = RefundErrorMap(response);
+        onRefundFailed !== undefined && onRefundFailed(err);
+      }
+
+      console.log({ refund: response });
+    });
   }
 
   public reconcile({
@@ -110,6 +156,8 @@ export class EmbededNearpay {
     enableReceiptUi = true,
     enableUiDismiss = true,
     adminPin,
+    onReconcileFailed,
+    onReconcileSuccess,
   }: EmbededReconcileOptions): Promise<string> {
     const data = {
       finishTimeout,
@@ -118,7 +166,15 @@ export class EmbededNearpay {
       ...(adminPin !== undefined ? { adminPin } : null),
     };
 
-    return this._callPluginMethod(async () => NearpayPlugin.reconcile(data));
+    return this._callPluginMethod(NearpayPlugin.reconcile, data, (response) => {
+      if (response.status === 200) {
+        onReconcileSuccess !== undefined &&
+          onReconcileSuccess(response.receipts as ReconciliationRecipt[]);
+      } else {
+        const err = ReconcileErrorMap(response);
+        onReconcileFailed !== undefined && onReconcileFailed(err);
+      }
+    });
   }
 
   public reverse({
@@ -126,7 +182,9 @@ export class EmbededNearpay {
     finishTimeout = 60,
     enableReceiptUi = true,
     enableUiDismiss = true,
-  }: ReverseOptions): Promise<string> {
+    onReverseFailed,
+    onReverseSuccess,
+  }: EmbededReverseOptions): Promise<string> {
     const data = {
       original_transaction_uuid: originalTransactionUUID,
       finishTimeout,
@@ -134,18 +192,30 @@ export class EmbededNearpay {
       enableReceiptUi: enableReceiptUi,
     };
 
-    return this._callPluginMethod(async () => NearpayPlugin.reverse(data));
+    return this._callPluginMethod(NearpayPlugin.reverse, data, (response) => {
+      if (response.status === 200) {
+        onReverseSuccess !== undefined &&
+          onReverseSuccess(response.receipts as TransactionRecipt[]);
+      } else {
+        const err = ReverseErrorMap(response);
+        onReverseFailed !== undefined && onReverseFailed(err);
+      }
+    });
   }
 
   public logout(): Promise<string> {
-    return this._callPluginMethod(async () =>
-      NearpayPlugin.logout({ __dummy__: 1 })
+    return this._callPluginMethod(
+      NearpayPlugin.logout,
+      { __dummy__: 1 },
+      (response) => {}
     );
   }
 
   public setup(): Promise<string> {
-    return this._callPluginMethod(async () =>
-      NearpayPlugin.setup({ __dummy__: 1 })
+    return this._callPluginMethod(
+      NearpayPlugin.setup,
+      { __dummy__: 1 },
+      (response) => {}
     );
   }
 
@@ -155,6 +225,9 @@ export class EmbededNearpay {
     enableReversalUi = true,
     enableReceiptUi = true,
     enableUiDismiss = true,
+    onSessionClose,
+    onSessionFailed,
+    onSessionOpen,
   }: SessionOptions): Promise<string> {
     const data = {
       sessionID,
@@ -164,12 +237,24 @@ export class EmbededNearpay {
       enableReceiptUi: enableReceiptUi,
     };
 
-    return this._callPluginMethod(async () => NearpayPlugin.session(data));
+    return this._callPluginMethod(NearpayPlugin.session, data, (response) => {
+      if (response.status === 200) {
+        onSessionOpen !== undefined &&
+          onSessionOpen(response.receipts as TransactionRecipt[]);
+      } else if (response.status === 500) {
+        onSessionClose !== undefined && onSessionClose(response.session!);
+      } else {
+        const err = SessionErrorMap(response);
+        onSessionFailed !== undefined && onSessionFailed(err);
+      }
+    });
   }
 
   public receiptToImage(inputParams: any): Promise<string> {
-    return this._callPluginMethod(async () =>
-      NearpayPlugin.recieptToImage(inputParams)
+    return this._callPluginMethod(
+      NearpayPlugin.recieptToImage,
+      inputParams,
+      (response) => {}
     );
   }
 }

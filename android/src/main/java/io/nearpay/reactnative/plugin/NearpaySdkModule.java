@@ -18,6 +18,7 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.module.annotations.ReactModule;
 import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.modules.core.DeviceEventManagerModule;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,6 +27,7 @@ import org.json.JSONObject;
 import io.nearpay.reactnative.plugin.operations.BaseOperation;
 import io.nearpay.reactnative.plugin.operations.InitializeOperation;
 import io.nearpay.reactnative.plugin.operations.OperatorFactory;
+import io.nearpay.reactnative.plugin.sender.NearpaySender;
 import io.nearpay.sdk.Environments;
 import io.nearpay.sdk.NearPay;
 import io.nearpay.sdk.utils.enums.AuthenticationData;
@@ -60,6 +62,8 @@ import io.nearpay.sdk.utils.listeners.SessionListener;
 @ReactModule(name = NearpaySdkModule.NAME)
 public class NearpaySdkModule extends ReactContextBaseJavaModule {
   public static final String NAME = "NearpaySdk";
+
+  private ReactApplicationContext reactContext;
   private NearPay nearPay;
   private Context context;
   private String jwtKey = "jwt";
@@ -69,11 +73,10 @@ public class NearpaySdkModule extends ReactContextBaseJavaModule {
   PluginProvider provider = new PluginProvider();
   public OperatorFactory operatorFactory = new OperatorFactory(provider);
 
-
   public NearpaySdkModule(ReactApplicationContext reactContext) {
     super(reactContext);
     this.provider.getNearpayLib().context = reactContext.getApplicationContext();
-
+    this.reactContext = reactContext;
   }
 
   @Override
@@ -82,7 +85,7 @@ public class NearpaySdkModule extends ReactContextBaseJavaModule {
     return NAME;
   }
 
-    public AuthenticationData getAuthType(String authType, String inputValue) {
+  public AuthenticationData getAuthType(String authType, String inputValue) {
     AuthenticationData authentication = authType.equals("userenter") ? AuthenticationData.UserEnter.INSTANCE
         : authType.equals("email") ? new AuthenticationData.Email(inputValue)
             : authType.equals("mobile") ? new AuthenticationData.Mobile(inputValue)
@@ -96,23 +99,31 @@ public class NearpaySdkModule extends ReactContextBaseJavaModule {
     return isAuthValidate;
   }
 
-
   private void runOperation(String operationName, ReadableMap params, Promise reactPromise) {
-    Log.i("ReactNative", "=-=-=-=-=-=-= -=-=-=-=-=-= -=-=-=-=-= " + operationName);
     Map args = NearPayUtil.toMap(params);
-    CompletableFuture<Map> promise = new CompletableFuture<>();
     provider.getArgsFilter().filter(args);
 
-    promise.thenAccept(res -> {
-      // importtant: we must return a string, because react native doesnt support maps
-      // to be sent like flutter
-      reactPromise.resolve(this.toJson(res));
-    });
+    String channelName = args.get("channel_name").toString();
+    NearpaySender sender = (Object data) -> {
+      EmitEvent(channelName, this.toJson(data));
+    };
+
+    // CompletableFuture<Map> promise = new CompletableFuture<>();
+    // provider.getArgsFilter().filter(args);
+    //
+    // promise.thenAccept(res -> {
+    // // importtant: we must return a string, because react native doesnt support
+    // maps
+    // // to be sent like flutter
+    // reactPromise.resolve(this.toJson(res));
+    // });
+
+    reactPromise.resolve("");
 
     BaseOperation operation = operatorFactory.getOperation(operationName)
         .orElseThrow(() -> new IllegalArgumentException("Invalid Operator"));
 
-    operation.run(args, promise);
+    operation.run(args, sender);
   }
 
   @ReactMethod
@@ -127,7 +138,7 @@ public class NearpaySdkModule extends ReactContextBaseJavaModule {
 
   }
 
-  private static String toJson(Map<String, Object> paramMap) {
+  private static String toJson(Object paramMap) {
     Gson gson = new Gson();
     return gson.toJson(paramMap);
   }
@@ -194,6 +205,12 @@ public class NearpaySdkModule extends ReactContextBaseJavaModule {
   @ReactMethod
   public void receiptToImage(ReadableMap params, Promise promise) {
     // JSONObject options = NearPayUtil.readableMapToJson(params);
+  }
+
+  private void EmitEvent(String eventName, Object data) {
+    this.reactContext
+        .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+        .emit(eventName, data);
   }
 
 }

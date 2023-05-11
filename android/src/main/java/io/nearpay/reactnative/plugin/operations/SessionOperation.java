@@ -13,6 +13,7 @@ import java.util.concurrent.CompletableFuture;
 import io.nearpay.reactnative.plugin.ErrorStatus;
 import io.nearpay.reactnative.plugin.NearpayLib;
 import io.nearpay.reactnative.plugin.PluginProvider;
+import io.nearpay.reactnative.plugin.sender.NearpaySender;
 import io.nearpay.sdk.data.models.Session;
 import io.nearpay.sdk.data.models.TransactionReceipt;
 import io.nearpay.sdk.utils.ReceiptUtilsKt;
@@ -34,7 +35,7 @@ public class SessionOperation extends BaseOperation {
         return response;
     }
 
-    private void doSession(Map args, CompletableFuture<Map> promise) {
+    private void doSession(Map args, NearpaySender sender) {
         String sessionID = (String) args.get("sessionID");
         Long finishTimeout = (Long) args.get("finishTimeout");
         Boolean enableReceiptUi = (Boolean) args.get("enableReceiptUi");
@@ -46,70 +47,45 @@ public class SessionOperation extends BaseOperation {
                 new SessionListener() {
                     @Override
                     public void onSessionClosed(@Nullable Session session) {
-                        // when the session is closed
-                        // Map<String, Object> responseDict = sessionResponse(session, "Session
-                        // Closed");
-
-                        // Map<String, Object> responseDict = sessionResponse(session, "Session
-                        // Closed");
-                        Map<String, Object> responseDict = sessionToJson(session);
-                        promise.complete(responseDict);
+                        Map<String, Object> responseDict = NearpayLib.SessionResponse(ErrorStatus.session_closed_code,
+                                "", session);
+                        sender.send(responseDict);
                     }
 
                     @Override
                     public void onSessionOpen(@Nullable List<TransactionReceipt> list) {
-                        // when the session is open , you can get the receipt by using
-                        // TransactionReceipt
-                        List<Map<String, Object>> transactionList = new ArrayList<>();
-                        for (TransactionReceipt transReceipt : list) {
-                            String jsonStr = ReceiptUtilsKt.toJson(transReceipt);
-                            transactionList.add(NearpayLib.JSONStringToMap(jsonStr));
-                        }
-                        Map<String, Object> responseDict = NearpayLib.commonResponse(ErrorStatus.success_code,
-                                "Session Success");
-                        responseDict.put("list", transactionList);
-                        promise.complete(responseDict);
+                        Map<String, Object> response = NearpayLib.ApiResponse(ErrorStatus.session_opened_code, "",
+                                list);
+                        sender.send(response);
                     }
 
                     @Override
                     public void onSessionFailed(@NonNull SessionFailure sessionFailure) {
-                        if (sessionFailure instanceof SessionFailure.AuthenticationFailed) {
-                            // when the authentication is failed
-                            String messageResp = ((SessionFailure.AuthenticationFailed) sessionFailure).toString();
-                            String message = messageResp != "" && messageResp.length() > 0 ? messageResp
-                                    : ErrorStatus.authentication_failed_message;
-                            Map<String, Object> paramMap = NearpayLib.commonResponse(ErrorStatus.auth_failed_code,
-                                    message);
-                            promise.complete(paramMap);
-                            // if (authTypeShared.equalsIgnoreCase(jwtKey)) {
-                            // provider.getNearpayLib().nearpay
-                            // .updateAuthentication(getAuthType(authTypeShared, authTypeShared));
-                            // }
+                        int status = ErrorStatus.general_failure_code;
+                        String message = null;
+                        List<TransactionReceipt> receipts = null;
 
+                        if (sessionFailure instanceof SessionFailure.AuthenticationFailed) {
+                            message = ((SessionFailure.AuthenticationFailed) sessionFailure).getMessage();
+                            status = ErrorStatus.auth_failed_code;
                         } else if (sessionFailure instanceof SessionFailure.GeneralFailure) {
-                            // when there is general error .
-                            Map<String, Object> paramMap = NearpayLib.commonResponse(ErrorStatus.general_failure_code,
-                                    ErrorStatus.general_messsage);
-                            promise.complete(paramMap);
+                            status = ErrorStatus.general_failure_code;
+
                         } else if (sessionFailure instanceof SessionFailure.FailureMessage) {
                             // when there is FailureMessage
-                            Map<String, Object> paramMap = NearpayLib.commonResponse(ErrorStatus.failure_code,
-                                    ErrorStatus.failure_messsage);
-                            promise.complete(paramMap);
+                            status = ErrorStatus.failure_code;
+                            message = ((SessionFailure.FailureMessage) sessionFailure).getMessage();
                         } else if (sessionFailure instanceof SessionFailure.InvalidStatus) {
-                            // you can get the status using the following code
-                            String messageResp = ((SessionFailure.InvalidStatus) sessionFailure).toString();
-                            String message = messageResp != "" && messageResp.length() > 0 ? messageResp
-                                    : ErrorStatus.invalid_status_messsage;
-                            Map<String, Object> paramMap = NearpayLib.commonResponse(ErrorStatus.invalid_code, message);
-                            promise.complete(paramMap);
+                            status = ErrorStatus.invalid_code;
                         }
+                        Map response = NearpayLib.ApiResponse(status, message, receipts);
+                        sender.send(response);
                     }
                 });
     }
 
     @Override
-    public void run(Map args, CompletableFuture<Map> promise) {
-        doSession(args, promise);
+    public void run(Map args, NearpaySender sender) {
+        doSession(args, sender);
     }
 }

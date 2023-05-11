@@ -128,16 +128,20 @@ export default function EmbededSide() {
 
   async function doPurchaseAndRefund() {
     console.log(`=-=-=-= purchse then refund start =-=-=-=`);
-    await doPurchase(100)
-      .then((response) => {
-        var purchaseList = response.receipts;
-        let uuid = purchaseList[0].transaction_uuid;
-        doRefund(100, uuid);
-      })
-      .catch((e) => {
-        console.log(`=-=-=-= purchse then refund failed =-=-=-=`);
-        console.log(`error: ${e}`);
-      });
+
+    await embededNearpay.current!.purchase({
+      amount: 1000,
+    });
+    // await doPurchase(100)
+    //   .then((response) => {
+    //     var purchaseList = response.receipts;
+    //     let uuid = purchaseList[0].transaction_uuid;
+    //     doRefund(100, uuid);
+    //   })
+    //   .catch((e) => {
+    //     console.log(`=-=-=-= purchse then refund failed =-=-=-=`);
+    //     console.log(`error: ${e}`);
+    //   });
   }
 
   async function doPurchaseAndReverse() {

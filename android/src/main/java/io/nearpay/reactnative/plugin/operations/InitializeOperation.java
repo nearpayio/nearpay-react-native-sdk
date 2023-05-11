@@ -9,6 +9,7 @@ import java.util.concurrent.CompletableFuture;
 import io.nearpay.reactnative.plugin.ErrorStatus;
 import io.nearpay.reactnative.plugin.NearpayLib;
 import io.nearpay.reactnative.plugin.PluginProvider;
+import io.nearpay.reactnative.plugin.sender.NearpaySender;
 import io.nearpay.sdk.Environments;
 import io.nearpay.sdk.NearPay;
 
@@ -18,7 +19,7 @@ public class InitializeOperation extends BaseOperation {
         super(provider);
     }
 
-    public Map doInitialization(Map args) {
+    public void doInitialization(Map args, NearpaySender sender) {
         String authvalue = args.get("authvalue") == null ? "" : args.get("authvalue").toString();
         String authType = args.get("authtype") == null ? "" : args.get("authtype").toString();
         this.provider.getNearpayLib().authTypeShared = authType;
@@ -47,13 +48,13 @@ public class InitializeOperation extends BaseOperation {
                     "NearPay initialized");
         }
 
-        return response;
+        sender.send(response);
 
     }
 
     @SuppressLint("NewApi")
     @Override
-    public void run(Map args, CompletableFuture<Map> promise) {
-        promise.complete(doInitialization(args));
+    public void run(Map args, NearpaySender sender) {
+        doInitialization(args, sender);
     }
 }

@@ -2,15 +2,20 @@ package io.nearpay.reactnative.plugin;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
+import io.nearpay.sdk.Environments;
 import io.nearpay.sdk.NearPay;
 import io.nearpay.sdk.data.models.ReconciliationReceipt;
+import io.nearpay.sdk.data.models.Session;
 import io.nearpay.sdk.data.models.TransactionReceipt;
 import io.nearpay.sdk.utils.enums.AuthenticationData;
 
@@ -38,6 +43,13 @@ public class NearpayLib {
     public boolean isAuthInputValidation(String authType, String inputValue) {
         boolean isAuthValidate = authType.equals("userenter") ? true : inputValue == "" ? false : true;
         return isAuthValidate;
+    }
+
+    public static Map<String, Object> commonResponse(int responseCode, String message) {
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("status", responseCode);
+        paramMap.put("message", message);
+        return paramMap;
     }
 
     public static Map<String, Object> ApiResponse(int responseCode, String message, List<TransactionReceipt> receipts) {
@@ -75,10 +87,19 @@ public class NearpayLib {
         return paramMap;
     }
 
-    public static Map<String, Object> commonResponse(int responseCode, String message) {
+    public static Map<String, Object> SessionResponse(int responseCode, String message, Session session) {
         Map<String, Object> paramMap = new HashMap<>();
+        Map<String, Object> sessionJson = new HashMap<>();
+        if (session != null) {
+            Gson gson = new Gson(); // Or use new GsonBuilder().create();
+            String json = gson.toJson(session); // serializes target to Json return
+            sessionJson = NearpayLib.JSONStringToMap(json);
+
+        }
+
         paramMap.put("status", responseCode);
         paramMap.put("message", message);
+        paramMap.put("session", sessionJson);
         return paramMap;
     }
 

@@ -41,6 +41,6 @@ export {
   EmbededPurchaseOptions,
   EmbededReconcileOptions,
   EmbededRefundOptions,
-  ReverseOptions,
+  EmbededReverseOptions as ReverseOptions,
   SessionOptions,
 } from './types';

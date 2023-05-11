@@ -1,3 +1,16 @@
+import {
+  ReconciliationRecipt,
+  TransactionRecipt,
+} from '@nearpaydev/nearpay-ts-sdk';
+import {
+  PurchaseError,
+  ReconcileError,
+  RefundError,
+  ReverseError,
+  SessionError,
+} from './models/errors';
+import { SessionType } from './models/Session';
+
 export enum Environments {
   sandbox = 'sandbox',
   testing = 'testing',
@@ -30,6 +43,8 @@ export type EmbededPurchaseOptions = {
   enableReversalUi?: boolean;
   enableUiDismiss?: boolean;
   finishTimeout?: number;
+  onPurchaseSuccess?: (receipts: TransactionRecipt[]) => void;
+  onPurchaseFailed?: (error: PurchaseError) => void;
 };
 
 export type EmbededRefundOptions = {
@@ -43,6 +58,8 @@ export type EmbededRefundOptions = {
   enableUiDismiss?: boolean;
   finishTimeout?: number;
   adminPin?: string;
+  onRefundSuccess?: (receipts: TransactionRecipt[]) => void;
+  onRefundFailed?: (error: RefundError) => void;
 };
 
 export type EmbededReconcileOptions = {
@@ -50,13 +67,17 @@ export type EmbededReconcileOptions = {
   finishTimeout?: number;
   adminPin?: string;
   enableUiDismiss?: boolean;
+  onReconcileSuccess?: (receipts: ReconciliationRecipt[]) => void;
+  onReconcileFailed?: (error: ReconcileError) => void;
 };
 
-export type ReverseOptions = {
+export type EmbededReverseOptions = {
   originalTransactionUUID: string;
   enableReceiptUi?: boolean;
   finishTimeout?: number;
   enableUiDismiss?: boolean;
+  onReverseSuccess?: (receipts: TransactionRecipt[]) => void;
+  onReverseFailed?: (error: ReverseError) => void;
 };
 
 export type SessionOptions = {
@@ -65,4 +86,7 @@ export type SessionOptions = {
   enableReversalUi?: boolean;
   finishTimeout?: number;
   enableUiDismiss?: boolean;
+  onSessionOpen?: (receipts: TransactionRecipt[]) => void;
+  onSessionClose?: (session: SessionType) => void;
+  onSessionFailed?: (error: SessionError) => void;
 };
