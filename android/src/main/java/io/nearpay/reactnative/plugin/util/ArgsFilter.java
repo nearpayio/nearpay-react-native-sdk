@@ -15,14 +15,11 @@ public class ArgsFilter {
 
     // return every map entry to its default
     public Map filter(Map args) {
-        Log.i("ReactNative", "=-=-=-=-=-=-= -=-=-=-=-=-= -=-=-=-=-= start filter");
 
         Long amount;
         if (args.get("amount") == null) {
             amount = 1L;
         } else {
-            Log.i("ReactNative", "=-=-=-=-=-=-= -=-=-=-=-=-= -=-=-=-=-= cat to long");
-
             amount = Long.valueOf((Integer) args.get("amount"));
         }
         args.put("amount", amount);

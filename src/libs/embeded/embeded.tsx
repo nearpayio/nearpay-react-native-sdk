@@ -63,7 +63,6 @@ export class EmbededNearpay {
   ): Promise<any> {
     const channel_name = v4();
     data['channel_name'] = channel_name;
-    console.log(data);
 
     const xxxxxx = await methodFunc(data);
     DeviceEventEmitter.addListener(channel_name, (response) => {
@@ -107,7 +106,6 @@ export class EmbededNearpay {
         const err = PurchaseErrorMap(response);
         onPurchaseFailed !== undefined && onPurchaseFailed(err);
       }
-      console.log({ response });
     });
   }
 
@@ -146,8 +144,6 @@ export class EmbededNearpay {
         const err = RefundErrorMap(response);
         onRefundFailed !== undefined && onRefundFailed(err);
       }
-
-      console.log({ refund: response });
     });
   }
 

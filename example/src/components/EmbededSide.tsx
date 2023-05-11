@@ -33,130 +33,159 @@ export default function EmbededSide() {
 
   async function doPurchase(amount: number) {
     console.log(`=-=-=-= purchse start =-=-=-=`);
-    return embededNearpay
-      .current!.purchase({
-        amount: amount, // Required
-        transactionUUID: uuidv4(), //[Optional] speacify the transaction uuid
-        customerReferenceNumber: '', // [Optional] referance nuber for customer use only
-        enableReceiptUi: true, // [Optional] show the reciept in ui
-        enableReversalUi: true, //[Optional] enable reversal of transaction from ui
-        finishTimeout: timeout, //[Optional] finish timeout in seconds
-        enableUiDismiss: true, //[Optional] the ui is dimissible
-      })
-      .then((response) => {
+    return embededNearpay.current!.purchase({
+      amount: amount, // Required
+      transactionUUID: uuidv4(), //[Optional] speacify the transaction uuid
+      customerReferenceNumber: '', // [Optional] referance nuber for customer use only
+      enableReceiptUi: true, // [Optional] show the reciept in ui
+      enableReversalUi: true, //[Optional] enable reversal of transaction from ui
+      finishTimeout: timeout, //[Optional] finish timeout in seconds
+      enableUiDismiss: true, //[Optional] the ui is dimissible
+      onPurchaseSuccess: (reciepts) => {
         console.log(`=-=-=-= purchse success =-=-=-=`);
-        console.log(`purchse respone:`);
-        console.log(JSON.stringify(response, null, 2));
-        return response;
-      })
-      .catch((e) => {
+        console.log({ reciepts });
+      },
+      onPurchaseFailed: (err) => {
         console.log(`=-=-=-= purchse failed =-=-=-=`);
-        console.log(`error: ${e}`);
-        throw e;
-      });
+      },
+    });
   }
 
-  function doRefund(amount: number, uuid: string) {
-    console.log(`=-=-=-= refund start =-=-=-=`);
-    embededNearpay
-      .current!.refund({
-        amount: amount, // [Required]
-        originalTransactionUUID: uuid, // [Required] the orginal trnasaction uuid that you want to reverse
-        transactionUUID: uuidv4(), //[Optional] speacify the transaction uuid
-        customerReferenceNumber: 'rerretest123333333', //[Optional]
-        enableReceiptUi: true, // [Optional] show the reciept in ui
-        enableReversalUi: true, //[Optional] enable reversal of transaction from ui
-        editableReversalAmountUI: true, // [Optional] edit the reversal amount from uid
-        finishTimeout: timeout, //[Optional] finish timeout in seconds
-        enableUiDismiss: true, //[Optional] the ui is dimissible
-        adminPin: '0000', // [Optional] when you add the admin pin here , the UI for admin pin won't be shown.
-      })
-      .then((response) => {
-        console.log(`=-=-=-= refund success =-=-=-=`);
-        console.log(`refund respone: ${response}`);
-        return response;
-      })
-      .catch((e) => {
-        console.log(`=-=-=-= refund failed =-=-=-=`);
-        console.log(`error: ${e}`);
-        throw e;
-      });
-  }
+  // function doRefund(amount: number, uuid: string) {
+  //   console.log(`=-=-=-= refund start =-=-=-=`);
+  //   embededNearpay
+  //     .current!.refund({
+  //       amount: amount, // [Required]
+  //       originalTransactionUUID: uuid, // [Required] the orginal trnasaction uuid that you want to reverse
+  //       transactionUUID: uuidv4(), //[Optional] speacify the transaction uuid
+  //       customerReferenceNumber: 'rerretest123333333', //[Optional]
+  //       enableReceiptUi: true, // [Optional] show the reciept in ui
+  //       enableReversalUi: true, //[Optional] enable reversal of transaction from ui
+  //       editableReversalAmountUI: true, // [Optional] edit the reversal amount from uid
+  //       finishTimeout: timeout, //[Optional] finish timeout in seconds
+  //       enableUiDismiss: true, //[Optional] the ui is dimissible
+  //       adminPin: '0000', // [Optional] when you add the admin pin here , the UI for admin pin won't be shown.
+  //     })
+  //     .then((response) => {
+  //       console.log(`=-=-=-= refund success =-=-=-=`);
+  //       console.log(`refund respone: ${response}`);
+  //       return response;
+  //     })
+  //     .catch((e) => {
+  //       console.log(`=-=-=-= refund failed =-=-=-=`);
+  //       console.log(`error: ${e}`);
+  //       throw e;
+  //     });
+  // }
 
-  function doReverse(uuid: string) {
-    console.log(`=-=-=-= reverse start =-=-=-=`);
-    embededNearpay
-      .current!.reverse({
-        originalTransactionUUID: uuid, // [Required] the orginal trnasaction uuid that you want to reverse
-        enableReceiptUi: true, // [Optional] show the reciept in ui
-        finishTimeout: timeout, //[Optional] finish timeout in seconds
-        enableUiDismiss: true, //[Optional] the ui is dimissible
-      })
-      .then((response) => {
-        console.log(`=-=-=-= reverse success =-=-=-=`);
-        console.log(`reverse respone: ${response}`);
-        return response;
-      })
-      .catch((e) => {
-        console.log(`=-=-=-= reverse failed =-=-=-=`);
-        console.log(`error:`);
-        console.log(JSON.stringify(e, null, 2));
-        throw e;
-      });
-  }
+  // function doReverse(uuid: string) {
+  //   console.log(`=-=-=-= reverse start =-=-=-=`);
+  //   embededNearpay
+  //     .current!.reverse({
+  //       originalTransactionUUID: uuid, // [Required] the orginal trnasaction uuid that you want to reverse
+  //       enableReceiptUi: true, // [Optional] show the reciept in ui
+  //       finishTimeout: timeout, //[Optional] finish timeout in seconds
+  //       enableUiDismiss: true, //[Optional] the ui is dimissible
+  //     })
+  //     .then((response) => {
+  //       console.log(`=-=-=-= reverse success =-=-=-=`);
+  //       console.log(`reverse respone: ${response}`);
+  //       return response;
+  //     })
+  //     .catch((e) => {
+  //       console.log(`=-=-=-= reverse failed =-=-=-=`);
+  //       console.log(`error:`);
+  //       console.log(JSON.stringify(e, null, 2));
+  //       throw e;
+  //     });
+  // }
 
   function doReconcile() {
     console.log(`=-=-=-= reconcile start =-=-=-=`);
-    embededNearpay
-      .current!.reconcile({
-        enableReceiptUi: true, // [Optional] show the reciept in ui
-        finishTimeout: timeout, //[Optional] finish timeout in seconds
-        enableUiDismiss: true, //[Optional] the ui is dimissible
-        adminPin: '0000', // [optional] when you add the admin pin here , the UI for admin pin won't be shown.
-      })
-      .then((response) => {
+    embededNearpay.current!.reconcile({
+      enableReceiptUi: true, // [Optional] show the reciept in ui
+      finishTimeout: timeout, //[Optional] finish timeout in seconds
+      enableUiDismiss: true, //[Optional] the ui is dimissible
+      adminPin: '0000', // [optional] when you add the admin pin here , the UI for admin pin won't be shown.
+      onReconcileSuccess: (reciepts) => {
         console.log(`=-=-=-= reconcile success =-=-=-=`);
-        console.log(`reconcile respone: ${response}`);
-        return response;
-      })
-      .catch((e) => {
+        console.log(`reconcile respone: `, reciepts);
+      },
+      onReconcileFailed: (err) => {
         console.log(`=-=-=-= reconcile failed =-=-=-=`);
-        console.log(`error: ${e}`);
-        throw e;
-      });
+      },
+    });
   }
 
   async function doPurchaseAndRefund() {
     console.log(`=-=-=-= purchse then refund start =-=-=-=`);
-
     await embededNearpay.current!.purchase({
       amount: 1000,
+      onPurchaseSuccess: (receipts) => {
+        console.log(`=-=-=-= Purcahse success =-=-=-=`);
+        console.log({
+          purchseReceipts: receipts,
+        });
+        const uuid = receipts[0]?.transaction_uuid!;
+        embededNearpay.current!.refund({
+          amount: 1000,
+          originalTransactionUUID: uuid,
+          transactionUUID: uuidv4(), //[Optional] speacify the transaction uuid
+          customerReferenceNumber: 'rerretest123333333', //[Optional]
+          enableReceiptUi: true, // [Optional] show the reciept in ui
+          enableReversalUi: true, //[Optional] enable reversal of transaction from ui
+          editableReversalAmountUI: true, // [Optional] edit the reversal amount from uid
+          finishTimeout: timeout, //[Optional] finish timeout in seconds
+          enableUiDismiss: true, //[Optional] the ui is dimissible
+          adminPin: '0000', // [Optional] when you add the admin pin here , the UI for admin pin won't be shown.
+
+          onRefundSuccess: (receitps) => {
+            console.log(`=-=-=-= Refund success =-=-=-=`);
+            console.log({
+              refundReceipts: receipts,
+            });
+          },
+          onRefundFailed: (err) => {
+            console.log(`=-=-=-= Refund failed =-=-=-=`);
+          },
+        });
+      },
+      onPurchaseFailed: (err) => {
+        console.log(`=-=-=-= Purcahse failed =-=-=-=`);
+      },
     });
-    // await doPurchase(100)
-    //   .then((response) => {
-    //     var purchaseList = response.receipts;
-    //     let uuid = purchaseList[0].transaction_uuid;
-    //     doRefund(100, uuid);
-    //   })
-    //   .catch((e) => {
-    //     console.log(`=-=-=-= purchse then refund failed =-=-=-=`);
-    //     console.log(`error: ${e}`);
-    //   });
   }
 
   async function doPurchaseAndReverse() {
     console.log(`=-=-=-= purchse then reverse start =-=-=-=`);
-    await doPurchase(100)
-      .then((response) => {
-        var purchaseList = response.receipts;
-        let uuid = purchaseList[0].transaction_uuid;
-        doReverse(uuid);
-      })
-      .catch((e) => {
-        console.log(`=-=-=-= purchse then reverse failed =-=-=-=`);
-        console.log(`error:`);
-        console.log(JSON.stringify(e, null, 2));
-      });
+    await embededNearpay.current!.purchase({
+      amount: 1000,
+      onPurchaseSuccess: (receipts) => {
+        console.log(`=-=-=-= Purcahse success =-=-=-=`);
+        console.log({
+          purchseReceipts: receipts,
+        });
+        const uuid = receipts[0]?.transaction_uuid!;
+        embededNearpay.current!.reverse({
+          originalTransactionUUID: uuid,
+          enableReceiptUi: true, // [Optional] show the reciept in ui
+          finishTimeout: timeout, //[Optional] finish timeout in seconds
+          enableUiDismiss: true, //[Optional] the ui is dimissible
+          onReverseSuccess: (receitps) => {
+            console.log(`=-=-=-= Reverse success =-=-=-=`);
+            console.log({
+              ReverseReceipts: receipts,
+            });
+          },
+          onReverseFailed: (err) => {
+            console.log(`=-=-=-= Reverse failed =-=-=-=`);
+          },
+        });
+      },
+      onPurchaseFailed: (err) => {
+        console.log(`=-=-=-= Purcahse failed =-=-=-=`);
+      },
+    });
   }
 
   function doLogout() {
