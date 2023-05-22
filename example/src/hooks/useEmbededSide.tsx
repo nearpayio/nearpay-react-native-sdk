@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import { Platform } from 'react-native';
 import {
   AuthenticationType,
