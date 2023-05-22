@@ -2,6 +2,7 @@ package io.nearpay.reactnative.plugin.operations;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -46,20 +47,14 @@ public class SessionOperation extends BaseOperation {
                 new SessionListener() {
                     @Override
                     public void onSessionClosed(@Nullable Session session) {
-                        // when the session is closed
-                        // Map<String, Object> responseDict = sessionResponse(session, "Session
-                        // Closed");
-
-                        // Map<String, Object> responseDict = sessionResponse(session, "Session
-                        // Closed");
+                        // Log.i("ReactNative", "=-=-=-=-=-=-=-= session closed =-=-=-=-=-==");
                         Map<String, Object> responseDict = sessionToJson(session);
                         promise.complete(responseDict);
                     }
 
                     @Override
                     public void onSessionOpen(@Nullable List<TransactionReceipt> list) {
-                        // when the session is open , you can get the receipt by using
-                        // TransactionReceipt
+                        // Log.i("ReactNative", "=-=-=-=-=-=-=-= session opened =-=-=-=-=-==");
                         List<Map<String, Object>> transactionList = new ArrayList<>();
                         for (TransactionReceipt transReceipt : list) {
                             String jsonStr = ReceiptUtilsKt.toJson(transReceipt);
@@ -73,6 +68,8 @@ public class SessionOperation extends BaseOperation {
 
                     @Override
                     public void onSessionFailed(@NonNull SessionFailure sessionFailure) {
+                        // Log.i("ReactNative", "=-=-=-=-=-=-=-= session failure =-=-=-=-=-==");
+
                         if (sessionFailure instanceof SessionFailure.AuthenticationFailed) {
                             // when the authentication is failed
                             String messageResp = ((SessionFailure.AuthenticationFailed) sessionFailure).toString();
