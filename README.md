@@ -200,3 +200,87 @@ embededNearpay.logout()
 [Model Response](https://docs.nearpay.io/sdk/sdk-models)
 
 
+## RemoteNearpay
+
+
+
+```typescript
+import {
+  NearpayProvider,
+  RemoteNearPay,
+} from 'react-native-nearpay-sdk';
+
+const remoteNearpay: RemoteNearPay = new RemoteNearPay(); // init the object
+remoteNearpay.addAutoReconnect(); // [optional] add an auto reconnect to last connected device
+remoteNearpay.connectToLastUser(); // [optional] try to connect to last connection on launch
+```
+
+`RemoteNearPay` object should be served to the whall application using `NearpayProvider`
+
+```typescript
+import { NearpayProvider } from 'react-native-nearpay-sdk';
+
+<NearpayProvider nearpay={remoteNearpay}>
+  <MyApplication />
+</NearpayProvider>
+```
+
+you can access the value of `RemoteNearpay` object from the hook `useNearpay` anywhere in the application (under the `NearpayProvider`) and other values like `connectionState`
+
+```typescript 
+import { useNearpay } from 'react-native-nearpay-sdk';
+
+
+function Comp(){
+  const {nearpay, connectionState} = useNearpay()
+  
+  // ... the rest of the component
+}
+```
+
+### Connection
+
+you can connect to the proxy using the following method
+
+```typescript
+import { NEARPAY_CONNECTOR } from 'react-native-nearpay-sdk';
+
+
+remoteNearpay.connect({
+    type: NEARPAY_CONNECTOR.WS,
+    ip: '192.168.102.160',
+    port: '8080',
+})
+.then(() => {
+  console.log("connection success");
+})
+.catch((err) => {
+  console.log("error:", err);
+});
+```
+
+Note: the RemoteSDK and the Proxy should be connected to the same network
+
+
+you can disconnect using the method `remoteNearpay.disconnectDevice()`
+
+### Terminal Operations
+Terminal Object is responsable of doing operations like purchase, refund, reverse, etc.
+
+you can access terminal operation using `remoteNearpay.getTerminal()`
+
+you can see Terminal Operations and thier results [here](https://docs.nearpay.io/sdk/remote-integration/web-sdk/web-sdk#purchase)
+
+### Listeners
+you can use listeners to get state update of the `RemoteNearpay` object
+
+see the [listener section](https://docs.nearpay.io/sdk/remote-integration/web-sdk/listeners)
+
+
+### Stetes
+`RemoteNearpay` has differant states that describes the `RemoteNearpay` device or the POS device
+
+you can see the states [here](https://docs.nearpay.io/sdk/remote-integration/web-sdk/sdk-states)
+
+
+
