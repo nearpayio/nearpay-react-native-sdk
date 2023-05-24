@@ -52,17 +52,22 @@ export type EmbededReconcileOptions = {
   enableUiDismiss?: boolean;
 };
 
-export type ReverseOptions = {
+export type EmbededReverseOptions = {
   originalTransactionUUID: string;
   enableReceiptUi?: boolean;
   finishTimeout?: number;
   enableUiDismiss?: boolean;
 };
 
-export type SessionOptions = {
+export type EmbededSessionOptions = {
   sessionID: string;
   enableReceiptUi?: boolean;
   enableReversalUi?: boolean;
   finishTimeout?: number;
   enableUiDismiss?: boolean;
+};
+
+export type EmbededUpdateAuthenticationOptions = {
+  authtype: AuthenticationType;
+  authvalue: string;
 };

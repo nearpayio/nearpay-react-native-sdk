@@ -4,11 +4,12 @@ import {
   AuthenticationType,
   EmbededNearpay,
   Environments,
-} from 'react-native-nearpay-sdk';
+} from '@nearpaydev/react-native-nearpay-sdk';
+
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 let authtype = AuthenticationType.email;
-let authvalue = 'f.alhajeri@nearpay.io';
+let authvalue = '<enter your email here>';
 let environment = Environments.sandbox;
 //Time out n seconds
 let timeout = 60;
@@ -231,6 +232,13 @@ export default function useEmbededSide() {
       });
   }
 
+  function doUpdateAuthentication() {
+    embededNearpay.current?.updateAuthentication({
+      authtype: AuthenticationType.email,
+      authvalue: 'xx@test.com',
+    });
+  }
+
   return {
     doLogout,
     doPurchase,
@@ -240,5 +248,6 @@ export default function useEmbededSide() {
     doSession,
     doSetupClick,
     isAndroid,
+    doUpdateAuthentication,
   };
 }

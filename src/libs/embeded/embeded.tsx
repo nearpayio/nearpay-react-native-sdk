@@ -1,11 +1,12 @@
 import { NativeModules, Platform } from 'react-native';
 import type {
-  SessionOptions,
-  ReverseOptions,
+  EmbededSessionOptions,
+  EmbededReverseOptions,
   EmbededReconcileOptions,
   EmbededRefundOptions,
   EmbededPurchaseOptions,
   InitializeOptions,
+  EmbededUpdateAuthenticationOptions,
 } from '../../types';
 
 const LINKING_ERROR =
@@ -126,7 +127,7 @@ export class EmbededNearpay {
     finishTimeout = 60,
     enableReceiptUi = true,
     enableUiDismiss = true,
-  }: ReverseOptions): Promise<string> {
+  }: EmbededReverseOptions): Promise<string> {
     const data = {
       original_transaction_uuid: originalTransactionUUID,
       finishTimeout,
@@ -155,7 +156,7 @@ export class EmbededNearpay {
     enableReversalUi = true,
     enableReceiptUi = true,
     enableUiDismiss = true,
-  }: SessionOptions): Promise<string> {
+  }: EmbededSessionOptions): Promise<string> {
     const data = {
       sessionID,
       finishTimeout,
@@ -165,6 +166,19 @@ export class EmbededNearpay {
     };
 
     return this._callPluginMethod(async () => NearpayPlugin.session(data));
+  }
+  public updateAuthentication({
+    authtype,
+    authvalue,
+  }: EmbededUpdateAuthenticationOptions): Promise<string> {
+    const data = {
+      authtype,
+      authvalue,
+    };
+
+    return this._callPluginMethod(async () =>
+      NearpayPlugin.updateAuthentication(data)
+    );
   }
 
   public receiptToImage(inputParams: any): Promise<string> {

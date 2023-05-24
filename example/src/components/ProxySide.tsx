@@ -6,7 +6,7 @@ import {
   NearpayProvider,
   RemoteNearPay,
   useNearpay,
-} from 'react-native-nearpay-sdk';
+} from '@nearpaydev/react-native-nearpay-sdk';
 
 const remoteNearpay: RemoteNearPay = new RemoteNearPay();
 remoteNearpay.addAutoReconnect();

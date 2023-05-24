@@ -11,6 +11,7 @@ export default function EmbededSide() {
     doReconcile,
     doSession,
     doSetupClick,
+    doUpdateAuthentication,
     isAndroid,
   } = useEmbededSide();
 
@@ -44,6 +45,12 @@ export default function EmbededSide() {
           </View>
           <View style={styles.containerrow}>
             <Button title="Session" onPress={() => doSession()} />
+          </View>
+          <View style={styles.containerrow}>
+            <Button
+              title="update auth "
+              onPress={() => doUpdateAuthentication()}
+            />
           </View>
         </>
       )}

@@ -26,7 +26,7 @@ public class NearpayLib {
         this.provider = provider;
     }
 
-    public AuthenticationData getAuthType(String authType, String inputValue) {
+    public static AuthenticationData getAuthType(String authType, String inputValue) {
         AuthenticationData authentication = authType.equals("userenter") ? AuthenticationData.UserEnter.INSTANCE
                 : authType.equals("email") ? new AuthenticationData.Email(inputValue)
                         : authType.equals("mobile") ? new AuthenticationData.Mobile(inputValue)

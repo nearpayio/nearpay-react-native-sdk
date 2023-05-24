@@ -166,29 +166,11 @@ public class NearpaySdkModule extends ReactContextBaseJavaModule {
   @ReactMethod
   public void session(ReadableMap params, Promise reactPromise) {
     runOperation("session", params, reactPromise);
+  }
 
-    // JSONObject options = NearPayUtil.readableMapToJson(params);
-    // if (options != null) {
-    // String sessionID = options.optString("sessionID", "");
-    // String finishTimeout = options.optString("finishTimeout", timeOutDefault);
-    // Long timeout = Long.valueOf(finishTimeout);
-    // Boolean isEnableUI = options.optBoolean("isEnableUI", true);
-    // Boolean isEnableReverse = options.optBoolean("isEnableReversal", true);
-
-    // if (sessionID == "") {
-    // Map<String, Object> paramMap =
-    // commonResponse(ErrorStatus.invalid_argument_code, "SessionID parameter
-    // missing");
-    // promise.resolve(toJson(paramMap));
-    // } else {
-    // setSession(sessionID, isEnableUI, isEnableReverse, timeout, promise);
-    // }
-    // } else {
-    // Map<String, Object> paramMap =
-    // commonResponse(ErrorStatus.invalid_argument_code, "SessionID parameter
-    // missing");
-    // promise.resolve(toJson(paramMap));
-    // }
+  @ReactMethod
+  public void updateAuthentication(ReadableMap params, Promise reactPromise) {
+    runOperation("updateAuthentication", params, reactPromise);
   }
 
   @ReactMethod

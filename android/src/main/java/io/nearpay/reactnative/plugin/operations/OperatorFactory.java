@@ -28,9 +28,7 @@ public class OperatorFactory {
         map.put("logout", new LogoutOperation(provider));
         map.put("setup", new SetupOperation(provider));
         map.put("session", new SessionOperation(provider));
-
-        // more operators
-
+        map.put("updateAuthentication", new UpdateAuthOperation(provider));
         return map;
     }
 
