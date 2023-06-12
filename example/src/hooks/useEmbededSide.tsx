@@ -182,7 +182,8 @@ export default function useEmbededSide() {
       })
       .catch((e) => {
         console.log(`=-=-=-= setup failed =-=-=-=`);
-        console.log(`error: ${e}`);
+        console.log(`error: `);
+        console.log(e);
         throw e;
       });
   }
@@ -240,6 +241,7 @@ export default function useEmbededSide() {
   }
 
   return {
+    embededNearpay,
     doLogout,
     doPurchase,
     doPurchaseAndRefund,

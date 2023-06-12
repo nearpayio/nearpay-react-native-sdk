@@ -11,11 +11,17 @@ Nearpay SDK for Embeded and Remote connections
 
 # Install plugin
 
-```bash
+<<<<<<< HEAD
+
+````bash
+=======
+```javascript
+
+>>>>>>> v0
 npm install "https://github.com/nearpayio/nearpay-react-native-sdk.git#main" --save
 
 Plugin will support minimum supported ANDROID SDK version 21 and above only.
-```
+````
 
 to install google version use the following command:
 
@@ -31,7 +37,7 @@ import {
   EmbededNearpay,
   Environments,
   Locale,
-} from 'react-native-nearpay-sdk';
+} from '@nearpaydev/react-native-nearpay-sdk';
 
 const embededNearpay = new EmbededNearpay({
   authtype: AuthenticationType.email, // the Authentication type (Email, mobile, etc)
@@ -50,10 +56,33 @@ const embededNearpay = new EmbededNearpay({
 - Mobile
 - JWT
 
-### Setup (Optional)
+### initialize (Optional)
+
+optionally initialize the plugin, if not used the plugin will initialize him self automatically
+
+you can use this method if you want to do any optional behaviour on initialize success
 
 ```typescript
-embededNearpay.setup(); // will start a setup
+embededNearpay.initialize().then(() => {
+  // do some thing
+});
+```
+
+### Setup (Optional)
+
+used to install payment plugin and verify the entered authentication
+
+```typescript
+embededNearpay
+  .setup()
+  .then((res) => {
+    console.log('=-=-=-=-=-= setup success =-=-==-=-=-');
+    console.log({ res });
+  })
+  .catch((e) => {
+    console.log('=-=-=-=-=-= setup fail =-=-==-=-=-');
+    console.log({ e });
+  });
 ```
 
 ### Purchase
@@ -202,7 +231,10 @@ embededNearpay
 ## RemoteNearpay
 
 ```typescript
-import { NearpayProvider, RemoteNearPay } from 'react-native-nearpay-sdk';
+import {
+  NearpayProvider,
+  RemoteNearPay,
+} from '@nearpaydev/react-native-nearpay-sdk';
 
 const remoteNearpay: RemoteNearPay = new RemoteNearPay(); // init the object
 remoteNearpay.addAutoReconnect(); // [optional] add an auto reconnect to last connected device
@@ -212,7 +244,7 @@ remoteNearpay.connectToLastUser(); // [optional] try to connect to last connecti
 `RemoteNearPay` object should be served to the whall application using `NearpayProvider`
 
 ```typescript
-import { NearpayProvider } from 'react-native-nearpay-sdk';
+import { NearpayProvider } from '@nearpaydev/react-native-nearpay-sdk';
 
 <NearpayProvider nearpay={remoteNearpay}>
   <MyApplication />
@@ -222,7 +254,7 @@ import { NearpayProvider } from 'react-native-nearpay-sdk';
 you can access the value of `RemoteNearpay` object from the hook `useNearpay` anywhere in the application (under the `NearpayProvider`) and other values like `connectionState`
 
 ```typescript
-import { useNearpay } from 'react-native-nearpay-sdk';
+import { useNearpay } from '@nearpaydev/react-native-nearpay-sdk';
 
 function Comp() {
   const { nearpay, connectionState } = useNearpay();
@@ -236,7 +268,7 @@ function Comp() {
 you can connect to the proxy using the following method
 
 ```typescript
-import { NEARPAY_CONNECTOR } from 'react-native-nearpay-sdk';
+import { NEARPAY_CONNECTOR } from '@nearpaydev/react-native-nearpay-sdk';
 
 remoteNearpay
   .connect({

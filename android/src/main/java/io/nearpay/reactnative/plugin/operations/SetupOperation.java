@@ -55,15 +55,8 @@ public class SetupOperation extends BaseOperation {
                     String message = messageResp != "" && messageResp.length() > 0 ? messageResp
                             : ErrorStatus.authentication_failed_message;
 
-                    if (authType.equalsIgnoreCase("jwt")) {
-                        provider.getNearpayLib().nearpay
-                                .updateAuthentication(provider.getNearpayLib().getAuthType(authType, authvalue));
-                        Map<String, Object> paramMap = NearpayLib.commonResponse(ErrorStatus.auth_failed_code, message);
-                        promise.complete(paramMap);
-                    } else {
-                        Map<String, Object> paramMap = NearpayLib.commonResponse(ErrorStatus.auth_failed_code, message);
-                        promise.complete(paramMap);
-                    }
+                    Map<String, Object> paramMap = NearpayLib.commonResponse(ErrorStatus.auth_failed_code, message);
+                    promise.complete(paramMap);
 
                 } else if (setupFailure instanceof SetupFailure.InvalidStatus) {
                     // you can get the status using the following code
