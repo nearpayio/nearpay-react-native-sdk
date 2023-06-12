@@ -31,7 +31,7 @@ import {
   EmbededNearpay,
   Environments,
   Locale,
-} from 'react-native-nearpay-sdk';
+} from '@nearpaydev/react-native-nearpay-sdk';
 
 const embededNearpay = new EmbededNearpay({
   authtype: AuthenticationType.email, // the Authentication type (Email, mobile, etc)
@@ -202,7 +202,10 @@ embededNearpay
 ## RemoteNearpay
 
 ```typescript
-import { NearpayProvider, RemoteNearPay } from 'react-native-nearpay-sdk';
+import {
+  NearpayProvider,
+  RemoteNearPay,
+} from '@nearpaydev/react-native-nearpay-sdk';
 
 const remoteNearpay: RemoteNearPay = new RemoteNearPay(); // init the object
 remoteNearpay.addAutoReconnect(); // [optional] add an auto reconnect to last connected device
@@ -212,7 +215,7 @@ remoteNearpay.connectToLastUser(); // [optional] try to connect to last connecti
 `RemoteNearPay` object should be served to the whall application using `NearpayProvider`
 
 ```typescript
-import { NearpayProvider } from 'react-native-nearpay-sdk';
+import { NearpayProvider } from '@nearpaydev/react-native-nearpay-sdk';
 
 <NearpayProvider nearpay={remoteNearpay}>
   <MyApplication />
@@ -222,7 +225,7 @@ import { NearpayProvider } from 'react-native-nearpay-sdk';
 you can access the value of `RemoteNearpay` object from the hook `useNearpay` anywhere in the application (under the `NearpayProvider`) and other values like `connectionState`
 
 ```typescript
-import { useNearpay } from 'react-native-nearpay-sdk';
+import { useNearpay } from '@nearpaydev/react-native-nearpay-sdk';
 
 function Comp() {
   const { nearpay, connectionState } = useNearpay();
@@ -236,7 +239,7 @@ function Comp() {
 you can connect to the proxy using the following method
 
 ```typescript
-import { NEARPAY_CONNECTOR } from 'react-native-nearpay-sdk';
+import { NEARPAY_CONNECTOR } from '@nearpaydev/react-native-nearpay-sdk';
 
 remoteNearpay
   .connect({
