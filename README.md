@@ -50,10 +50,33 @@ const embededNearpay = new EmbededNearpay({
 - Mobile
 - JWT
 
-### Setup (Optional)
+### initialize (Optional)
+
+optionally initialize the plugin, if not used the plugin will initialize him self automatically
+
+you can use this method if you want to do any optional behaviour on initialize success
 
 ```typescript
-embededNearpay.setup(); // will start a setup
+embededNearpay.initialize().then(() => {
+  // do some thing
+});
+```
+
+### Setup (Optional)
+
+used to install payment plugin and verify the entered authentication
+
+```typescript
+embededNearpay
+  .setup()
+  .then((res) => {
+    console.log('=-=-=-=-=-= setup success =-=-==-=-=-');
+    console.log({ res });
+  })
+  .catch((e) => {
+    console.log('=-=-=-=-=-= setup fail =-=-==-=-=-');
+    console.log({ e });
+  });
 ```
 
 ### Purchase

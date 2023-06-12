@@ -1,6 +1,11 @@
 import React from 'react';
 import { Button, StyleSheet, Text, View } from 'react-native';
 import useEmbededSide from '../hooks/useEmbededSide';
+import {
+  AuthenticationType,
+  EmbededNearpay,
+  Environments,
+} from '@nearpaydev/react-native-nearpay-sdk';
 
 export default function EmbededSide() {
   const {
@@ -13,6 +18,7 @@ export default function EmbededSide() {
     doSetupClick,
     doUpdateAuthentication,
     isAndroid,
+    embededNearpay,
   } = useEmbededSide();
 
   return (
@@ -50,6 +56,31 @@ export default function EmbededSide() {
             <Button
               title="update auth "
               onPress={() => doUpdateAuthentication()}
+            />
+          </View>
+          <View style={styles.containerrow}>
+            <Button
+              title="email fail example"
+              onPress={() => {
+                embededNearpay.current
+                  ?.initialize({
+                    authtype: AuthenticationType.email,
+                    authvalue: 'f.alhajeri@nearpay.io',
+                    environment: Environments.sandbox,
+                  })
+                  .then(() => {
+                    embededNearpay.current
+                      ?.setup()
+                      .then((res) => {
+                        console.log('=-=-=-=-=-= setup success =-=-==-=-=-');
+                        console.log({ res });
+                      })
+                      .catch((e) => {
+                        console.log('=-=-=-=-=-= setup fail =-=-==-=-=-');
+                        console.log({ e });
+                      });
+                  });
+              }}
             />
           </View>
         </>
