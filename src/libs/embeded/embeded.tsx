@@ -34,14 +34,7 @@ export class EmbededNearpay {
       throw `Nearpay: the Embeded SDK is avalible only in Android`;
     }
 
-    const data = {
-      authtype,
-      authvalue,
-      environment,
-      locale,
-    };
-
-    NearpayPlugin.initialize(data);
+    this.initialize({ authtype, authvalue, environment, locale });
   }
 
   private async _callPluginMethod(
@@ -54,6 +47,21 @@ export class EmbededNearpay {
     } else {
       throw res;
     }
+  }
+
+  public async initialize({
+    authtype,
+    authvalue,
+    environment,
+    locale,
+  }: InitializeOptions) {
+    const data = {
+      authtype,
+      authvalue,
+      environment,
+      locale,
+    };
+    return this._callPluginMethod(() => NearpayPlugin.initialize(data));
   }
 
   public async purchase({
