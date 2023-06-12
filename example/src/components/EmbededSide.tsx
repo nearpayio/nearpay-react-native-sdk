@@ -65,7 +65,7 @@ export default function EmbededSide() {
                 embededNearpay.current
                   ?.initialize({
                     authtype: AuthenticationType.email,
-                    authvalue: 'f.alhajeri@nearpay.io',
+                    authvalue: 'non-exsists-email@test.com',
                     environment: Environments.sandbox,
                   })
                   .then(() => {
