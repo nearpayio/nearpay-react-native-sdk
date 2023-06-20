@@ -17,6 +17,10 @@ export default function EmbededSide() {
     doSession,
     doSetupClick,
     doUpdateAuthentication,
+    getReconciliation,
+    getReconciliations,
+    getTransaction,
+    getTransactions,
     isAndroid,
     embededNearpay,
   } = useEmbededSide();
@@ -60,27 +64,26 @@ export default function EmbededSide() {
           </View>
           <View style={styles.containerrow}>
             <Button
-              title="email fail example"
-              onPress={() => {
-                embededNearpay.current
-                  ?.initialize({
-                    authtype: AuthenticationType.email,
-                    authvalue: 'non-exsists-email@test.com',
-                    environment: Environments.sandbox,
-                  })
-                  .then(() => {
-                    embededNearpay.current
-                      ?.setup()
-                      .then((res) => {
-                        console.log('=-=-=-=-=-= setup success =-=-==-=-=-');
-                        console.log({ res });
-                      })
-                      .catch((e) => {
-                        console.log('=-=-=-=-=-= setup fail =-=-==-=-=-');
-                        console.log({ e });
-                      });
-                  });
-              }}
+              title="get transaction by UUID"
+              onPress={() => getTransaction()}
+            />
+          </View>
+          <View style={styles.containerrow}>
+            <Button
+              title="get transactions"
+              onPress={() => getTransactions()}
+            />
+          </View>
+          <View style={styles.containerrow}>
+            <Button
+              title="get Reconciliation by UUID"
+              onPress={() => getReconciliation()}
+            />
+          </View>
+          <View style={styles.containerrow}>
+            <Button
+              title="get Reconciliations"
+              onPress={() => getReconciliations()}
             />
           </View>
         </>

@@ -75,7 +75,18 @@ public class NearpayLib {
         return paramMap;
     }
 
-    public static Map<String, Object> commonResponse(int responseCode, String message) {
+  public static Map<String, Object> QueryResponse(int responseCode, String message,
+                                                      Object toSend) {
+    Map<String, Object> paramMap = new HashMap<>();
+
+    paramMap.put("status", responseCode);
+    paramMap.put("message", message);
+    paramMap.put("result", classToMap(toSend));
+    return paramMap;
+  }
+
+
+  public static Map<String, Object> commonResponse(int responseCode, String message) {
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("status", responseCode);
         paramMap.put("message", message);
@@ -86,5 +97,22 @@ public class NearpayLib {
         Map<String, Object> data = new Gson().fromJson(jsonStr, HashMap.class);
         return data;
     }
+
+
+  public static Object classToMap(Object obj) {
+    // return default hashmap for empty given obj
+    if (obj == null) {
+      return  new HashMap<>();
+    }
+
+    Map tempConvertor = new HashMap<>();
+    tempConvertor.put("__", obj);
+
+    Gson gson = new Gson();
+    String inString = gson.toJson(tempConvertor);
+    Map asMap = gson.fromJson(inString, HashMap.class);
+    return asMap.get("__");
+  }
+
 
 }

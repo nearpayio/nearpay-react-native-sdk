@@ -12,11 +12,15 @@ Nearpay SDK for Embeded and Remote connections
 # Install plugin
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 ````bash
 =======
 ```javascript
 
+>>>>>>> v0
+=======
+```bash
 >>>>>>> v0
 npm install "https://github.com/nearpayio/nearpay-react-native-sdk.git#main" --save
 
