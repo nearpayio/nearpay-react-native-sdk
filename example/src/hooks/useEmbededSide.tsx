@@ -240,6 +240,7 @@ export default function useEmbededSide() {
       ?.getTransactions({
         page: 1,
         limit: 20,
+        adminPin: '0000',
       })
       .then((res) => {
         console.log(`=-=-=-= get transactions success =-=-=-=`);
@@ -250,6 +251,7 @@ export default function useEmbededSide() {
     return embededNearpay.current
       ?.getTransaction({
         transactionUUID: 'a2fd6519-2b37-4336-be6d-5520bb3b6427',
+        adminPin: '0000',
       })
       .then((res) => {
         console.log(`=-=-=-= get transaction success =-=-=-=`);
@@ -261,6 +263,7 @@ export default function useEmbededSide() {
       ?.getReconciliations({
         page: 1,
         limit: 20,
+        adminPin: '0000',
       })
       .then((res) => {
         console.log(`=-=-=-= get Reconciliations success =-=-=-=`);
@@ -271,6 +274,7 @@ export default function useEmbededSide() {
     return embededNearpay.current
       ?.getReconciliation({
         reconciliationUUID: '6d4a48b8-d194-4aad-92c9-a77606758799',
+        adminPin: '0000',
       })
       .then((res) => {
         console.log(`=-=-=-= get Reconciliation success =-=-=-=`);
