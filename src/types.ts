@@ -71,3 +71,25 @@ export type EmbededUpdateAuthenticationOptions = {
   authtype: AuthenticationType;
   authvalue: string;
 };
+
+export type EmbededGetTransactionsOptions = {
+  page?: number;
+  limit?: number;
+  adminPin?: string;
+};
+
+export type EmbededGetTransactionOptions = {
+  transactionUUID: string;
+  adminPin?: string;
+};
+
+export type EmbededGetReconciliationsOptions = {
+  page?: number;
+  limit?: number;
+  adminPin?: string;
+};
+
+export type EmbededGetReconciliationOptions = {
+  reconciliationUUID: string;
+  adminPin?: string;
+};

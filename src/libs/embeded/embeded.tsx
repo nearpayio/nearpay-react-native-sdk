@@ -7,6 +7,10 @@ import type {
   EmbededPurchaseOptions,
   InitializeOptions,
   EmbededUpdateAuthenticationOptions,
+  EmbededGetTransactionsOptions,
+  EmbededGetReconciliationsOptions,
+  EmbededGetTransactionOptions,
+  EmbededGetReconciliationOptions,
 } from '../../types';
 
 const LINKING_ERROR =
@@ -35,18 +39,6 @@ export class EmbededNearpay {
     }
 
     this.initialize({ authtype, authvalue, environment, locale });
-  }
-
-  private async _callPluginMethod(
-    methodFunc: () => Promise<any>
-  ): Promise<any> {
-    const res = JSON.parse(await methodFunc());
-
-    if (res.status === 200) {
-      return res;
-    } else {
-      throw res;
-    }
   }
 
   public async initialize({
@@ -175,6 +167,7 @@ export class EmbededNearpay {
 
     return this._callPluginMethod(async () => NearpayPlugin.session(data));
   }
+
   public updateAuthentication({
     authtype,
     authvalue,
@@ -189,9 +182,83 @@ export class EmbededNearpay {
     );
   }
 
+  // =-=-=- Queries -=-=-=
+
+  public getTransactions({
+    page,
+    adminPin,
+    limit,
+  }: EmbededGetTransactionsOptions): Promise<string> {
+    const data = {
+      page,
+      limit,
+      adminPin,
+    };
+
+    return this._callPluginMethod(async () =>
+      NearpayPlugin.getTransactions(data)
+    );
+  }
+
+  public getTransaction({
+    transactionUUID,
+    adminPin,
+  }: EmbededGetTransactionOptions): Promise<string> {
+    const data = {
+      transaction_uuid: transactionUUID,
+      adminPin,
+    };
+
+    return this._callPluginMethod(async () =>
+      NearpayPlugin.getTransaction(data)
+    );
+  }
+
+  public getReconciliation({
+    reconciliationUUID,
+    adminPin,
+  }: EmbededGetReconciliationOptions): Promise<string> {
+    const data = {
+      reconciliation_uuid: reconciliationUUID,
+      adminPin,
+    };
+
+    return this._callPluginMethod(async () =>
+      NearpayPlugin.getReconciliation(data)
+    );
+  }
+
+  public getReconciliations({
+    page,
+    adminPin,
+    limit,
+  }: EmbededGetReconciliationsOptions): Promise<string> {
+    const data = {
+      page,
+      limit,
+      adminPin,
+    };
+
+    return this._callPluginMethod(async () =>
+      NearpayPlugin.getReconciliations(data)
+    );
+  }
+
   public receiptToImage(inputParams: any): Promise<string> {
     return this._callPluginMethod(async () =>
       NearpayPlugin.recieptToImage(inputParams)
     );
+  }
+
+  private async _callPluginMethod(
+    methodFunc: () => Promise<any>
+  ): Promise<any> {
+    const res = JSON.parse(await methodFunc());
+
+    if (res.status === 200) {
+      return res;
+    } else {
+      throw res;
+    }
   }
 }

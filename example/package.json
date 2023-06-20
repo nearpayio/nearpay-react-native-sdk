@@ -6,7 +6,8 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "start": "react-native start",
-    "pods": "pod-install --quiet"
+    "pods": "pod-install --quiet",
+    "logger": "react-native log-android"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.18.1",

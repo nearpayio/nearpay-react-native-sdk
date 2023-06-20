@@ -13,11 +13,6 @@ let authvalue = '<enter your email here>';
 let environment = Environments.sandbox;
 //Time out n seconds
 let timeout = 60;
-// const embededNearpay: EmbededNearpay = new EmbededNearpay({
-//   authtype,
-//   authvalue,
-//   environment,
-// });
 const isAndroid = Platform.select({ android: true });
 
 export default function useEmbededSide() {
@@ -240,8 +235,52 @@ export default function useEmbededSide() {
     });
   }
 
+  function getTransactions() {
+    embededNearpay.current
+      ?.getTransactions({
+        page: 1,
+        limit: 20,
+      })
+      .then((res) => {
+        console.log(`=-=-=-= get transactions success =-=-=-=`);
+        console.log(res);
+      });
+  }
+  function getTransaction() {
+    return embededNearpay.current
+      ?.getTransaction({
+        transactionUUID: 'a2fd6519-2b37-4336-be6d-5520bb3b6427',
+      })
+      .then((res) => {
+        console.log(`=-=-=-= get transaction success =-=-=-=`);
+        console.log(res);
+      });
+  }
+  function getReconciliations() {
+    return embededNearpay.current
+      ?.getReconciliations({
+        page: 1,
+        limit: 20,
+      })
+      .then((res) => {
+        console.log(`=-=-=-= get Reconciliations success =-=-=-=`);
+        console.log(res);
+      });
+  }
+  function getReconciliation() {
+    return embededNearpay.current
+      ?.getReconciliation({
+        reconciliationUUID: '6d4a48b8-d194-4aad-92c9-a77606758799',
+      })
+      .then((res) => {
+        console.log(`=-=-=-= get Reconciliation success =-=-=-=`);
+        console.log(res);
+      });
+  }
+
   return {
     embededNearpay,
+    isAndroid,
     doLogout,
     doPurchase,
     doPurchaseAndRefund,
@@ -249,7 +288,10 @@ export default function useEmbededSide() {
     doReconcile,
     doSession,
     doSetupClick,
-    isAndroid,
+    getTransactions,
+    getTransaction,
+    getReconciliations,
+    getReconciliation,
     doUpdateAuthentication,
   };
 }

@@ -178,4 +178,24 @@ public class NearpaySdkModule extends ReactContextBaseJavaModule {
     // JSONObject options = NearPayUtil.readableMapToJson(params);
   }
 
+  // =-=-=- Queries -=-=-=
+  @ReactMethod
+  public void getTransaction(ReadableMap params, Promise reactPromise) {
+    runOperation("getTransaction", params, reactPromise);
+  }
+
+  @ReactMethod
+  public void getTransactions(ReadableMap params, Promise reactPromise) {
+    runOperation("getTransactions", params, reactPromise);
+  }
+
+  @ReactMethod
+  public void getReconciliation(ReadableMap params, Promise reactPromise) {
+    runOperation("getReconciliation", params, reactPromise);
+  }
+
+  @ReactMethod
+  public void getReconciliations(ReadableMap params, Promise reactPromise) {
+    runOperation("getReconciliations", params, reactPromise);
+  }
 }
