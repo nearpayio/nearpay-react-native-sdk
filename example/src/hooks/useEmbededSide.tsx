@@ -237,7 +237,7 @@ export default function useEmbededSide() {
 
   function getTransactions() {
     embededNearpay.current
-      ?.getTransactions({
+      ?.getTransactionsList({
         page: 1,
         limit: 20,
         adminPin: '0000',
@@ -247,6 +247,7 @@ export default function useEmbededSide() {
         console.log(res);
       });
   }
+
   function getTransaction() {
     return embededNearpay.current
       ?.getTransaction({
@@ -258,9 +259,10 @@ export default function useEmbededSide() {
         console.log(res);
       });
   }
+
   function getReconciliations() {
     return embededNearpay.current
-      ?.getReconciliations({
+      ?.getReconciliationsList({
         page: 1,
         limit: 20,
         adminPin: '0000',
@@ -270,6 +272,7 @@ export default function useEmbededSide() {
         console.log(res);
       });
   }
+
   function getReconciliation() {
     return embededNearpay.current
       ?.getReconciliation({
