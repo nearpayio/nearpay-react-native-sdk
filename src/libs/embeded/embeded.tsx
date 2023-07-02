@@ -184,7 +184,7 @@ export class EmbededNearpay {
 
   // =-=-=- Queries -=-=-=
 
-  public getTransactions({
+  public getTransactionsList({
     page,
     adminPin,
     limit,
@@ -228,7 +228,7 @@ export class EmbededNearpay {
     );
   }
 
-  public getReconciliations({
+  public getReconciliationsList({
     page,
     adminPin,
     limit,

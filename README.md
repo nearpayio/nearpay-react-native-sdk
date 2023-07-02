@@ -240,7 +240,7 @@ get transactions
 
 ```typescript
 embededNearpay
-  .getTransactions({
+  .getTransactionsList({
     page: 1,
     limit: 20,
     adminPin: '0000',
@@ -273,7 +273,7 @@ get reconciliations
 
 ```typescript
 embededNearpay
-  .getReconciliations({
+  .getReconciliationsList({
     page: 1,
     limit: 20,
     adminPin: '0000',
