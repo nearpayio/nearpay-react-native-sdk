@@ -29,7 +29,7 @@ public class GetReconciliationOperation extends BaseOperation{
     String adminPin = filter.getAdminPin();
 
 
-    provider.getNearpayLib().nearpay.getReconciliationByUuid(reconUuid, adminPin, new GetReconcileListener() {
+    provider.getNearpayLib().nearpay.getReconciliationByUuid(reconUuid, new GetReconcileListener() {
         @Override
         public void onSuccess(@Nullable ReconciliationReceipt reconciliationReceipt) {
           Map toSend = NearpayLib.QueryResponse(ErrorStatus.success_code, null, reconciliationReceipt);
