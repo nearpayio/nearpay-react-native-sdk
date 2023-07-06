@@ -186,13 +186,12 @@ export class EmbededNearpay {
 
   public getTransactionsList({
     page,
-    adminPin,
+
     limit,
   }: EmbededGetTransactionsOptions): Promise<string> {
     const data = {
       page,
       limit,
-      adminPin,
     };
 
     return this._callPluginMethod(async () =>
@@ -202,11 +201,9 @@ export class EmbededNearpay {
 
   public getTransaction({
     transactionUUID,
-    adminPin,
   }: EmbededGetTransactionOptions): Promise<string> {
     const data = {
       transaction_uuid: transactionUUID,
-      adminPin,
     };
 
     return this._callPluginMethod(async () =>
@@ -216,11 +213,9 @@ export class EmbededNearpay {
 
   public getReconciliation({
     reconciliationUUID,
-    adminPin,
   }: EmbededGetReconciliationOptions): Promise<string> {
     const data = {
       reconciliation_uuid: reconciliationUUID,
-      adminPin,
     };
 
     return this._callPluginMethod(async () =>
@@ -230,13 +225,12 @@ export class EmbededNearpay {
 
   public getReconciliationsList({
     page,
-    adminPin,
+
     limit,
   }: EmbededGetReconciliationsOptions): Promise<string> {
     const data = {
       page,
       limit,
-      adminPin,
     };
 
     return this._callPluginMethod(async () =>
