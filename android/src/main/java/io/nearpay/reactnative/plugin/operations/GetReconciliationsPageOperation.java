@@ -29,7 +29,7 @@ public class GetReconciliationsPageOperation extends  BaseOperation{
     int page = filter.getPage();
     int limit = filter.getLimit();
 
-    provider.getNearpayLib().nearpay.getReconciliationListPage(adminPin, page, limit, new GetReconciliationPageListener() {
+    provider.getNearpayLib().nearpay.getReconciliationListPage( page, limit, new GetReconciliationPageListener() {
         @Override
         public void onSuccess(@Nullable ReconciliationList reconciliationList) {
           Map toSend = NearpayLib.QueryResponse(ErrorStatus.success_code, null, reconciliationList);

@@ -32,7 +32,7 @@ public class GetTransactionOperation extends  BaseOperation{
     String adminPin = filter.getAdminPin();
 
 
-    provider.getNearpayLib().nearpay.getTransactionByUuid(trUuid, adminPin, new GetTransactionListener() {
+    provider.getNearpayLib().nearpay.getTransactionByUuid(trUuid,  new GetTransactionListener() {
       @Override
       public void onSuccess(@Nullable List<TransactionReceipt> list) {
         Map toSend = NearpayLib.QueryResponse(ErrorStatus.success_code, null, list);
