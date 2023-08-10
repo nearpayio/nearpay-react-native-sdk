@@ -19,21 +19,23 @@ public class OperatorFactory {
     Map<String, BaseOperation> operationMap;
 
     Map<String, BaseOperation> getOperationMap() {
-      Map<String, BaseOperation> map = new HashMap<>();
-      map.put("purchase", new PurchaseOperation(provider));
-      map.put("initialize", new InitializeOperation(provider));
-      map.put("refund", new RefundOperation(provider));
-      map.put("reconcile", new ReconciliationOperation(provider));
-      map.put("reverse", new ReverseOperation(provider));
-      map.put("logout", new LogoutOperation(provider));
-      map.put("setup", new SetupOperation(provider));
-      map.put("session", new SessionOperation(provider));
-      map.put("updateAuthentication", new UpdateAuthOperation(provider));
-      map.put("getReconciliation", new GetReconciliationOperation(provider));
-      map.put("getReconciliations", new GetReconciliationsPageOperation(provider));
-      map.put("getTransaction", new GetTransactionOperation(provider));
-      map.put("getTransactions", new GetTransactionPageOperation(provider));
-      return map;
+        Map<String, BaseOperation> map = new HashMap<>();
+        map.put("purchase", new PurchaseOperation(provider));
+        map.put("initialize", new InitializeOperation(provider));
+        map.put("refund", new RefundOperation(provider));
+        map.put("reconcile", new ReconciliationOperation(provider));
+        map.put("reverse", new ReverseOperation(provider));
+        map.put("logout", new LogoutOperation(provider));
+        map.put("setup", new SetupOperation(provider));
+        map.put("session", new SessionOperation(provider));
+        map.put("updateAuthentication", new UpdateAuthOperation(provider));
+        map.put("getReconciliation", new GetReconciliationOperation(provider));
+        map.put("getReconciliations", new GetReconciliationsPageOperation(provider));
+        map.put("getTransaction", new GetTransactionOperation(provider));
+        map.put("getTransactions", new GetTransactionPageOperation(provider));
+        map.put("receiptToImage", new ReceiptToImageOperation(provider));
+
+        return map;
     }
 
     public Optional<BaseOperation> getOperation(String operator) {

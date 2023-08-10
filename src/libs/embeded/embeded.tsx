@@ -11,6 +11,7 @@ import type {
   EmbededGetReconciliationsOptions,
   EmbededGetTransactionOptions,
   EmbededGetReconciliationOptions,
+  EmbededReceiptToImageOptions,
 } from '../../types';
 
 const LINKING_ERROR =
@@ -236,16 +237,22 @@ export class EmbededNearpay {
     );
   }
 
-  // public receiptToImage(inputParams: any) {
-  //   return this._callPluginMethod(async () =>
-  //     NearpayPlugin.recieptToImage(inputParams)
-  //   );
-  // }
+  public receiptToImage({ receipt }: EmbededReceiptToImageOptions) {
+    const data = {
+      receipt: JSON.stringify(receipt),
+    };
+
+    return this._callPluginMethod(async () =>
+      NearpayPlugin.receiptToImage(data)
+    );
+  }
 
   private async _callPluginMethod(
     methodFunc: () => Promise<any>
   ): Promise<any> {
     const res = JSON.parse(await methodFunc());
+
+    console.log({ res: JSON.stringify(res) });
 
     if (res.status === 200) {
       return res;

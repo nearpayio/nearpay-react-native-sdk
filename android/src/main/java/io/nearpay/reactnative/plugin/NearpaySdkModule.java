@@ -188,7 +188,9 @@ public class NearpaySdkModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void receiptToImage(ReadableMap params, Promise promise) {
+  public void receiptToImage(ReadableMap params, Promise reactPromise) {
+    runOperation("receiptToImage", params, reactPromise);
+
     // JSONObject options = NearPayUtil.readableMapToJson(params);
   }
 
@@ -212,4 +214,7 @@ public class NearpaySdkModule extends ReactContextBaseJavaModule {
   public void getReconciliations(ReadableMap params, Promise reactPromise) {
     runOperation("getReconciliations", params, reactPromise);
   }
+
+
+
 }
