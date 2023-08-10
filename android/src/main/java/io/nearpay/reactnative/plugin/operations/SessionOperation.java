@@ -47,23 +47,12 @@ public class SessionOperation extends BaseOperation {
                 new SessionListener() {
                     @Override
                     public void onSessionClosed(@Nullable Session session) {
-                        // Log.i("ReactNative", "=-=-=-=-=-=-=-= session closed =-=-=-=-=-==");
                         Map<String, Object> responseDict = sessionToJson(session);
                         promise.complete(responseDict);
                     }
 
                     @Override
                     public void onSessionOpen(@Nullable List<TransactionReceipt> list) {
-                        // Log.i("ReactNative", "=-=-=-=-=-=-=-= session opened =-=-=-=-=-==");
-                        List<Map<String, Object>> transactionList = new ArrayList<>();
-                        for (TransactionReceipt transReceipt : list) {
-                            String jsonStr = ReceiptUtilsKt.toJson(transReceipt);
-                            transactionList.add(NearpayLib.JSONStringToMap(jsonStr));
-                        }
-                        Map<String, Object> responseDict = NearpayLib.commonResponse(ErrorStatus.success_code,
-                                "Session Success");
-                        responseDict.put("receipts", transactionList);
-
                         Map response = NearpayLib.ApiResponse(200, "", list);
 
                         promise.complete(response);
