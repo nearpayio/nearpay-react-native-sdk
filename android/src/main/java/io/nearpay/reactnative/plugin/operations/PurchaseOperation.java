@@ -11,6 +11,7 @@ import java.util.concurrent.CompletableFuture;
 import io.nearpay.reactnative.plugin.NearpayLib;
 import io.nearpay.reactnative.plugin.PluginProvider;
 import io.nearpay.reactnative.plugin.sender.NearpaySender;
+import io.nearpay.reactnative.plugin.util.ArgsFilter;
 import io.nearpay.sdk.data.models.TransactionReceipt;
 import io.nearpay.sdk.utils.enums.PurchaseFailure;
 import io.nearpay.sdk.utils.listeners.PurchaseListener;
@@ -23,16 +24,18 @@ public class PurchaseOperation extends BaseOperation {
     }
 
     private void doPaymentAction(Map args, NearpaySender sender) {
+        ArgsFilter filter = new ArgsFilter(args);
         Long amount = (Long) args.get("amount");
         String customerReferenceNumber = args.get("customer_reference_number").toString();
-        UUID transaction_uuid = (UUID) args.get("transaction_uuid");
+
+        UUID jobId = filter.getJobId();
         Boolean enableReceiptUi = (Boolean) args.get("enableReceiptUi");
         Boolean enableReversal = (Boolean) args.get("enableReversal");
         Long timeout = (Long) args.get("finishTimeout");
         Boolean enableUiDismiss = (Boolean) args.get("enableUiDismiss");
 
         this.provider.getNearpayLib().nearpay.purchase(amount, customerReferenceNumber, enableReceiptUi, enableReversal,
-                timeout, transaction_uuid, enableUiDismiss,
+                timeout, jobId, enableUiDismiss,
                 new PurchaseListener() {
 
                     @Override

@@ -13,6 +13,7 @@ import io.nearpay.reactnative.plugin.ErrorStatus;
 import io.nearpay.reactnative.plugin.NearpayLib;
 import io.nearpay.reactnative.plugin.PluginProvider;
 import io.nearpay.reactnative.plugin.sender.NearpaySender;
+import io.nearpay.reactnative.plugin.util.ArgsFilter;
 import io.nearpay.sdk.data.models.TransactionReceipt;
 import io.nearpay.sdk.utils.ReceiptUtilsKt;
 import io.nearpay.sdk.utils.enums.RefundFailure;
@@ -25,10 +26,12 @@ public class RefundOperation extends BaseOperation {
         }
 
         private void refundValidation(Map args, NearpaySender sender) {
+                ArgsFilter filter = new ArgsFilter(args);
+
                 Long amount = (Long) args.get("amount");
                 String original_transaction_uuid = args.get("original_transaction_uuid").toString();
                 String customer_reference_number = args.get("customer_reference_number").toString();
-                UUID transaction_uuid = (UUID) args.get("transaction_uuid");
+                UUID jobId = filter.getJobId();
                 Boolean enableReceiptUi = (Boolean) args.get("enableReceiptUi");
                 Boolean enableReversal = (Boolean) args.get("enableReversal");
                 Boolean enableEditableRefundAmountUi = (Boolean) args.get("enableEditableRefundAmountUi");
@@ -38,7 +41,7 @@ public class RefundOperation extends BaseOperation {
 
                 provider.getNearpayLib().nearpay.refund(amount, original_transaction_uuid,
                                 customer_reference_number, enableReceiptUi,
-                                enableReversal, enableEditableRefundAmountUi, finishTimeout, transaction_uuid, adminPin,
+                                enableReversal, enableEditableRefundAmountUi, finishTimeout, jobId, adminPin,
                                 enableUiDismiss,
                                 new RefundListener() {
                                         @Override

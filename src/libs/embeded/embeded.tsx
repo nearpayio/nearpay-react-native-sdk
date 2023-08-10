@@ -58,7 +58,7 @@ export class EmbededNearpay {
 
   public async purchase({
     amount,
-    transactionUUID,
+    transactionId,
     customerReferenceNumber = '',
     finishTimeout = 60,
     enableReversalUi = true,
@@ -72,7 +72,7 @@ export class EmbededNearpay {
       enableReversal: enableReversalUi,
       enableReceiptUi: enableReceiptUi,
       enableUiDismiss: enableUiDismiss,
-      transaction_uuid: transactionUUID,
+      job_id: transactionId,
     };
 
     return this._callPluginMethod(async () => NearpayPlugin.purchase(data));
@@ -81,7 +81,7 @@ export class EmbededNearpay {
   public refund({
     amount,
     originalTransactionUUID,
-    transactionUUID,
+    transactionId,
     customerReferenceNumber = '',
     finishTimeout = 60,
     enableReversalUi = true,
@@ -93,7 +93,7 @@ export class EmbededNearpay {
     const data = {
       amount,
       original_transaction_uuid: originalTransactionUUID,
-      transaction_uuid: transactionUUID,
+      jobid: transactionId,
       customer_reference_number: customerReferenceNumber,
       finishTimeout,
       enableReversal: enableReversalUi,
