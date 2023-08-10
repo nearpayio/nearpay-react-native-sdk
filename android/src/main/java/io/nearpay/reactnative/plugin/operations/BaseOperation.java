@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 import io.nearpay.reactnative.plugin.PluginProvider;
+import io.nearpay.reactnative.plugin.sender.NearpaySender;
 
 public class BaseOperation {
     protected PluginProvider provider;
@@ -14,7 +15,7 @@ public class BaseOperation {
         this.provider = provider;
     }
 
-    public void run(Map args, CompletableFuture<Map> promise) {
+    public void run(Map args, NearpaySender sender) {
 
     }
 }
