@@ -66,7 +66,7 @@ public class SessionOperation extends BaseOperation {
 
                         Map response = NearpayLib.ApiResponse(200, "", list);
 
-                        promise.complete(responseDict);
+                        promise.complete(response);
                     }
 
                     @Override
