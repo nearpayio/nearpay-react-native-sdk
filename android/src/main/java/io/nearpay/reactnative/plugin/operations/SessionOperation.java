@@ -62,7 +62,7 @@ public class SessionOperation extends BaseOperation {
                         }
                         Map<String, Object> responseDict = NearpayLib.commonResponse(ErrorStatus.success_code,
                                 "Session Success");
-                        responseDict.put("list", transactionList);
+                        responseDict.put("receipts", transactionList);
 
                         Map response = NearpayLib.ApiResponse(200, "", list);
 
