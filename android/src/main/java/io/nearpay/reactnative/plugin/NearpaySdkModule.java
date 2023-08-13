@@ -26,6 +26,7 @@ import org.json.JSONObject;
 import io.nearpay.reactnative.plugin.operations.BaseOperation;
 import io.nearpay.reactnative.plugin.operations.InitializeOperation;
 import io.nearpay.reactnative.plugin.operations.OperatorFactory;
+import io.nearpay.reactnative.plugin.sender.NearpaySender;
 import io.nearpay.sdk.Environments;
 import io.nearpay.sdk.NearPay;
 import io.nearpay.sdk.utils.enums.AuthenticationData;
@@ -69,7 +70,6 @@ public class NearpaySdkModule extends ReactContextBaseJavaModule {
   PluginProvider provider = new PluginProvider();
   public OperatorFactory operatorFactory = new OperatorFactory(provider);
 
-
   public NearpaySdkModule(ReactApplicationContext reactContext) {
     super(reactContext);
     this.provider.getNearpayLib().context = reactContext.getApplicationContext();
@@ -82,7 +82,7 @@ public class NearpaySdkModule extends ReactContextBaseJavaModule {
     return NAME;
   }
 
-    public AuthenticationData getAuthType(String authType, String inputValue) {
+  public AuthenticationData getAuthType(String authType, String inputValue) {
     AuthenticationData authentication = authType.equals("userenter") ? AuthenticationData.UserEnter.INSTANCE
         : authType.equals("email") ? new AuthenticationData.Email(inputValue)
             : authType.equals("mobile") ? new AuthenticationData.Mobile(inputValue)
@@ -96,23 +96,37 @@ public class NearpaySdkModule extends ReactContextBaseJavaModule {
     return isAuthValidate;
   }
 
-
   private void runOperation(String operationName, ReadableMap params, Promise reactPromise) {
     Log.i("ReactNative", "=-=-=-=-=-=-= -=-=-=-=-=-= -=-=-=-=-= " + operationName);
+    // Map args = NearPayUtil.toMap(params);
+    // NearpaySender sender = new CompletableFuture<>();
+    // provider.getArgsFilter().filter(args);
+    //
+    // promise.thenAccept(res -> {
+    // // importtant: we must return a string, because react native doesnt support
+    // maps
+    // // to be sent like flutter
+    // reactPromise.resolve(this.toJson(res));
+    // });
+    //
+    // BaseOperation operation = operatorFactory.getOperation(operationName)
+    // .orElseThrow(() -> new IllegalArgumentException("Invalid Operator"));
+    //
+    // operation.run(args, promise);
+
     Map args = NearPayUtil.toMap(params);
-    CompletableFuture<Map> promise = new CompletableFuture<>();
     provider.getArgsFilter().filter(args);
 
-    promise.thenAccept(res -> {
-      // importtant: we must return a string, because react native doesnt support maps
-      // to be sent like flutter
-      reactPromise.resolve(this.toJson(res));
-    });
+    NearpaySender sender = (message) -> {
+      // TODO: revise types
+      reactPromise.resolve(this.toJson((Map) message));
+    };
 
     BaseOperation operation = operatorFactory.getOperation(operationName)
-        .orElseThrow(() -> new IllegalArgumentException("Invalid Operator"));
+        .orElseThrow(() -> new IllegalArgumentException("Invalid Operation"));
 
-    operation.run(args, promise);
+    operation.run(args, sender);
+
   }
 
   @ReactMethod

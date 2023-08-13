@@ -58,7 +58,7 @@ export class EmbededNearpay {
 
   public async purchase({
     amount,
-    transactionUUID,
+    transactionId,
     customerReferenceNumber = '',
     finishTimeout = 60,
     enableReversalUi = true,
@@ -72,7 +72,7 @@ export class EmbededNearpay {
       enableReversal: enableReversalUi,
       enableReceiptUi: enableReceiptUi,
       enableUiDismiss: enableUiDismiss,
-      transaction_uuid: transactionUUID,
+      job_id: transactionId,
     };
 
     return this._callPluginMethod(async () => NearpayPlugin.purchase(data));
@@ -81,7 +81,7 @@ export class EmbededNearpay {
   public refund({
     amount,
     originalTransactionUUID,
-    transactionUUID,
+    transactionId,
     customerReferenceNumber = '',
     finishTimeout = 60,
     enableReversalUi = true,
@@ -89,11 +89,11 @@ export class EmbededNearpay {
     enableUiDismiss = true,
     editableReversalAmountUI = true,
     adminPin,
-  }: EmbededRefundOptions): Promise<string> {
+  }: EmbededRefundOptions) {
     const data = {
       amount,
       original_transaction_uuid: originalTransactionUUID,
-      transaction_uuid: transactionUUID,
+      job_id: transactionId,
       customer_reference_number: customerReferenceNumber,
       finishTimeout,
       enableReversal: enableReversalUi,
@@ -111,7 +111,7 @@ export class EmbededNearpay {
     enableReceiptUi = true,
     enableUiDismiss = true,
     adminPin,
-  }: EmbededReconcileOptions): Promise<string> {
+  }: EmbededReconcileOptions) {
     const data = {
       finishTimeout,
       enableReceiptUi: enableReceiptUi,
@@ -127,7 +127,7 @@ export class EmbededNearpay {
     finishTimeout = 60,
     enableReceiptUi = true,
     enableUiDismiss = true,
-  }: EmbededReverseOptions): Promise<string> {
+  }: EmbededReverseOptions) {
     const data = {
       original_transaction_uuid: originalTransactionUUID,
       finishTimeout,
@@ -138,13 +138,13 @@ export class EmbededNearpay {
     return this._callPluginMethod(async () => NearpayPlugin.reverse(data));
   }
 
-  public logout(): Promise<string> {
+  public logout() {
     return this._callPluginMethod(async () =>
       NearpayPlugin.logout({ __dummy__: 1 })
     );
   }
 
-  public setup(): Promise<string> {
+  public setup() {
     return this._callPluginMethod(async () =>
       NearpayPlugin.setup({ __dummy__: 1 })
     );
@@ -156,7 +156,7 @@ export class EmbededNearpay {
     enableReversalUi = true,
     enableReceiptUi = true,
     enableUiDismiss = true,
-  }: EmbededSessionOptions): Promise<string> {
+  }: EmbededSessionOptions) {
     const data = {
       sessionID,
       finishTimeout,
@@ -171,7 +171,7 @@ export class EmbededNearpay {
   public updateAuthentication({
     authtype,
     authvalue,
-  }: EmbededUpdateAuthenticationOptions): Promise<string> {
+  }: EmbededUpdateAuthenticationOptions) {
     const data = {
       authtype,
       authvalue,
@@ -188,7 +188,7 @@ export class EmbededNearpay {
     page,
 
     limit,
-  }: EmbededGetTransactionsOptions): Promise<string> {
+  }: EmbededGetTransactionsOptions) {
     const data = {
       page,
       limit,
@@ -199,9 +199,7 @@ export class EmbededNearpay {
     );
   }
 
-  public getTransaction({
-    transactionUUID,
-  }: EmbededGetTransactionOptions): Promise<string> {
+  public getTransaction({ transactionUUID }: EmbededGetTransactionOptions) {
     const data = {
       transaction_uuid: transactionUUID,
     };
@@ -213,7 +211,7 @@ export class EmbededNearpay {
 
   public getReconciliation({
     reconciliationUUID,
-  }: EmbededGetReconciliationOptions): Promise<string> {
+  }: EmbededGetReconciliationOptions) {
     const data = {
       reconciliation_uuid: reconciliationUUID,
     };
@@ -227,7 +225,7 @@ export class EmbededNearpay {
     page,
 
     limit,
-  }: EmbededGetReconciliationsOptions): Promise<string> {
+  }: EmbededGetReconciliationsOptions) {
     const data = {
       page,
       limit,
@@ -238,11 +236,11 @@ export class EmbededNearpay {
     );
   }
 
-  public receiptToImage(inputParams: any): Promise<string> {
-    return this._callPluginMethod(async () =>
-      NearpayPlugin.recieptToImage(inputParams)
-    );
-  }
+  // public receiptToImage(inputParams: any) {
+  //   return this._callPluginMethod(async () =>
+  //     NearpayPlugin.recieptToImage(inputParams)
+  //   );
+  // }
 
   private async _callPluginMethod(
     methodFunc: () => Promise<any>

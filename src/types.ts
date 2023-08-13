@@ -24,7 +24,7 @@ export type InitializeOptions = {
 
 export type EmbededPurchaseOptions = {
   amount: number;
-  transactionUUID?: string;
+  transactionId?: string;
   customerReferenceNumber?: string;
   enableReceiptUi?: boolean;
   enableReversalUi?: boolean;
@@ -35,7 +35,7 @@ export type EmbededPurchaseOptions = {
 export type EmbededRefundOptions = {
   amount: number;
   originalTransactionUUID: string;
-  transactionUUID?: string;
+  transactionId?: string;
   customerReferenceNumber?: string;
   enableReceiptUi?: boolean;
   enableReversalUi?: boolean;

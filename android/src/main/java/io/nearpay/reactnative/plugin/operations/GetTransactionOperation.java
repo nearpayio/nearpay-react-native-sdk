@@ -11,14 +11,14 @@ import java.util.concurrent.CompletableFuture;
 import io.nearpay.reactnative.plugin.ErrorStatus;
 import io.nearpay.reactnative.plugin.NearpayLib;
 import io.nearpay.reactnative.plugin.PluginProvider;
+import io.nearpay.reactnative.plugin.sender.NearpaySender;
 import io.nearpay.reactnative.plugin.util.ArgsFilter;
 import io.nearpay.sdk.data.models.TransactionReceipt;
 import io.nearpay.sdk.utils.enums.GetTransactionFailure;
 import io.nearpay.sdk.utils.enums.GetTransactionFailure;
 import io.nearpay.sdk.utils.listeners.GetTransactionListener;
 
-public class GetTransactionOperation extends  BaseOperation{
-
+public class GetTransactionOperation extends BaseOperation {
 
   public GetTransactionOperation(PluginProvider provider) {
     super(provider);
@@ -26,17 +26,16 @@ public class GetTransactionOperation extends  BaseOperation{
   }
 
   @Override
-  public void run(Map args, CompletableFuture<Map> promise) {
+  public void run(Map args, NearpaySender sender) {
     ArgsFilter filter = new ArgsFilter(args);
     String trUuid = filter.getTransactionUuid();
     String adminPin = filter.getAdminPin();
 
-
-    provider.getNearpayLib().nearpay.getTransactionByUuid(trUuid,  new GetTransactionListener() {
+    provider.getNearpayLib().nearpay.getTransactionByUuid(trUuid, new GetTransactionListener() {
       @Override
       public void onSuccess(@Nullable List<TransactionReceipt> list) {
         Map toSend = NearpayLib.QueryResponse(ErrorStatus.success_code, null, list);
-        promise.complete(toSend);
+        sender.send(toSend);
       }
 
       @Override
@@ -57,7 +56,7 @@ public class GetTransactionOperation extends  BaseOperation{
           status = ErrorStatus.invalid_code;
         }
         Map response = NearpayLib.QueryResponse(status, message, new ArrayList());
-        promise.complete(response);
+        sender.send(response);
 
       }
     });

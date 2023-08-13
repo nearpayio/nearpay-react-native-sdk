@@ -9,7 +9,7 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 let authtype = AuthenticationType.email;
-let authvalue = '<enter your email here>';
+let authvalue = 'f.alhajeri@nearpay.io';
 let environment = Environments.sandbox;
 //Time out n seconds
 let timeout = 60;
@@ -31,7 +31,7 @@ export default function useEmbededSide() {
     return embededNearpay
       .current!.purchase({
         amount: amount, // Required
-        transactionUUID: uuidv4(), //[Optional] speacify the transaction uuid
+        transactionId: uuidv4(), //[Optional] speacify the transaction uuid
         customerReferenceNumber: '', // [Optional] referance nuber for customer use only
         enableReceiptUi: true, // [Optional] show the reciept in ui
         enableReversalUi: true, //[Optional] enable reversal of transaction from ui
@@ -46,7 +46,7 @@ export default function useEmbededSide() {
       })
       .catch((e) => {
         console.log(`=-=-=-= purchse failed =-=-=-=`);
-        console.log(`error: ${e}`);
+        console.dir({ e }, { depth: null });
         throw e;
       });
   }
@@ -57,7 +57,7 @@ export default function useEmbededSide() {
       .current!.refund({
         amount: amount, // [Required]
         originalTransactionUUID: uuid, // [Required] the orginal trnasaction uuid that you want to reverse
-        transactionUUID: uuidv4(), //[Optional] speacify the transaction uuid
+        transactionId: uuidv4(), //[Optional] speacify the transaction uuid
         customerReferenceNumber: 'rerretest123333333', //[Optional]
         enableReceiptUi: true, // [Optional] show the reciept in ui
         enableReversalUi: true, //[Optional] enable reversal of transaction from ui
@@ -186,23 +186,27 @@ export default function useEmbededSide() {
   async function doSession() {
     console.log(`=-=-=-= session start =-=-=-=`);
 
-    axios(
-      'https://sandbox-api.nearpay.io/v1/clients-sdk/terminals/{terminal_id}/sessions',
-      {
-        method: 'post',
-        headers: {
-          'api-key': '{your-api-key}',
-        },
-        data: {
-          type: 'purchase',
-          amount: 40,
-        },
-        // body: JSON.stringify({
-        //   type: 'purchase',
-        //   amount: 40,
-        // }),
-      }
-    )
+    const terminal_id = '12a8abeb-cdf6-4432-a287-2d3a54bc7b88';
+
+    const api_key =
+      'A221mIWc0ldmrmqkAM3kSITN3i58smLvhpBAP0pOyXxc9mDxphrkqmBKt4HL';
+
+    const url = `https://sandbox-api.nearpay.io/v1/clients-sdk/terminals/${terminal_id}/sessions`;
+
+    const res = await axios(url, {
+      method: 'post',
+      headers: {
+        'api-key': `${api_key}`,
+      },
+      data: {
+        type: 'purchase',
+        amount: 400,
+      },
+      // body: JSON.stringify({
+      //   type: 'purchase',
+      //   amount: 40,
+      // }),
+    })
       .then((res) => {
         console.log({ res: res.data });
 
@@ -217,13 +221,13 @@ export default function useEmbededSide() {
       .then((response) => {
         console.log(`=-=-=-= session success =-=-=-=`);
         console.log(`session respone:`);
-        console.log(response);
+        console.log({ response });
 
         return response;
       })
       .catch((e) => {
         console.log(`=-=-=-= session failed =-=-=-=`);
-        console.log(`error: ${e}`);
+        console.log({ e });
         throw e;
       });
   }

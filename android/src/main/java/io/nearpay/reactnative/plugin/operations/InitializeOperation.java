@@ -9,6 +9,7 @@ import java.util.concurrent.CompletableFuture;
 import io.nearpay.reactnative.plugin.ErrorStatus;
 import io.nearpay.reactnative.plugin.NearpayLib;
 import io.nearpay.reactnative.plugin.PluginProvider;
+import io.nearpay.reactnative.plugin.sender.NearpaySender;
 import io.nearpay.sdk.Environments;
 import io.nearpay.sdk.NearPay;
 
@@ -53,7 +54,7 @@ public class InitializeOperation extends BaseOperation {
 
     @SuppressLint("NewApi")
     @Override
-    public void run(Map args, CompletableFuture<Map> promise) {
-        promise.complete(doInitialization(args));
+    public void run(Map args, NearpaySender sender) {
+        sender.send(doInitialization(args));
     }
 }
