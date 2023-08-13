@@ -85,7 +85,7 @@ embededNearpay
 embededNearpay
   .purchase({
     amount: 1000, // Required, maens 10.00
-    transactionUUID: uuidv4(), //[Optional] speacify the transaction uuid
+    transactionId: uuidv4(), //[Optional] speacify the transaction uuid for later retreval
     customerReferenceNumber: '', // [Optional] referance number for customer use only
     enableReceiptUi: true, // [Optional] show the reciept in ui
     enableReversalUi: true, //[Optional] enable reversal of transaction from ui
@@ -112,7 +112,7 @@ embededNearpay
   .refund({
     amount: 1000, // [Required], means 10.00
     originalTransactionUUID: 'f5079b9d-b61c-4180-8a4d-9780f7a9cd8f', // [Required] the orginal trnasaction uuid that you want to refund
-    transactionUUID: uuidv4(), //[Optional] speacify the transaction uuid
+    transactionId: uuidv4(), //[Optional] speacify the transaction uuid for later retreval
     customerReferenceNumber: '', //[Optional]
     enableReceiptUi: true, // [Optional] show the reciept in ui
     enableReversalUi: true, //[Optional] enable reversal of transaction from ui

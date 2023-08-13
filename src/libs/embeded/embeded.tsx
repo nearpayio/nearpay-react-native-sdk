@@ -93,7 +93,7 @@ export class EmbededNearpay {
     const data = {
       amount,
       original_transaction_uuid: originalTransactionUUID,
-      jobid: transactionId,
+      job_id: transactionId,
       customer_reference_number: customerReferenceNumber,
       finishTimeout,
       enableReversal: enableReversalUi,

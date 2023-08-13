@@ -31,7 +31,7 @@ export default function useEmbededSide() {
     return embededNearpay
       .current!.purchase({
         amount: amount, // Required
-        transactionUUID: uuidv4(), //[Optional] speacify the transaction uuid
+        transactionId: uuidv4(), //[Optional] speacify the transaction uuid
         customerReferenceNumber: '', // [Optional] referance nuber for customer use only
         enableReceiptUi: true, // [Optional] show the reciept in ui
         enableReversalUi: true, //[Optional] enable reversal of transaction from ui
@@ -57,7 +57,7 @@ export default function useEmbededSide() {
       .current!.refund({
         amount: amount, // [Required]
         originalTransactionUUID: uuid, // [Required] the orginal trnasaction uuid that you want to reverse
-        transactionUUID: uuidv4(), //[Optional] speacify the transaction uuid
+        transactionId: uuidv4(), //[Optional] speacify the transaction uuid
         customerReferenceNumber: 'rerretest123333333', //[Optional]
         enableReceiptUi: true, // [Optional] show the reciept in ui
         enableReversalUi: true, //[Optional] enable reversal of transaction from ui
