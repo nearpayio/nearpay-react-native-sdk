@@ -43,13 +43,13 @@ export enum UIPosition {
 export type InitializeOptions = {
   authtype: AuthenticationType;
   authvalue: string;
-  locale?: Locale;
   environment: Environments;
-  networkConfig: NetworkConfig;
-  arabicPaymentText: string;
-  englishPaymentText: string;
-  uiPosition: UIPosition;
-  loadingUi: boolean;
+  locale?: Locale;
+  networkConfig?: NetworkConfig;
+  arabicPaymentText?: string;
+  englishPaymentText?: string;
+  uiPosition?: UIPosition;
+  loadingUi?: boolean;
 };
 
 export type EmbededPurchaseOptions = {
@@ -112,18 +112,22 @@ export type EmbededReceiptToImageOptions = {
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
-export type EmbededGetTransactionsOptions = {
+export type EmbededGetTransactionsListOptions = {
   page?: number;
   limit?: number;
+  startDate?: Date;
+  endDate?: Date;
 };
 
 export type EmbededGetTransactionOptions = {
   transactionUUID: string;
 };
 
-export type EmbededGetReconciliationsOptions = {
+export type EmbededGetReconciliationsListOptions = {
   page?: number;
   limit?: number;
+  startDate?: Date;
+  endDate?: Date;
 };
 
 export type EmbededGetReconciliationOptions = {

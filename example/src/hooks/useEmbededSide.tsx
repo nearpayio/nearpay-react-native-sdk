@@ -208,8 +208,6 @@ export default function useEmbededSide() {
       // }),
     })
       .then((res) => {
-        console.log({ res: res.data });
-
         return embededNearpay.current!.session({
           sessionID: res.data.id, // Required
           enableReceiptUi: true, // [Optional] show the reciept in ui
@@ -240,10 +238,15 @@ export default function useEmbededSide() {
   }
 
   function getTransactions() {
+    const from = new Date(Date.UTC(2023, 7, 10));
+    const to = new Date(Date.now());
+
     embededNearpay.current
       ?.getTransactionsList({
         page: 1,
         limit: 20,
+        startDate: from,
+        endDate: to,
       })
       .then((res) => {
         console.log(`=-=-=-= get transactions success =-=-=-=`);
@@ -263,10 +266,15 @@ export default function useEmbededSide() {
   }
 
   function getReconciliations() {
+    const from = new Date(Date.UTC(2023, 7, 10));
+    const to = new Date(Date.now());
+
     return embededNearpay.current
       ?.getReconciliationsList({
         page: 1,
         limit: 20,
+        startDate: from,
+        endDate: to,
       })
       .then((res) => {
         console.log(`=-=-=-= get Reconciliations success =-=-=-=`);

@@ -7,8 +7,8 @@ import type {
   EmbededPurchaseOptions,
   InitializeOptions,
   EmbededUpdateAuthenticationOptions,
-  EmbededGetTransactionsOptions,
-  EmbededGetReconciliationsOptions,
+  EmbededGetTransactionsListOptions,
+  EmbededGetReconciliationsListOptions,
   EmbededGetTransactionOptions,
   EmbededGetReconciliationOptions,
   EmbededReceiptToImageOptions,
@@ -197,12 +197,15 @@ export class EmbededNearpay {
   // TODO: add dates
   public getTransactionsList({
     page,
-
     limit,
-  }: EmbededGetTransactionsOptions) {
+    startDate,
+    endDate,
+  }: EmbededGetTransactionsListOptions) {
     const data = {
       page,
       limit,
+      start_date: startDate?.toISOString(),
+      end_date: endDate?.toISOString(),
     };
 
     return this._callPluginMethod(async () =>
@@ -236,10 +239,14 @@ export class EmbededNearpay {
   public getReconciliationsList({
     page,
     limit,
-  }: EmbededGetReconciliationsOptions) {
+    endDate,
+    startDate,
+  }: EmbededGetReconciliationsListOptions) {
     const data = {
       page,
       limit,
+      start_date: startDate?.toISOString(),
+      end_date: endDate?.toISOString(),
     };
 
     return this._callPluginMethod(async () =>
@@ -263,9 +270,7 @@ export class EmbededNearpay {
   ): Promise<any> {
     const res = JSON.parse(await methodFunc());
 
-    console.log({ res: JSON.stringify(res) });
-
-    if (res.status === 200) {
+    if (res.status >= 200 && res.status < 300) {
       return res;
     } else {
       throw res;
