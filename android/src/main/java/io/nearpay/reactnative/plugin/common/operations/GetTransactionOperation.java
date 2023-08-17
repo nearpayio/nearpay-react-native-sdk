@@ -30,7 +30,7 @@ public class GetTransactionOperation extends BaseOperation {
     provider.getNearpayLib().nearpay.getTransactionByUuid(trUuid, new GetTransactionListener() {
       @Override
       public void onSuccess(@NonNull TransactionData transactionData) {
-        Map toSend = NearpayLib.QueryResponse(ErrorStatus.success_code, null, transactionData);
+        Map toSend = NearpayLib.ApiResponse(ErrorStatus.success_code, null, transactionData);
         sender.send(toSend);
 
       }
@@ -50,11 +50,43 @@ public class GetTransactionOperation extends BaseOperation {
         } else if (getDataFailure instanceof GetDataFailure.InvalidStatus) {
           status = ErrorStatus.invalid_code;
         }
-        Map response = NearpayLib.QueryResponse(status, message, new ArrayList());
+        Map response = NearpayLib.ApiResponse(status, message, new ArrayList());
         sender.send(response);
 
       }
 
+      // @Override
+      // public void onSuccess(@Nullable List<TransactionReceipt> list) {
+      // Map toSend = NearpayLib.QueryResponse(ErrorStatus.success_code, null, list);
+      // sender.send(toSend);
+      // }
+
+      // @Override
+      // public void onFailure(@NonNull GetTransactionFailure getTransactionFailure) {
+      // int status = ErrorStatus.general_failure_code;
+      // String message = null;
+      // List<TransactionReceipt> receipts = null;
+      //
+      // if (getTransactionFailure instanceof GetTransactionFailure.InvalidAdminPin) {
+      // status = ErrorStatus.invalid_admin_pin;
+      // } else if (getTransactionFailure instanceof
+      // GetTransactionFailure.FailureMessage) {
+      // status = ErrorStatus.failure_code;
+      // message = ((GetTransactionFailure.FailureMessage)
+      // getTransactionFailure).getMessage();
+      // } else if (getTransactionFailure instanceof
+      // GetTransactionFailure.AuthenticationFailed) {
+      // status = ErrorStatus.auth_failed_code;
+      // message = ((GetTransactionFailure.AuthenticationFailed)
+      // getTransactionFailure).getMessage();
+      // } else if (getTransactionFailure instanceof
+      // GetTransactionFailure.InvalidStatus) {
+      // status = ErrorStatus.invalid_code;
+      // }
+      // Map response = NearpayLib.QueryResponse(status, message, new ArrayList());
+      // sender.send(response);
+      //
+      // }
     });
   }
 }

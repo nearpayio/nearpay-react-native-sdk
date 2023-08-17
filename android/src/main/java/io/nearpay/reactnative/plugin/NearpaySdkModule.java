@@ -82,7 +82,7 @@ public class NearpaySdkModule extends ReactContextBaseJavaModule {
     // operation.run(args, promise);
 
     Map args = NearPayUtil.toMap(params);
-//    provider.getArgsFilter().filter(args);
+    // provider.getArgsFilter().filter(args);
 
     ArgsFilter filter = new ArgsFilter(args);
 
@@ -170,8 +170,8 @@ public class NearpaySdkModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void getTransactions(ReadableMap params, Promise reactPromise) {
-    runOperation("getTransactions", params, reactPromise);
+  public void getTransactionsList(ReadableMap params, Promise reactPromise) {
+    runOperation("getTransactionsList", params, reactPromise);
   }
 
   @ReactMethod
@@ -180,10 +180,8 @@ public class NearpaySdkModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void getReconciliations(ReadableMap params, Promise reactPromise) {
-    runOperation("getReconciliations", params, reactPromise);
+  public void getReconciliationsList(ReadableMap params, Promise reactPromise) {
+    runOperation("getReconciliationsList", params, reactPromise);
   }
-
-
 
 }

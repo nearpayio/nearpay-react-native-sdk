@@ -3,6 +3,7 @@ package io.nearpay.reactnative.plugin.common.operations;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -25,12 +26,14 @@ public class GetReconciliationsPageOperation extends BaseOperation {
     String adminPin = filter.getAdminPin();
     int page = filter.getPage();
     int limit = filter.getLimit();
+    LocalDateTime from = filter.getStartDate();
+    LocalDateTime to = filter.getEndDate();
 
-    provider.getNearpayLib().nearpay.getReconciliationListPage(page, limit,
+    provider.getNearpayLib().nearpay.getReconciliationListPage(page, limit, from, to,
         new GetReconciliationPageListener() {
           @Override
           public void onSuccess(@Nullable ReconciliationList reconciliationList) {
-            Map toSend = NearpayLib.QueryResponse(ErrorStatus.success_code, null, reconciliationList);
+            Map toSend = NearpayLib.ApiResponse(ErrorStatus.success_code, null, reconciliationList);
             sender.send(toSend);
 
           }
@@ -49,7 +52,7 @@ public class GetReconciliationsPageOperation extends BaseOperation {
             } else if (getDataFailure instanceof GetDataFailure.InvalidStatus) {
               status = ErrorStatus.invalid_code;
             }
-            Map response = NearpayLib.QueryResponse(status, message, new ArrayList());
+            Map response = NearpayLib.ApiResponse(status, message, new ArrayList());
             sender.send(response);
 
           }

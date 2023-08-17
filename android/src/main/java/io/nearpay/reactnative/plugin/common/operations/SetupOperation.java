@@ -24,7 +24,7 @@ public class SetupOperation extends BaseOperation {
         String authType = provider.getNearpayLib().authTypeShared;
         boolean isAuthValidated = provider.getNearpayLib().isAuthInputValidation(authType, authvalue);
         if (!isAuthValidated) {
-            Map<String, Object> paramMap = NearpayLib.commonResponse(ErrorStatus.invalid_argument_code,
+            Map<String, Object> paramMap = NearpayLib.ApiResponse(ErrorStatus.invalid_argument_code,
                     "Authentication parameter missing");
             sender.send(paramMap);
             return;
@@ -34,7 +34,7 @@ public class SetupOperation extends BaseOperation {
             @Override
             public void onSetupCompleted() {
                 // when the setup is done successfully
-                Map<String, Object> paramMap = NearpayLib.commonResponse(ErrorStatus.success_code,
+                Map<String, Object> paramMap = NearpayLib.ApiResponse(ErrorStatus.success_code,
                         "Application setup completed successfully");
                 sender.send(paramMap);
             }
@@ -43,12 +43,12 @@ public class SetupOperation extends BaseOperation {
             public void onSetupFailed(@NonNull SetupFailure setupFailure) {
                 if (setupFailure instanceof SetupFailure.AlreadyInstalled) {
                     // when the payment plugin is already installed .
-                    Map<String, Object> paramMap = NearpayLib.commonResponse(ErrorStatus.already_installed_code,
+                    Map<String, Object> paramMap = NearpayLib.ApiResponse(ErrorStatus.already_installed_code,
                             "Plugin Application Already Installed");
                     sender.send(paramMap);
                 } else if (setupFailure instanceof SetupFailure.NotInstalled) {
                     // when the installtion failed .
-                    Map<String, Object> paramMap = NearpayLib.commonResponse(ErrorStatus.not_installed_code,
+                    Map<String, Object> paramMap = NearpayLib.ApiResponse(ErrorStatus.not_installed_code,
                             "Plugin Application Installation Failed");
                     sender.send(paramMap);
                 } else if (setupFailure instanceof SetupFailure.AuthenticationFailed) {
@@ -60,10 +60,10 @@ public class SetupOperation extends BaseOperation {
                     if (authType.equalsIgnoreCase("jwt")) {
                         provider.getNearpayLib().nearpay
                                 .updateAuthentication(provider.getNearpayLib().getAuthType(authType, authvalue));
-                        Map<String, Object> paramMap = NearpayLib.commonResponse(ErrorStatus.auth_failed_code, message);
+                        Map<String, Object> paramMap = NearpayLib.ApiResponse(ErrorStatus.auth_failed_code, message);
                         sender.send(paramMap);
                     } else {
-                        Map<String, Object> paramMap = NearpayLib.commonResponse(ErrorStatus.auth_failed_code, message);
+                        Map<String, Object> paramMap = NearpayLib.ApiResponse(ErrorStatus.auth_failed_code, message);
                         sender.send(paramMap);
                     }
 
@@ -72,11 +72,10 @@ public class SetupOperation extends BaseOperation {
                     String messageResp = ((SetupFailure.InvalidStatus) setupFailure).toString();
                     String message = messageResp != "" && messageResp.length() > 0 ? messageResp
                             : ErrorStatus.invalid_status_messsage;
-                    Map<String, Object> paramMap = NearpayLib.commonResponse(ErrorStatus.invalid_code, message);
+                    Map<String, Object> paramMap = NearpayLib.ApiResponse(ErrorStatus.invalid_code, message);
                     sender.send(paramMap);
                 }
             }
         });
     }
-
 }

@@ -3,6 +3,7 @@ package io.nearpay.reactnative.plugin.common.operations;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -25,11 +26,13 @@ public class GetTransactionPageOperation extends BaseOperation {
   public void run(ArgsFilter filter, NearpaySender sender) {
     int page = filter.getPage();
     int limit = filter.getLimit();
+    LocalDateTime from = filter.getStartDate();
+    LocalDateTime to = filter.getEndDate();
 
-    provider.getNearpayLib().nearpay.getTransactionListPage(page, limit, new GetTransactionPageListener() {
+    provider.getNearpayLib().nearpay.getTransactionListPage(page, limit, from, to, new GetTransactionPageListener() {
       @Override
       public void onSuccess(@Nullable TransactionBannerList transactionBannerList) {
-        Map toSend = NearpayLib.QueryResponse(ErrorStatus.success_code, null, transactionBannerList);
+        Map toSend = NearpayLib.ApiResponse(ErrorStatus.success_code, null, transactionBannerList);
         sender.send(toSend);
 
       }
@@ -48,7 +51,7 @@ public class GetTransactionPageOperation extends BaseOperation {
         } else if (getDataFailure instanceof GetDataFailure.InvalidStatus) {
           status = ErrorStatus.invalid_code;
         }
-        Map response = NearpayLib.QueryResponse(status, message, new ArrayList());
+        Map response = NearpayLib.ApiResponse(status, message, new ArrayList());
         sender.send(response);
 
       }

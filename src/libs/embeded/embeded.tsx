@@ -42,6 +42,7 @@ export class EmbededNearpay {
     this.initialize({ authtype, authvalue, environment, locale });
   }
 
+  // TODO: add the new initlize data
   public async initialize({
     authtype,
     authvalue,
@@ -184,7 +185,7 @@ export class EmbededNearpay {
   }
 
   // =-=-=- Queries -=-=-=
-
+  // TODO: add dates
   public getTransactionsList({
     page,
 
@@ -196,7 +197,7 @@ export class EmbededNearpay {
     };
 
     return this._callPluginMethod(async () =>
-      NearpayPlugin.getTransactions(data)
+      NearpayPlugin.getTransactionsList(data)
     );
   }
 
@@ -222,9 +223,9 @@ export class EmbededNearpay {
     );
   }
 
+  // TODO: add dates
   public getReconciliationsList({
     page,
-
     limit,
   }: EmbededGetReconciliationsOptions) {
     const data = {
@@ -233,7 +234,7 @@ export class EmbededNearpay {
     };
 
     return this._callPluginMethod(async () =>
-      NearpayPlugin.getReconciliations(data)
+      NearpayPlugin.getReconciliationsList(data)
     );
   }
 
@@ -247,6 +248,7 @@ export class EmbededNearpay {
     );
   }
 
+  // TODO: revise return types
   private async _callPluginMethod(
     methodFunc: () => Promise<any>
   ): Promise<any> {

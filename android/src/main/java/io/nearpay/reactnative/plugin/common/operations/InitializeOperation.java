@@ -10,6 +10,9 @@ import io.nearpay.reactnative.plugin.common.sender.NearpaySender;
 import io.nearpay.reactnative.plugin.common.filter.ArgsFilter;
 import io.nearpay.sdk.Environments;
 import io.nearpay.sdk.NearPay;
+import io.nearpay.sdk.utils.PaymentText;
+import io.nearpay.sdk.utils.enums.NetworkConfiguration;
+import io.nearpay.sdk.utils.enums.UIPosition;
 
 public class InitializeOperation extends BaseOperation {
 
@@ -17,51 +20,17 @@ public class InitializeOperation extends BaseOperation {
         super(provider);
     }
 
-    // public Map doInitialization(ArgsFilter filter) {
-    // String authvalue = args.get("authvalue") == null ? "" :
-    // args.get("authvalue").toString();
-    // String authType = args.get("authtype") == null ? "" :
-    // args.get("authtype").toString();
-    // this.provider.getNearpayLib().authTypeShared = authType;
-    // this.provider.getNearpayLib().authValueShared = authvalue;
-    // boolean isAuthValidated =
-    // this.provider.getNearpayLib().isAuthInputValidation(authType, authvalue);
-    // String localeStr = args.get("locale") != null ? args.get("locale").toString()
-    // : "default";
-    // Locale locale = localeStr.equals("default") ? Locale.getDefault() :
-    // Locale.getDefault();
-    // String environmentStr = args.get("environment") == null ? "sandbox"
-    // : args.get("environment").toString();
-    // Environments env = environmentStr.equals("sandbox") ? Environments.SANDBOX
-    // : environmentStr.equals("production") ? Environments.PRODUCTION :
-    // Environments.TESTING;
-
-    // Map<String, Object> response;
-
-    // if (!isAuthValidated) {
-    // response = NearpayLib.commonResponse(ErrorStatus.invalid_argument_code,
-    // "Authentication parameter missing");
-    // } else {
-    // this.provider.getNearpayLib().nearpay = new NearPay(
-    // this.provider.getNearpayLib().context,
-    // this.provider.getNearpayLib().getAuthType(authType, authvalue),
-    // locale,
-    // env);
-
-    // response = NearpayLib.commonResponse(ErrorStatus.success_code,
-    // "NearPay initialized");
-    // }
-
-    // return response;
-
-    // }
-
     @Override
     public void run(ArgsFilter filter, NearpaySender sender) {
         String authValue = filter.getAuthValue();
         String authType = filter.getAuthType();
         Locale locale = filter.getLocale();
         Environments env = filter.getEnviroment();
+        NetworkConfiguration networkConfig = filter.getNetworkConfiguration();
+        UIPosition uiPosition = filter.getUiPosition();
+        Boolean loadingUI = filter.getLoadingUi();
+        String arabicPaymentText = filter.getArabicPaymentText();
+        String englishPaymentText = filter.getEnglishPaymentText();
 
         this.provider.getNearpayLib().authTypeShared = authType;
         this.provider.getNearpayLib().authValueShared = authValue;
@@ -70,16 +39,28 @@ public class InitializeOperation extends BaseOperation {
         Map<String, Object> response;
 
         if (!isAuthValidated) {
-            response = NearpayLib.commonResponse(ErrorStatus.invalid_argument_code,
+            response = NearpayLib.ApiResponse(ErrorStatus.invalid_argument_code,
                     "Authentication parameter missing");
         } else {
-            this.provider.getNearpayLib().nearpay = new NearPay(
-                    this.provider.getNearpayLib().context,
-                    this.provider.getNearpayLib().getAuthType(authType, authValue),
-                    locale,
-                    env);
+            NearPay.Builder builder = new NearPay.Builder()
+                    .context(this.provider.getNearpayLib().context)
+                    .authenticationData(this.provider.getNearpayLib().getAuthType(authType, authValue))
+                    .environment(env)
+                    .locale(locale)
+                    .networkConfiguration(networkConfig)
+                    .paymentText(new PaymentText(arabicPaymentText, englishPaymentText))
+                    .uiPosition(uiPosition)
+                    .loadingUi(loadingUI);
 
-            response = NearpayLib.commonResponse(ErrorStatus.success_code,
+            this.provider.getNearpayLib().nearpay = builder.build();
+            //
+            // new NearPay.Builder()(
+            // this.provider.getNearpayLib().context,
+            // this.provider.getNearpayLib().getAuthType(authType, authValue),
+            // locale,
+            // env);
+
+            response = NearpayLib.ApiResponse(ErrorStatus.success_code,
                     "NearPay initialized");
         }
 
