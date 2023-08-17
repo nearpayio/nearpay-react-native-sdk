@@ -306,9 +306,13 @@ export class EmbededNearpay {
 
   public async receiptToImage({
     receipt,
+    receiptFontSize = 1,
+    receiptWidth = 850,
   }: EmbededReceiptToImageOptions): Promise<Uint8Array> {
     const data = {
       receipt: JSON.stringify(receipt),
+      receipt_width: receiptWidth,
+      receipt_font_size: receiptFontSize,
     };
 
     const response = await this._callPluginMethod(async () =>

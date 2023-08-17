@@ -94,16 +94,24 @@ export default function EmbededSide() {
               onPress={() => doReceiptToImage()}
             />
           </View>
-          <View>
+          <View
+            style={{
+              height: 1000,
+            }}
+          >
             {base64Image === undefined && <Text>No Image</Text>}
             {base64Image !== undefined && (
               <>
                 <Image
-                  source={{ uri: `data:image/jpeg;base64,${base64Image}` }}
+                  style={{
+                    width: 400,
+                    height: 1000,
+                  }}
+                  source={{ uri: `data:image/jpeg;base64, ${base64Image}` }}
                 />
-                <View>
-                  <Text>{base64Image}</Text>
-                </View>
+                {/* <View>
+                  <Text>{`data:image/jpeg;base64, ${base64Image}`}</Text>
+                </View> */}
               </>
             )}
           </View>

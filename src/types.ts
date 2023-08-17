@@ -110,6 +110,8 @@ export type EmbededUpdateAuthenticationOptions = {
 
 export type EmbededReceiptToImageOptions = {
   receipt: TransactionReceipt;
+  receiptWidth?: number;
+  receiptFontSize?: number;
 };
 
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=
