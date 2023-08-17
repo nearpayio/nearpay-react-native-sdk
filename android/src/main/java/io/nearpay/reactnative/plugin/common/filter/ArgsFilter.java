@@ -183,33 +183,12 @@ public class ArgsFilter {
 
     @SuppressLint("NewApi")
     public LocalDateTime getStartDate() {
-        // String isoDate = savedArgs.get("start_date") != null ? (String)
-        // savedArgs.get("start_date") : null;
-        //
-        // System.out.println("from: " + isoDate);
-        //
-        // if(isoDate == null) return null;
-        //
-        // return LocalDateTime.parse(isoDate);
         return getIsoDate("start_date");
     }
 
     @SuppressLint("NewApi")
     public LocalDateTime getEndDate() {
-        // String isoDate = savedArgs.get("end_date") != null ? (String)
-        // savedArgs.get("end_date") : null;
-        //
-        // DateTimeFormatter formatter
-        // = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
-        //
-        // System.out.println("to: " + isoDate);
-        //
-        // if(isoDate == null) return null;
-        //
-        // return LocalDateTime.parse(isoDate, formatter);
-        //
         return getIsoDate("end_date");
-
     }
 
     public Boolean isEnableUiDismiss() {
