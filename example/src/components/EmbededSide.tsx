@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { Button, Image, StyleSheet, Text, View } from 'react-native';
 import useEmbededSide from '../hooks/useEmbededSide';
 import {
   AuthenticationType,
@@ -21,8 +21,10 @@ export default function EmbededSide() {
     getReconciliations,
     getTransaction,
     getTransactions,
+    doReceiptToImage,
     isAndroid,
     embededNearpay,
+    base64Image,
   } = useEmbededSide();
 
   return (
@@ -85,6 +87,33 @@ export default function EmbededSide() {
               title="get Reconciliations"
               onPress={() => getReconciliations()}
             />
+          </View>
+          <View style={styles.containerrow}>
+            <Button
+              title="receipt to image"
+              onPress={() => doReceiptToImage()}
+            />
+          </View>
+          <View
+            style={{
+              height: 1000,
+            }}
+          >
+            {base64Image === undefined && <Text>No Image</Text>}
+            {base64Image !== undefined && (
+              <>
+                <Image
+                  style={{
+                    width: 400,
+                    height: 1000,
+                  }}
+                  source={{ uri: `data:image/jpeg;base64, ${base64Image}` }}
+                />
+                {/* <View>
+                  <Text>{`data:image/jpeg;base64, ${base64Image}`}</Text>
+                </View> */}
+              </>
+            )}
           </View>
         </>
       )}

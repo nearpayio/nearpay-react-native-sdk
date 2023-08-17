@@ -7,11 +7,20 @@ import type {
   EmbededPurchaseOptions,
   InitializeOptions,
   EmbededUpdateAuthenticationOptions,
-  EmbededGetTransactionsOptions,
-  EmbededGetReconciliationsOptions,
+  EmbededGetTransactionsListOptions,
+  EmbededGetReconciliationsListOptions,
   EmbededGetTransactionOptions,
   EmbededGetReconciliationOptions,
+  EmbededReceiptToImageOptions,
+  SessionResponse,
 } from '../../types';
+import {
+  ReconciliationBannerList,
+  ReconciliationReceipt,
+  TransactionData,
+} from '@nearpaydev/nearpay-ts-sdk';
+import { SessionData } from '@nearpaydev/nearpay-ts-sdk';
+import { TransactionBannerList } from '@nearpaydev/nearpay-ts-sdk';
 
 const LINKING_ERROR =
   `The package 'react-native-nearpay-plugin' doesn't seem to be linked. Make sure: \n\n` +
@@ -31,14 +40,14 @@ const NearpayPlugin = NativeModules.NearpaySdk
     );
 
 export class EmbededNearpay {
-  constructor({ authtype, authvalue, environment, locale }: InitializeOptions) {
+  constructor(intOptions: InitializeOptions) {
     const isAndroid = Platform.select({ android: true });
 
     if (!isAndroid) {
       throw `Nearpay: the Embeded SDK is avalible only in Android`;
     }
 
-    this.initialize({ authtype, authvalue, environment, locale });
+    this.initialize(intOptions);
   }
 
   public async initialize({
@@ -46,12 +55,22 @@ export class EmbededNearpay {
     authvalue,
     environment,
     locale,
+    networkConfig,
+    uiPosition,
+    loadingUi,
+    arabicPaymentText,
+    englishPaymentText,
   }: InitializeOptions) {
     const data = {
       authtype,
       authvalue,
       environment,
       locale,
+      network_configuration: networkConfig,
+      ui_position: uiPosition,
+      loading_ui: loadingUi,
+      arabic_payment_text: arabicPaymentText,
+      english_payment_text: englishPaymentText,
     };
     return this._callPluginMethod(() => NearpayPlugin.initialize(data));
   }
@@ -64,7 +83,7 @@ export class EmbededNearpay {
     enableReversalUi = true,
     enableReceiptUi = true,
     enableUiDismiss = true,
-  }: EmbededPurchaseOptions) {
+  }: EmbededPurchaseOptions): Promise<TransactionData> {
     const data = {
       amount,
       customer_reference_number: customerReferenceNumber,
@@ -75,10 +94,16 @@ export class EmbededNearpay {
       job_id: transactionId,
     };
 
-    return this._callPluginMethod(async () => NearpayPlugin.purchase(data));
+    const response = await this._callPluginMethod(async () =>
+      NearpayPlugin.purchase(data)
+    );
+
+    const transactionData = response['result'];
+
+    return transactionData;
   }
 
-  public refund({
+  public async refund({
     amount,
     originalTransactionUUID,
     transactionId,
@@ -89,7 +114,7 @@ export class EmbededNearpay {
     enableUiDismiss = true,
     editableReversalAmountUI = true,
     adminPin,
-  }: EmbededRefundOptions) {
+  }: EmbededRefundOptions): Promise<TransactionData> {
     const data = {
       amount,
       original_transaction_uuid: originalTransactionUUID,
@@ -103,15 +128,21 @@ export class EmbededNearpay {
       ...(adminPin !== undefined ? { adminPin } : null),
     };
 
-    return this._callPluginMethod(async () => NearpayPlugin.refund(data));
+    const response = await this._callPluginMethod(async () =>
+      NearpayPlugin.refund(data)
+    );
+
+    const transactionData = response['result'];
+
+    return transactionData;
   }
 
-  public reconcile({
+  public async reconcile({
     finishTimeout = 60,
     enableReceiptUi = true,
     enableUiDismiss = true,
     adminPin,
-  }: EmbededReconcileOptions) {
+  }: EmbededReconcileOptions): Promise<ReconciliationReceipt> {
     const data = {
       finishTimeout,
       enableReceiptUi: enableReceiptUi,
@@ -119,15 +150,21 @@ export class EmbededNearpay {
       ...(adminPin !== undefined ? { adminPin } : null),
     };
 
-    return this._callPluginMethod(async () => NearpayPlugin.reconcile(data));
+    const response = await this._callPluginMethod(async () =>
+      NearpayPlugin.reconcile(data)
+    );
+
+    const reconciliationReceipt = response['result'];
+
+    return reconciliationReceipt;
   }
 
-  public reverse({
+  public async reverse({
     originalTransactionUUID,
     finishTimeout = 60,
     enableReceiptUi = true,
     enableUiDismiss = true,
-  }: EmbededReverseOptions) {
+  }: EmbededReverseOptions): Promise<TransactionData> {
     const data = {
       original_transaction_uuid: originalTransactionUUID,
       finishTimeout,
@@ -135,28 +172,34 @@ export class EmbededNearpay {
       enableReceiptUi: enableReceiptUi,
     };
 
-    return this._callPluginMethod(async () => NearpayPlugin.reverse(data));
+    const response = await this._callPluginMethod(async () =>
+      NearpayPlugin.reverse(data)
+    );
+
+    const transactionData = response['result'];
+
+    return transactionData;
   }
 
-  public logout() {
-    return this._callPluginMethod(async () =>
+  public async logout() {
+    return await this._callPluginMethod(async () =>
       NearpayPlugin.logout({ __dummy__: 1 })
     );
   }
 
-  public setup() {
-    return this._callPluginMethod(async () =>
+  public async setup() {
+    return await this._callPluginMethod(async () =>
       NearpayPlugin.setup({ __dummy__: 1 })
     );
   }
 
-  public session({
+  public async session({
     sessionID,
     finishTimeout = 60,
     enableReversalUi = true,
     enableReceiptUi = true,
     enableUiDismiss = true,
-  }: EmbededSessionOptions) {
+  }: EmbededSessionOptions): Promise<SessionResponse> {
     const data = {
       sessionID,
       finishTimeout,
@@ -165,10 +208,15 @@ export class EmbededNearpay {
       enableReceiptUi: enableReceiptUi,
     };
 
-    return this._callPluginMethod(async () => NearpayPlugin.session(data));
+    const response = await this._callPluginMethod(async () =>
+      NearpayPlugin.session(data)
+    );
+    const transactionData = response['result'];
+
+    return transactionData;
   }
 
-  public updateAuthentication({
+  public async updateAuthentication({
     authtype,
     authvalue,
   }: EmbededUpdateAuthenticationOptions) {
@@ -177,77 +225,112 @@ export class EmbededNearpay {
       authvalue,
     };
 
-    return this._callPluginMethod(async () =>
+    return await this._callPluginMethod(async () =>
       NearpayPlugin.updateAuthentication(data)
     );
   }
 
   // =-=-=- Queries -=-=-=
-
-  public getTransactionsList({
+  public async getTransactionsList({
     page,
-
     limit,
-  }: EmbededGetTransactionsOptions) {
+    startDate,
+    endDate,
+  }: EmbededGetTransactionsListOptions): Promise<TransactionBannerList> {
     const data = {
       page,
       limit,
+      start_date: startDate?.toISOString(),
+      end_date: endDate?.toISOString(),
     };
 
-    return this._callPluginMethod(async () =>
-      NearpayPlugin.getTransactions(data)
+    const response = await this._callPluginMethod(async () =>
+      NearpayPlugin.getTransactionsList(data)
     );
+    const transactionBannerList = response['result'];
+
+    return transactionBannerList;
   }
 
-  public getTransaction({ transactionUUID }: EmbededGetTransactionOptions) {
+  public async getTransaction({
+    transactionUUID,
+  }: EmbededGetTransactionOptions): Promise<TransactionData> {
     const data = {
       transaction_uuid: transactionUUID,
     };
 
-    return this._callPluginMethod(async () =>
+    const response = await this._callPluginMethod(async () =>
       NearpayPlugin.getTransaction(data)
     );
+
+    const transactionData = response['result'];
+
+    return transactionData;
   }
 
-  public getReconciliation({
+  public async getReconciliation({
     reconciliationUUID,
-  }: EmbededGetReconciliationOptions) {
+  }: EmbededGetReconciliationOptions): Promise<ReconciliationReceipt> {
     const data = {
       reconciliation_uuid: reconciliationUUID,
     };
 
-    return this._callPluginMethod(async () =>
+    const response = await this._callPluginMethod(async () =>
       NearpayPlugin.getReconciliation(data)
     );
+    const reconciliationReceipt = response['result'];
+
+    return reconciliationReceipt;
   }
 
-  public getReconciliationsList({
+  public async getReconciliationsList({
     page,
-
     limit,
-  }: EmbededGetReconciliationsOptions) {
+    endDate,
+    startDate,
+  }: EmbededGetReconciliationsListOptions): Promise<ReconciliationBannerList> {
     const data = {
       page,
       limit,
+      start_date: startDate?.toISOString(),
+      end_date: endDate?.toISOString(),
     };
 
-    return this._callPluginMethod(async () =>
-      NearpayPlugin.getReconciliations(data)
+    const response = await this._callPluginMethod(async () =>
+      NearpayPlugin.getReconciliationsList(data)
     );
+    const ReconciliationBannerList = response['result'];
+
+    return ReconciliationBannerList;
   }
 
-  // public receiptToImage(inputParams: any) {
-  //   return this._callPluginMethod(async () =>
-  //     NearpayPlugin.recieptToImage(inputParams)
-  //   );
-  // }
+  public async receiptToImage({
+    receipt,
+    receiptFontSize = 1,
+    receiptWidth = 850,
+  }: EmbededReceiptToImageOptions): Promise<Uint8Array> {
+    const data = {
+      receipt: JSON.stringify(receipt),
+      receipt_width: receiptWidth,
+      receipt_font_size: receiptFontSize,
+    };
 
+    const response = await this._callPluginMethod(async () =>
+      NearpayPlugin.receiptToImage(data)
+    );
+
+    const bytes = Uint8Array.from(response['result']);
+
+    return bytes;
+  }
+
+  // TODO: revise return types
   private async _callPluginMethod(
     methodFunc: () => Promise<any>
   ): Promise<any> {
     const res = JSON.parse(await methodFunc());
 
-    if (res.status === 200) {
+    if (res.status >= 200 && res.status < 300) {
       return res;
     } else {
       throw res;
