@@ -32,28 +32,37 @@ const NearpayPlugin = NativeModules.NearpaySdk
     );
 
 export class EmbededNearpay {
-  constructor({ authtype, authvalue, environment, locale }: InitializeOptions) {
+  constructor(intOptions: InitializeOptions) {
     const isAndroid = Platform.select({ android: true });
 
     if (!isAndroid) {
       throw `Nearpay: the Embeded SDK is avalible only in Android`;
     }
 
-    this.initialize({ authtype, authvalue, environment, locale });
+    this.initialize(intOptions);
   }
 
-  // TODO: add the new initlize data
   public async initialize({
     authtype,
     authvalue,
     environment,
     locale,
+    networkConfig,
+    uiPosition,
+    loadingUi,
+    arabicPaymentText,
+    englishPaymentText,
   }: InitializeOptions) {
     const data = {
       authtype,
       authvalue,
       environment,
       locale,
+      network_configuration: networkConfig,
+      ui_position: uiPosition,
+      loading_ui: loadingUi,
+      arabic_payment_text: arabicPaymentText,
+      english_payment_text: englishPaymentText,
     };
     return this._callPluginMethod(() => NearpayPlugin.initialize(data));
   }

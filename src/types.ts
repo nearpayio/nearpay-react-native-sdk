@@ -15,11 +15,41 @@ export enum Locale {
   default = 'default',
 }
 
+export enum NetworkConfig {
+  SIM_ONLY = 'SIM_ONLY',
+  SIM_PREFERRED = 'SIM_PREFERRED',
+  DEFAULT = 'DEFAULT',
+}
+
+export enum UIPosition {
+  TOP_START = 'TOP_START',
+  TOP_END = 'TOP_END',
+  TOP_RIGHT = 'TOP_RIGHT',
+  TOP_LEFT = 'TOP_LEFT',
+  BOTTOM_START = 'BOTTOM_START',
+  BOTTOM_END = 'BOTTOM_END',
+  BOTTOM_RIGHT = 'BOTTOM_RIGHT',
+  BOTTOM_LEFT = 'BOTTOM_LEFT',
+  CENTER_START = 'CENTER_START',
+  CENTER_END = 'CENTER_END',
+  CENTER_RIGHT = 'CENTER_RIGHT',
+  CENTER_LEFT = 'CENTER_LEFT',
+  CENTER_TOP = 'CENTER_TOP',
+  CENTER_BOTTOM = 'CENTER_BOTTOM',
+  CENTER = 'CENTER',
+  DEFAULT = 'DEFAULT',
+}
+
 export type InitializeOptions = {
   authtype: AuthenticationType;
   authvalue: string;
   locale?: Locale;
   environment: Environments;
+  networkConfig: NetworkConfig;
+  arabicPaymentText: string;
+  englishPaymentText: string;
+  uiPosition: UIPosition;
+  loadingUi: boolean;
 };
 
 export type EmbededPurchaseOptions = {
