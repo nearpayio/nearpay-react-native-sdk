@@ -285,6 +285,16 @@ export default function useEmbededSide() {
       });
   }
 
+  async function doReceiptToImage() {
+    const { receipts } = await embededNearpay.current?.purchase({
+      amount: 1200,
+    });
+
+    if (!receipts) throw new Error('no receipt found');
+
+    await embededNearpay.current?.receiptToImage({ receipt: receipts[0] });
+  }
+
   return {
     embededNearpay,
     isAndroid,
@@ -300,5 +310,6 @@ export default function useEmbededSide() {
     getReconciliations,
     getReconciliation,
     doUpdateAuthentication,
+    doReceiptToImage,
   };
 }

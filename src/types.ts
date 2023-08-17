@@ -72,6 +72,16 @@ export type EmbededUpdateAuthenticationOptions = {
   authvalue: string;
 };
 
+export type EmbededReceiptToImageOptions = {
+  receipt: any;
+};
+
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=
+// =-=-=-=-=-=-=-=-=-=-=-=-=- Queries =-=-=-=-=-=-=-=-=-=-=-=
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
 export type EmbededGetTransactionsOptions = {
   page?: number;
   limit?: number;

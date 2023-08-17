@@ -11,6 +11,7 @@ import type {
   EmbededGetReconciliationsOptions,
   EmbededGetTransactionOptions,
   EmbededGetReconciliationOptions,
+  EmbededReceiptToImageOptions,
 } from '../../types';
 
 const LINKING_ERROR =
@@ -41,6 +42,7 @@ export class EmbededNearpay {
     this.initialize({ authtype, authvalue, environment, locale });
   }
 
+  // TODO: add the new initlize data
   public async initialize({
     authtype,
     authvalue,
@@ -183,7 +185,7 @@ export class EmbededNearpay {
   }
 
   // =-=-=- Queries -=-=-=
-
+  // TODO: add dates
   public getTransactionsList({
     page,
 
@@ -195,7 +197,7 @@ export class EmbededNearpay {
     };
 
     return this._callPluginMethod(async () =>
-      NearpayPlugin.getTransactions(data)
+      NearpayPlugin.getTransactionsList(data)
     );
   }
 
@@ -221,9 +223,9 @@ export class EmbededNearpay {
     );
   }
 
+  // TODO: add dates
   public getReconciliationsList({
     page,
-
     limit,
   }: EmbededGetReconciliationsOptions) {
     const data = {
@@ -232,20 +234,27 @@ export class EmbededNearpay {
     };
 
     return this._callPluginMethod(async () =>
-      NearpayPlugin.getReconciliations(data)
+      NearpayPlugin.getReconciliationsList(data)
     );
   }
 
-  // public receiptToImage(inputParams: any) {
-  //   return this._callPluginMethod(async () =>
-  //     NearpayPlugin.recieptToImage(inputParams)
-  //   );
-  // }
+  public receiptToImage({ receipt }: EmbededReceiptToImageOptions) {
+    const data = {
+      receipt: JSON.stringify(receipt),
+    };
 
+    return this._callPluginMethod(async () =>
+      NearpayPlugin.receiptToImage(data)
+    );
+  }
+
+  // TODO: revise return types
   private async _callPluginMethod(
     methodFunc: () => Promise<any>
   ): Promise<any> {
     const res = JSON.parse(await methodFunc());
+
+    console.log({ res: JSON.stringify(res) });
 
     if (res.status === 200) {
       return res;

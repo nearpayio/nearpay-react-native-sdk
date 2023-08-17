@@ -1,23 +1,19 @@
-package io.nearpay.reactnative.plugin.operations;
+package io.nearpay.reactnative.plugin.common.operations;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 
-import io.nearpay.reactnative.plugin.ErrorStatus;
-import io.nearpay.reactnative.plugin.NearpayLib;
-import io.nearpay.reactnative.plugin.PluginProvider;
-import io.nearpay.reactnative.plugin.sender.NearpaySender;
-import io.nearpay.reactnative.plugin.util.ArgsFilter;
+import io.nearpay.reactnative.plugin.common.status.ErrorStatus;
+import io.nearpay.reactnative.plugin.common.NearpayLib;
+import io.nearpay.reactnative.plugin.common.PluginProvider;
+import io.nearpay.reactnative.plugin.common.sender.NearpaySender;
+import io.nearpay.reactnative.plugin.common.filter.ArgsFilter;
 import io.nearpay.sdk.data.models.TransactionBannerList;
-import io.nearpay.sdk.data.models.TransactionReceipt;
 import io.nearpay.sdk.utils.enums.GetDataFailure;
-import io.nearpay.sdk.utils.enums.GetDataFailure;
-import io.nearpay.sdk.utils.listeners.GetTransactionListener;
 import io.nearpay.sdk.utils.listeners.GetTransactionPageListener;
 
 public class GetTransactionPageOperation extends BaseOperation {
@@ -27,16 +23,16 @@ public class GetTransactionPageOperation extends BaseOperation {
   }
 
   @Override
-  public void run(Map args, NearpaySender sender) {
-    ArgsFilter filter = new ArgsFilter(args);
-    String adminPin = filter.getAdminPin();
+  public void run(ArgsFilter filter, NearpaySender sender) {
     int page = filter.getPage();
     int limit = filter.getLimit();
+    LocalDateTime from = filter.getStartDate();
+    LocalDateTime to = filter.getEndDate();
 
-    provider.getNearpayLib().nearpay.getTransactionListPage(page, limit, new GetTransactionPageListener() {
+    provider.getNearpayLib().nearpay.getTransactionListPage(page, limit, from, to, new GetTransactionPageListener() {
       @Override
       public void onSuccess(@Nullable TransactionBannerList transactionBannerList) {
-        Map toSend = NearpayLib.QueryResponse(ErrorStatus.success_code, null, transactionBannerList);
+        Map toSend = NearpayLib.ApiResponse(ErrorStatus.success_code, null, transactionBannerList);
         sender.send(toSend);
 
       }
@@ -46,9 +42,7 @@ public class GetTransactionPageOperation extends BaseOperation {
         int status = ErrorStatus.general_failure_code;
         String message = null;
 
-        if (getDataFailure instanceof GetDataFailure.InvalidAdminPin) {
-          status = ErrorStatus.invalid_admin_pin;
-        } else if (getDataFailure instanceof GetDataFailure.FailureMessage) {
+        if (getDataFailure instanceof GetDataFailure.FailureMessage) {
           status = ErrorStatus.failure_code;
           message = ((GetDataFailure.FailureMessage) getDataFailure).getMessage();
         } else if (getDataFailure instanceof GetDataFailure.AuthenticationFailed) {
@@ -57,7 +51,7 @@ public class GetTransactionPageOperation extends BaseOperation {
         } else if (getDataFailure instanceof GetDataFailure.InvalidStatus) {
           status = ErrorStatus.invalid_code;
         }
-        Map response = NearpayLib.QueryResponse(status, message, new ArrayList());
+        Map response = NearpayLib.ApiResponse(status, message, new ArrayList());
         sender.send(response);
 
       }
