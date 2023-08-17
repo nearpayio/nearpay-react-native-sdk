@@ -303,7 +303,7 @@ export default function useEmbededSide() {
     const bytes = await embededNearpay.current?.receiptToImage({
       receipt: transactionData?.receipts![0]!,
       receiptFontSize: 1,
-      receiptWidth: 850,
+      receiptWidth: 1000,
     })!;
 
     console.log({

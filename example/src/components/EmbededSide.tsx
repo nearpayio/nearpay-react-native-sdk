@@ -1,5 +1,12 @@
 import React from 'react';
-import { Button, Image, StyleSheet, Text, View } from 'react-native';
+import {
+  Button,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import useEmbededSide from '../hooks/useEmbededSide';
 import {
   AuthenticationType,
@@ -28,7 +35,10 @@ export default function EmbededSide() {
   } = useEmbededSide();
 
   return (
-    <View style={styles.container}>
+    <ScrollView
+      contentContainerStyle={styles.container}
+      // style={styles.container}
+    >
       {isAndroid && (
         <>
           <View style={styles.containerrow}>
@@ -103,10 +113,11 @@ export default function EmbededSide() {
             {base64Image !== undefined && (
               <>
                 <Image
-                  style={{
-                    width: 400,
-                    height: 1000,
-                  }}
+                  style={styles.image}
+                  // style={{
+                  //   width: 400,
+                  //   height: 1000,
+                  // }}
                   source={{ uri: `data:image/jpeg;base64, ${base64Image}` }}
                 />
                 {/* <View>
@@ -123,7 +134,7 @@ export default function EmbededSide() {
           <Text>not supported</Text>
         </View>
       )}
-    </View>
+    </ScrollView>
   );
 }
 
@@ -134,8 +145,8 @@ const styles = StyleSheet.create({
     marginVertical: 20,
   },
   container: {
-    flex: 1,
-    flexDirection: 'column',
+    // flex: 1,
+    // flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -151,5 +162,12 @@ const styles = StyleSheet.create({
     height: 10,
     width: '70%',
     backgroundColor: 'black',
+  },
+
+  image: {
+    flex: 1,
+    width: 300,
+    // height: 100,
+    resizeMode: 'contain',
   },
 });
