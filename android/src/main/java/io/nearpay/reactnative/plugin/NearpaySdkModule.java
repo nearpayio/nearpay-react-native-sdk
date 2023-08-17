@@ -1,16 +1,12 @@
 package io.nearpay.reactnative.plugin;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+
 import android.content.Context;
 
-import java.util.List;
-import java.util.Locale;
 import android.util.Log;
-import java.util.HashMap;
+
 import java.util.Map;
-import java.util.Objects;
-import java.util.concurrent.CompletableFuture;
 
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -19,44 +15,15 @@ import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.module.annotations.ReactModule;
 import com.facebook.react.bridge.ReadableMap;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import io.nearpay.reactnative.plugin.operations.BaseOperation;
-import io.nearpay.reactnative.plugin.operations.InitializeOperation;
-import io.nearpay.reactnative.plugin.operations.OperatorFactory;
-import io.nearpay.reactnative.plugin.sender.NearpaySender;
-import io.nearpay.sdk.Environments;
+import io.nearpay.reactnative.plugin.common.PluginProvider;
+import io.nearpay.reactnative.plugin.common.operations.BaseOperation;
+import io.nearpay.reactnative.plugin.common.operations.OperatorFactory;
+import io.nearpay.reactnative.plugin.common.sender.NearpaySender;
+import io.nearpay.reactnative.plugin.common.filter.ArgsFilter;
 import io.nearpay.sdk.NearPay;
 import io.nearpay.sdk.utils.enums.AuthenticationData;
-import io.nearpay.sdk.data.models.TransactionReceipt;
-import io.nearpay.sdk.utils.enums.PurchaseFailure;
-import io.nearpay.sdk.utils.enums.RefundFailure;
-import io.nearpay.sdk.utils.enums.StatusCheckError;
-import io.nearpay.sdk.utils.listeners.PurchaseListener;
-import io.nearpay.sdk.utils.listeners.RefundListener;
-import io.nearpay.sdk.utils.enums.ReconcileFailure;
-import io.nearpay.sdk.data.models.Merchant;
-import io.nearpay.sdk.data.models.LocalizationField;
-import io.nearpay.sdk.data.models.NameField;
-import io.nearpay.sdk.data.models.LabelField;
-import io.nearpay.sdk.data.models.ReconciliationReceipt;
-import io.nearpay.sdk.data.models.ReconciliationDetails;
-import io.nearpay.sdk.data.models.ReconciliationLabelField;
-import io.nearpay.sdk.data.models.ReconciliationSchemes;
-import io.nearpay.sdk.utils.listeners.ReconcileListener;
-import io.nearpay.sdk.utils.enums.ReversalFailure;
-import io.nearpay.sdk.utils.enums.LogoutFailure;
-import io.nearpay.sdk.utils.listeners.LogoutListener;
-import io.nearpay.sdk.utils.listeners.ReversalListener;
+
 import com.google.gson.Gson;
-import java.util.ArrayList;
-import io.nearpay.sdk.utils.listeners.SetupListener;
-import io.nearpay.sdk.utils.enums.SetupFailure;
-import io.nearpay.sdk.data.models.Session;
-import io.nearpay.sdk.utils.enums.SessionFailure;
-import io.nearpay.sdk.utils.listeners.SessionListener;
 
 @ReactModule(name = NearpaySdkModule.NAME)
 public class NearpaySdkModule extends ReactContextBaseJavaModule {
@@ -115,7 +82,9 @@ public class NearpaySdkModule extends ReactContextBaseJavaModule {
     // operation.run(args, promise);
 
     Map args = NearPayUtil.toMap(params);
-    provider.getArgsFilter().filter(args);
+    // provider.getArgsFilter().filter(args);
+
+    ArgsFilter filter = new ArgsFilter(args);
 
     NearpaySender sender = (message) -> {
       // TODO: revise types
@@ -125,7 +94,7 @@ public class NearpaySdkModule extends ReactContextBaseJavaModule {
     BaseOperation operation = operatorFactory.getOperation(operationName)
         .orElseThrow(() -> new IllegalArgumentException("Invalid Operation"));
 
-    operation.run(args, sender);
+    operation.run(filter, sender);
 
   }
 
@@ -188,7 +157,9 @@ public class NearpaySdkModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void receiptToImage(ReadableMap params, Promise promise) {
+  public void receiptToImage(ReadableMap params, Promise reactPromise) {
+    runOperation("receiptToImage", params, reactPromise);
+
     // JSONObject options = NearPayUtil.readableMapToJson(params);
   }
 
@@ -199,8 +170,8 @@ public class NearpaySdkModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void getTransactions(ReadableMap params, Promise reactPromise) {
-    runOperation("getTransactions", params, reactPromise);
+  public void getTransactionsList(ReadableMap params, Promise reactPromise) {
+    runOperation("getTransactionsList", params, reactPromise);
   }
 
   @ReactMethod
@@ -209,7 +180,8 @@ public class NearpaySdkModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void getReconciliations(ReadableMap params, Promise reactPromise) {
-    runOperation("getReconciliations", params, reactPromise);
+  public void getReconciliationsList(ReadableMap params, Promise reactPromise) {
+    runOperation("getReconciliationsList", params, reactPromise);
   }
+
 }

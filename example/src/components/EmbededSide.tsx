@@ -1,5 +1,12 @@
 import React from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import {
+  Button,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import useEmbededSide from '../hooks/useEmbededSide';
 import {
   AuthenticationType,
@@ -21,12 +28,17 @@ export default function EmbededSide() {
     getReconciliations,
     getTransaction,
     getTransactions,
+    doReceiptToImage,
     isAndroid,
     embededNearpay,
+    base64Image,
   } = useEmbededSide();
 
   return (
-    <View style={styles.container}>
+    <ScrollView
+      contentContainerStyle={styles.container}
+      // style={styles.container}
+    >
       {isAndroid && (
         <>
           <View style={styles.containerrow}>
@@ -86,6 +98,27 @@ export default function EmbededSide() {
               onPress={() => getReconciliations()}
             />
           </View>
+          <View style={styles.containerrow}>
+            <Button
+              title="receipt to image"
+              onPress={() => doReceiptToImage()}
+            />
+          </View>
+          <View
+            style={{
+              height: 1000,
+            }}
+          >
+            {base64Image === undefined && <Text>No Image</Text>}
+            {base64Image !== undefined && (
+              <>
+                <Image
+                  style={styles.image}
+                  source={{ uri: `data:image/jpeg;base64, ${base64Image}` }}
+                />
+              </>
+            )}
+          </View>
         </>
       )}
 
@@ -94,7 +127,7 @@ export default function EmbededSide() {
           <Text>not supported</Text>
         </View>
       )}
-    </View>
+    </ScrollView>
   );
 }
 
@@ -105,8 +138,9 @@ const styles = StyleSheet.create({
     marginVertical: 20,
   },
   container: {
-    flex: 1,
-    flexDirection: 'column',
+    // flex: 1,
+    // flexDirection: 'column',
+    width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -122,5 +156,11 @@ const styles = StyleSheet.create({
     height: 10,
     width: '70%',
     backgroundColor: 'black',
+  },
+
+  image: {
+    flex: 1,
+    width: 300,
+    resizeMode: 'contain',
   },
 });
