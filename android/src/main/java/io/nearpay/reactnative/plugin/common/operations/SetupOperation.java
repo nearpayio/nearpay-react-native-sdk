@@ -1,14 +1,14 @@
-package io.nearpay.reactnative.plugin.operations;
+package io.nearpay.reactnative.plugin.common.operations;
 
 import androidx.annotation.NonNull;
 
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 
-import io.nearpay.reactnative.plugin.ErrorStatus;
-import io.nearpay.reactnative.plugin.NearpayLib;
-import io.nearpay.reactnative.plugin.PluginProvider;
-import io.nearpay.reactnative.plugin.sender.NearpaySender;
+import io.nearpay.reactnative.plugin.common.status.ErrorStatus;
+import io.nearpay.reactnative.plugin.common.NearpayLib;
+import io.nearpay.reactnative.plugin.common.PluginProvider;
+import io.nearpay.reactnative.plugin.common.sender.NearpaySender;
+import io.nearpay.reactnative.plugin.common.filter.ArgsFilter;
 import io.nearpay.sdk.utils.enums.SetupFailure;
 import io.nearpay.sdk.utils.listeners.SetupListener;
 
@@ -18,7 +18,8 @@ public class SetupOperation extends BaseOperation {
 
     }
 
-    private void doSetup(NearpaySender sender) {
+    @Override
+    public void run(ArgsFilter filter, NearpaySender sender) {
         String authvalue = provider.getNearpayLib().authValueShared;
         String authType = provider.getNearpayLib().authTypeShared;
         boolean isAuthValidated = provider.getNearpayLib().isAuthInputValidation(authType, authvalue);
@@ -56,8 +57,15 @@ public class SetupOperation extends BaseOperation {
                     String message = messageResp != "" && messageResp.length() > 0 ? messageResp
                             : ErrorStatus.authentication_failed_message;
 
-                    Map<String, Object> paramMap = NearpayLib.commonResponse(ErrorStatus.auth_failed_code, message);
-                    sender.send(paramMap);
+                    if (authType.equalsIgnoreCase("jwt")) {
+                        provider.getNearpayLib().nearpay
+                                .updateAuthentication(provider.getNearpayLib().getAuthType(authType, authvalue));
+                        Map<String, Object> paramMap = NearpayLib.commonResponse(ErrorStatus.auth_failed_code, message);
+                        sender.send(paramMap);
+                    } else {
+                        Map<String, Object> paramMap = NearpayLib.commonResponse(ErrorStatus.auth_failed_code, message);
+                        sender.send(paramMap);
+                    }
 
                 } else if (setupFailure instanceof SetupFailure.InvalidStatus) {
                     // you can get the status using the following code
@@ -71,8 +79,4 @@ public class SetupOperation extends BaseOperation {
         });
     }
 
-    @Override
-    public void run(Map args, NearpaySender sender) {
-        doSetup(sender);
-    }
 }

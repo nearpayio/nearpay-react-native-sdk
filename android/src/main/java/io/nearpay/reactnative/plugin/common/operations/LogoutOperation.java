@@ -1,14 +1,14 @@
-package io.nearpay.reactnative.plugin.operations;
+package io.nearpay.reactnative.plugin.common.operations;
 
 import androidx.annotation.NonNull;
 
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 
-import io.nearpay.reactnative.plugin.ErrorStatus;
-import io.nearpay.reactnative.plugin.NearpayLib;
-import io.nearpay.reactnative.plugin.PluginProvider;
-import io.nearpay.reactnative.plugin.sender.NearpaySender;
+import io.nearpay.reactnative.plugin.common.status.ErrorStatus;
+import io.nearpay.reactnative.plugin.common.NearpayLib;
+import io.nearpay.reactnative.plugin.common.PluginProvider;
+import io.nearpay.reactnative.plugin.common.sender.NearpaySender;
+import io.nearpay.reactnative.plugin.common.filter.ArgsFilter;
 import io.nearpay.sdk.utils.enums.LogoutFailure;
 import io.nearpay.sdk.utils.listeners.LogoutListener;
 
@@ -18,7 +18,8 @@ public class LogoutOperation extends BaseOperation {
         super(provider);
     }
 
-    private void doLogoutAction(NearpaySender sender) {
+    @Override
+    public void run(ArgsFilter filter, NearpaySender sender) {
         provider.getNearpayLib().nearpay.logout(new LogoutListener() {
             @Override
             public void onLogoutCompleted() {
@@ -43,10 +44,5 @@ public class LogoutOperation extends BaseOperation {
                 }
             }
         });
-    }
-
-    @Override
-    public void run(Map args, NearpaySender sender) {
-        doLogoutAction(sender);
     }
 }

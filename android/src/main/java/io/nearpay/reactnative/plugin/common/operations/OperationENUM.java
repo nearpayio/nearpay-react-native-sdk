@@ -1,4 +1,4 @@
-package io.nearpay.reactnative.plugin.operations;
+package io.nearpay.reactnative.plugin.common.operations;
 
 public enum OperationENUM {
     purchase,

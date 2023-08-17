@@ -1,4 +1,4 @@
-package io.nearpay.reactnative.plugin.operations;
+package io.nearpay.reactnative.plugin.common.operations;
 
 import android.os.Build;
 
@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import io.nearpay.reactnative.plugin.PluginProvider;
+import io.nearpay.reactnative.plugin.common.PluginProvider;
 
 public class OperatorFactory {
     private PluginProvider provider;

@@ -1,4 +1,4 @@
-package io.nearpay.reactnative.plugin.operations;
+package io.nearpay.reactnative.plugin.common.operations;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -6,16 +6,16 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
+import java.util.UUID;
 
-import io.nearpay.reactnative.plugin.ErrorStatus;
-import io.nearpay.reactnative.plugin.NearpayLib;
-import io.nearpay.reactnative.plugin.PluginProvider;
-import io.nearpay.reactnative.plugin.sender.NearpaySender;
+import io.nearpay.reactnative.plugin.common.status.ErrorStatus;
+import io.nearpay.reactnative.plugin.common.NearpayLib;
+import io.nearpay.reactnative.plugin.common.PluginProvider;
+import io.nearpay.reactnative.plugin.common.sender.NearpaySender;
+import io.nearpay.reactnative.plugin.common.filter.ArgsFilter;
 import io.nearpay.sdk.data.models.ReconciliationReceipt;
-import io.nearpay.sdk.data.models.TransactionReceipt;
-import io.nearpay.sdk.utils.ReceiptUtilsKt;
 import io.nearpay.sdk.utils.enums.ReconcileFailure;
+import io.nearpay.sdk.utils.enums.TransactionData;
 import io.nearpay.sdk.utils.listeners.ReconcileListener;
 
 public class ReconciliationOperation extends BaseOperation {
@@ -24,13 +24,16 @@ public class ReconciliationOperation extends BaseOperation {
                 super(provider);
         }
 
-        private void doReconcileAction(Map args, NearpaySender sender) {
-                Boolean enableReceiptUi = (Boolean) args.get("enableReceiptUi");
-                Long finishTimeout = (Long) args.get("finishTimeout");
-                String adminPin = args.get("adminPin") == null ? null : (String) args.get("adminPin");
-                Boolean enableUiDismiss = (Boolean) args.get("enableUiDismiss");
+        @Override
+        public void run(ArgsFilter filter, NearpaySender sender) {
+                Boolean enableReceiptUi = filter.isEnableReceiptUi();
+                Long finishTimeout = filter.getTimeout();
+                String adminPin = filter.getAdminPin();
+                Boolean enableUiDismiss = filter.isEnableUiDismiss();
+                UUID jobId = filter.getJobId();
 
-                provider.getNearpayLib().nearpay.reconcile(enableReceiptUi, adminPin, finishTimeout, enableUiDismiss,
+                provider.getNearpayLib().nearpay.reconcile(jobId, enableReceiptUi, adminPin, finishTimeout,
+                                enableUiDismiss,
                                 new ReconcileListener() {
                                         @Override
                                         public void onReconcileFinished(
@@ -47,7 +50,7 @@ public class ReconciliationOperation extends BaseOperation {
                                         public void onReconcileFailed(@NonNull ReconcileFailure reconcileFailure) {
                                                 int status = ErrorStatus.general_failure_code;
                                                 String message = null;
-                                                List<TransactionReceipt> receipts = null;
+                                                TransactionData receipts = null;
 
                                                 if (reconcileFailure instanceof ReconcileFailure.AuthenticationFailed) {
                                                         status = ErrorStatus.auth_failed_code;
@@ -66,10 +69,5 @@ public class ReconciliationOperation extends BaseOperation {
                                         }
 
                                 });
-        }
-
-        @Override
-        public void run(Map args, NearpaySender sender) {
-                doReconcileAction(args, sender);
         }
 }

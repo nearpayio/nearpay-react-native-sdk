@@ -1,23 +1,18 @@
-package io.nearpay.reactnative.plugin.operations;
+package io.nearpay.reactnative.plugin.common.operations;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 
-import io.nearpay.reactnative.plugin.ErrorStatus;
-import io.nearpay.reactnative.plugin.NearpayLib;
-import io.nearpay.reactnative.plugin.PluginProvider;
-import io.nearpay.reactnative.plugin.sender.NearpaySender;
-import io.nearpay.reactnative.plugin.util.ArgsFilter;
+import io.nearpay.reactnative.plugin.common.status.ErrorStatus;
+import io.nearpay.reactnative.plugin.common.NearpayLib;
+import io.nearpay.reactnative.plugin.common.PluginProvider;
+import io.nearpay.reactnative.plugin.common.sender.NearpaySender;
+import io.nearpay.reactnative.plugin.common.filter.ArgsFilter;
 import io.nearpay.sdk.data.models.TransactionBannerList;
-import io.nearpay.sdk.data.models.TransactionReceipt;
 import io.nearpay.sdk.utils.enums.GetDataFailure;
-import io.nearpay.sdk.utils.enums.GetDataFailure;
-import io.nearpay.sdk.utils.listeners.GetTransactionListener;
 import io.nearpay.sdk.utils.listeners.GetTransactionPageListener;
 
 public class GetTransactionPageOperation extends BaseOperation {
@@ -27,9 +22,7 @@ public class GetTransactionPageOperation extends BaseOperation {
   }
 
   @Override
-  public void run(Map args, NearpaySender sender) {
-    ArgsFilter filter = new ArgsFilter(args);
-    String adminPin = filter.getAdminPin();
+  public void run(ArgsFilter filter, NearpaySender sender) {
     int page = filter.getPage();
     int limit = filter.getLimit();
 
@@ -46,9 +39,7 @@ public class GetTransactionPageOperation extends BaseOperation {
         int status = ErrorStatus.general_failure_code;
         String message = null;
 
-        if (getDataFailure instanceof GetDataFailure.InvalidAdminPin) {
-          status = ErrorStatus.invalid_admin_pin;
-        } else if (getDataFailure instanceof GetDataFailure.FailureMessage) {
+        if (getDataFailure instanceof GetDataFailure.FailureMessage) {
           status = ErrorStatus.failure_code;
           message = ((GetDataFailure.FailureMessage) getDataFailure).getMessage();
         } else if (getDataFailure instanceof GetDataFailure.AuthenticationFailed) {
