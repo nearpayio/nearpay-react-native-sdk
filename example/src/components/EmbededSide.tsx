@@ -114,15 +114,8 @@ export default function EmbededSide() {
               <>
                 <Image
                   style={styles.image}
-                  // style={{
-                  //   width: 400,
-                  //   height: 1000,
-                  // }}
                   source={{ uri: `data:image/jpeg;base64, ${base64Image}` }}
                 />
-                {/* <View>
-                  <Text>{`data:image/jpeg;base64, ${base64Image}`}</Text>
-                </View> */}
               </>
             )}
           </View>
@@ -147,6 +140,7 @@ const styles = StyleSheet.create({
   container: {
     // flex: 1,
     // flexDirection: 'column',
+    width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -167,7 +161,6 @@ const styles = StyleSheet.create({
   image: {
     flex: 1,
     width: 300,
-    // height: 100,
     resizeMode: 'contain',
   },
 });
