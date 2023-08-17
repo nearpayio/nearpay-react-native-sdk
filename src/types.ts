@@ -1,3 +1,9 @@
+import {
+  SessionData,
+  TransactionData,
+  TransactionReceipt,
+} from '@nearpaydev/nearpay-ts-sdk';
+
 export enum Environments {
   sandbox = 'sandbox',
   testing = 'testing',
@@ -103,7 +109,7 @@ export type EmbededUpdateAuthenticationOptions = {
 };
 
 export type EmbededReceiptToImageOptions = {
-  receipt: any;
+  receipt: TransactionReceipt;
 };
 
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -133,3 +139,13 @@ export type EmbededGetReconciliationsListOptions = {
 export type EmbededGetReconciliationOptions = {
   reconciliationUUID: string;
 };
+
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=
+// =-=-=-=-=-=-=-=-=-=-=-=- responses =-=-=-=-=-=-=-=-=-=-=-=
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+export type SessionResponse =
+  | { session_closed: true; data: SessionData }
+  | { session_closed: false; data: TransactionData };

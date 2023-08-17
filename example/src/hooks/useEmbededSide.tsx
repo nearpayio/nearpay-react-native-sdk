@@ -1,10 +1,11 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { Platform } from 'react-native';
 import {
   AuthenticationType,
   EmbededNearpay,
   Environments,
 } from '@nearpaydev/react-native-nearpay-sdk';
+global.Buffer = require('buffer').Buffer;
 
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
@@ -16,6 +17,8 @@ let timeout = 60;
 const isAndroid = Platform.select({ android: true });
 
 export default function useEmbededSide() {
+  const [base64Image, setBase64Image] = useState<string | undefined>(undefined);
+
   const embededNearpay = useRef(
     Platform.select({ android: true })
       ? new EmbededNearpay({
@@ -28,7 +31,7 @@ export default function useEmbededSide() {
 
   async function doPurchase(amount: number) {
     console.log(`=-=-=-= purchse start =-=-=-=`);
-    return embededNearpay
+    return await embededNearpay
       .current!.purchase({
         amount: amount, // Required
         transactionId: uuidv4(), //[Optional] speacify the transaction uuid
@@ -51,7 +54,7 @@ export default function useEmbededSide() {
       });
   }
 
-  function doRefund(amount: number, uuid: string) {
+  async function doRefund(amount: number, uuid: string) {
     console.log(`=-=-=-= refund start =-=-=-=`);
     embededNearpay
       .current!.refund({
@@ -78,7 +81,7 @@ export default function useEmbededSide() {
       });
   }
 
-  function doReverse(uuid: string) {
+  async function doReverse(uuid: string) {
     console.log(`=-=-=-= reverse start =-=-=-=`);
     embededNearpay
       .current!.reverse({
@@ -123,31 +126,28 @@ export default function useEmbededSide() {
 
   async function doPurchaseAndRefund() {
     console.log(`=-=-=-= purchse then refund start =-=-=-=`);
-    await doPurchase(100)
-      .then((response) => {
-        var purchaseList = response.receipts;
-        let uuid = purchaseList[0].transaction_uuid;
-        doRefund(100, uuid);
-      })
-      .catch((e) => {
-        console.log(`=-=-=-= purchse then refund failed =-=-=-=`);
-        console.log(`error: ${e}`);
-      });
+    const transactionData = await doPurchase(100).catch((e) => {
+      console.log(`=-=-=-= purchse then refund failed =-=-=-=`);
+      throw e;
+    });
+
+    let uuid = transactionData.receipts![0]?.transaction_uuid!;
+    const refundData = await doRefund(100, uuid);
+
+    console.log({ refundData });
   }
 
   async function doPurchaseAndReverse() {
     console.log(`=-=-=-= purchse then reverse start =-=-=-=`);
-    await doPurchase(100)
-      .then((response) => {
-        var purchaseList = response.receipts;
-        let uuid = purchaseList[0].transaction_uuid;
-        doReverse(uuid);
-      })
-      .catch((e) => {
-        console.log(`=-=-=-= purchse then reverse failed =-=-=-=`);
-        console.log(`error:`);
-        console.log(JSON.stringify(e, null, 2));
-      });
+    const transactionData = await doPurchase(100).catch((e) => {
+      console.log(`=-=-=-= purchse then reverse failed =-=-=-=`);
+      throw e;
+    });
+
+    let uuid = transactionData.receipts![0]?.transaction_uuid!;
+    const reverseData = await doReverse(uuid);
+
+    console.log({ reverseData });
   }
 
   function doLogout() {
@@ -294,18 +294,23 @@ export default function useEmbededSide() {
   }
 
   async function doReceiptToImage() {
-    const { receipts } = await embededNearpay.current?.purchase({
+    const transactionData = await embededNearpay.current?.purchase({
       amount: 1200,
     });
 
-    if (!receipts) throw new Error('no receipt found');
+    if (!transactionData) throw new Error('no receipt found');
 
-    await embededNearpay.current?.receiptToImage({ receipt: receipts[0] });
+    const bytes = await embededNearpay.current?.receiptToImage({
+      receipt: transactionData?.receipts![0]!,
+    })!;
+
+    setBase64Image(() => Buffer.from(bytes).toString('base64'));
   }
 
   return {
     embededNearpay,
     isAndroid,
+    base64Image,
     doLogout,
     doPurchase,
     doPurchaseAndRefund,
