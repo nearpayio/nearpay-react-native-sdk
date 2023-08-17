@@ -11,11 +11,11 @@ Nearpay SDK for Embeded and Remote connections
 
 # Install plugin
 
-````bash
+```bash
 npm install "https://github.com/nearpayio/nearpay-react-native-sdk.git#main" --save
 
 Plugin will support minimum supported ANDROID SDK version 21 and above only.
-````
+```
 
 to install google version use the following command:
 
@@ -123,7 +123,8 @@ embededNearpay
   })
   .then((response) => {
     console.log(`=-=-=-= refund success =-=-=-=`);
-    console.log(`refund respone: ${response}`);
+    console.log({ refundResponse: response });
+
     return response;
   })
   .catch((e) => {

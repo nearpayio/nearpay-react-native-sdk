@@ -10,7 +10,7 @@ global.Buffer = require('buffer').Buffer;
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 let authtype = AuthenticationType.email;
-let authvalue = '<your email here>';
+let authvalue = 'f.alhajeri@nearpay.io';
 let environment = Environments.sandbox;
 //Time out n seconds
 let timeout = 60;
@@ -56,7 +56,7 @@ export default function useEmbededSide() {
 
   async function doRefund(amount: number, uuid: string) {
     console.log(`=-=-=-= refund start =-=-=-=`);
-    embededNearpay
+    return embededNearpay
       .current!.refund({
         amount: amount, // [Required]
         originalTransactionUUID: uuid, // [Required] the orginal trnasaction uuid that you want to reverse
@@ -71,7 +71,7 @@ export default function useEmbededSide() {
       })
       .then((response) => {
         console.log(`=-=-=-= refund success =-=-=-=`);
-        console.log(`refund respone: ${response}`);
+        console.log({ refundResponse: response });
         return response;
       })
       .catch((e) => {
@@ -83,7 +83,7 @@ export default function useEmbededSide() {
 
   async function doReverse(uuid: string) {
     console.log(`=-=-=-= reverse start =-=-=-=`);
-    embededNearpay
+    return embededNearpay
       .current!.reverse({
         originalTransactionUUID: uuid, // [Required] the orginal trnasaction uuid that you want to reverse
         enableReceiptUi: true, // [Optional] show the reciept in ui
@@ -92,7 +92,7 @@ export default function useEmbededSide() {
       })
       .then((response) => {
         console.log(`=-=-=-= reverse success =-=-=-=`);
-        console.log(`reverse respone: ${response}`);
+        console.log({ reverseResponse: response });
         return response;
       })
       .catch((e) => {
