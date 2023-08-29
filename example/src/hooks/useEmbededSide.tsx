@@ -306,10 +306,6 @@ export default function useEmbededSide() {
       receiptWidth: 1000,
     })!;
 
-    console.log({
-      base64: Buffer.from(bytes).toString('base64'),
-    });
-
     setBase64Image(() => Buffer.from(bytes).toString('base64'));
   }
 
