@@ -10,7 +10,7 @@ global.Buffer = require('buffer').Buffer;
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 let authtype = AuthenticationType.email;
-let authvalue = 'f.alhajeri@nearpay.io';
+let authvalue = '<your email>';
 let environment = Environments.sandbox;
 //Time out n seconds
 let timeout = 60;
