@@ -10,7 +10,7 @@ global.Buffer = require('buffer').Buffer;
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 let authtype = AuthenticationType.email;
-let authvalue = '<your email here>';
+let authvalue = 'f.alhajeri@nearpay.io';
 let environment = Environments.sandbox;
 //Time out n seconds
 let timeout = 60;
@@ -305,10 +305,6 @@ export default function useEmbededSide() {
       receiptFontSize: 1,
       receiptWidth: 1000,
     })!;
-
-    console.log({
-      base64: Buffer.from(bytes).toString('base64'),
-    });
 
     setBase64Image(() => Buffer.from(bytes).toString('base64'));
   }

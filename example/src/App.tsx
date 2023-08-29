@@ -13,7 +13,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
-          name="Home"
+          name="Home "
           component={Home}
           options={{ title: 'Welcome to Nearpay SDK' }}
         />
