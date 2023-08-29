@@ -2,9 +2,9 @@
   "name": "@nearpaydev/react-native-nearpay-sdk",
   "version": "0.0.0",
   "description": "test",
-  "main": "src/indes.ts",
-  "module": "src/indes.ts",
-  "types": "src/indes.ts",
+  "main": "src/index.ts",
+  "module": "src/index.ts",
+  "types": "src/index.ts",
   "react-native": "src/index",
   "source": "src/index",
   "files": [
