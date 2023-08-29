@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "@nearpaydev/react-native-nearpay-sdk": ["./src/index"],
+      // "@nearpaydev/react-native-nearpay-sdk": ["./src/index"],
       // "@nearpaydev/nearpay-ts-sdk": ["../Node/nearpay-sdk/src/index"]
     },
     "allowUnreachableCode": false,
