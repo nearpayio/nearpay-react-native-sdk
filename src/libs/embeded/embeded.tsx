@@ -112,7 +112,7 @@ export class EmbededNearpay {
     enableReversalUi = true,
     enableReceiptUi = true,
     enableUiDismiss = true,
-    editableReversalAmountUI = true,
+    editableRefundAmountUI = true,
     adminPin,
   }: EmbededRefundOptions): Promise<TransactionData> {
     const data = {
@@ -124,7 +124,7 @@ export class EmbededNearpay {
       enableReversal: enableReversalUi,
       enableReceiptUi: enableReceiptUi,
       enableUiDismiss: enableUiDismiss,
-      enableEditableRefundAmountUi: editableReversalAmountUI,
+      enableEditableRefundAmountUi: editableRefundAmountUI,
       ...(adminPin !== undefined ? { adminPin } : null),
     };
 

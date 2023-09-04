@@ -64,7 +64,7 @@ export default function useEmbededSide() {
         customerReferenceNumber: 'rerretest123333333', //[Optional]
         enableReceiptUi: true, // [Optional] show the reciept in ui
         enableReversalUi: true, //[Optional] enable reversal of transaction from ui
-        editableReversalAmountUI: true, // [Optional] edit the reversal amount from uid
+        editableRefundAmountUI: true, // [Optional] edit the reversal amount from uid
         enableUiDismiss: true, //[Optional] the ui is dimissible
         finishTimeout: timeout, //[Optional] finish timeout in seconds
         adminPin: '0000', // [Optional] when you add the admin pin here , the UI for admin pin won't be shown.
