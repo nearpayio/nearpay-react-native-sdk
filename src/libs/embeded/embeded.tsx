@@ -23,7 +23,7 @@ import { SessionData } from '@nearpaydev/nearpay-ts-sdk';
 import { TransactionBannerList } from '@nearpaydev/nearpay-ts-sdk';
 
 const LINKING_ERROR =
-  `The package 'react-native-nearpay-plugin' doesn't seem to be linked. Make sure: \n\n` +
+  `The package '@nearpaydev/react-native-nearpay-sdk' doesn't seem to be linked. Make sure: \n\n` +
   Platform.select({ ios: "- You have run 'pod install'\n", default: '' }) +
   '- You rebuilt the app after installing the package\n' +
   '- You are not using Expo Go\n';
