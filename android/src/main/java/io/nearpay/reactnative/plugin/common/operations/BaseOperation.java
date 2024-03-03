@@ -7,7 +7,7 @@ import io.nearpay.reactnative.plugin.common.filter.ArgsFilter;
 public class BaseOperation {
     protected PluginProvider provider;
 
-    public BaseOperation(PluginProvider provider) {
+    public BaseOperation(PluginProvider provider){
         this.provider = provider;
     }
 

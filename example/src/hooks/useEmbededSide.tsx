@@ -35,7 +35,7 @@ export default function useEmbededSide() {
       .current!.purchase({
         amount: amount, // Required
         transactionId: uuidv4(), //[Optional] speacify the transaction uuid
-        customerReferenceNumber: '', // [Optional] referance nuber for customer use only
+        customerReferenceNumber: 'abc', // [Optional] referance nuber for customer use only
         enableReceiptUi: true, // [Optional] show the reciept in ui
         enableReversalUi: true, //[Optional] enable reversal of transaction from ui
         enableUiDismiss: true, //[Optional] the ui is dimissible
@@ -244,9 +244,10 @@ export default function useEmbededSide() {
     embededNearpay.current
       ?.getTransactionsList({
         page: 1,
-        limit: 20,
+        limit: 40,
         startDate: from,
         endDate: to,
+        // customerReferenceNumber: 'abc',
       })
       .then((res) => {
         console.log(`=-=-=-= get transactions success =-=-=-=`);
@@ -257,7 +258,9 @@ export default function useEmbededSide() {
   function getTransaction() {
     return embededNearpay.current
       ?.getTransaction({
-        transactionUUID: 'a2fd6519-2b37-4336-be6d-5520bb3b6427',
+        transactionUUID: '94cd7017-ff71-410f-a4e8-31803c042dec',
+        enableReceiptUi: true,
+        finishTimeOut: 10,
       })
       .then((res) => {
         console.log(`=-=-=-= get transaction success =-=-=-=`);
@@ -285,12 +288,23 @@ export default function useEmbededSide() {
   function getReconciliation() {
     return embededNearpay.current
       ?.getReconciliation({
-        reconciliationUUID: '6d4a48b8-d194-4aad-92c9-a77606758799',
+        reconciliationUUID: 'fda8153a-2f93-4327-b6c0-4ac9e4e933c2',
+        enableReceiptUi: true,
+        finishTimeOut: 10,
       })
       .then((res) => {
         console.log(`=-=-=-= get Reconciliation success =-=-=-=`);
         console.log(res);
       });
+  }
+
+  function getUserSession() {
+    return embededNearpay.current?.getUserSession({
+      onSessionBusy: (e) => console.log('onSessionBusy', e),
+      onSessionFailed: (e) => console.log('onSessionFailed', e),
+      onSessionFree: () => console.log('onSessionFree'),
+      onSessionInfo: (e) => console.log('onSessionInfo', e),
+    });
   }
 
   async function doReceiptToImage() {
@@ -326,5 +340,6 @@ export default function useEmbededSide() {
     getReconciliation,
     doUpdateAuthentication,
     doReceiptToImage,
+    getUserSession,
   };
 }

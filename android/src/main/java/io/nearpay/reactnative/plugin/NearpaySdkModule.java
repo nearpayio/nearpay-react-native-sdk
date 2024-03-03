@@ -28,12 +28,6 @@ import com.google.gson.Gson;
 @ReactModule(name = NearpaySdkModule.NAME)
 public class NearpaySdkModule extends ReactContextBaseJavaModule {
   public static final String NAME = "NearpaySdk";
-  private NearPay nearPay;
-  private Context context;
-  private String jwtKey = "jwt";
-  private String timeOutDefault = "10";
-  private String authTypeShared = "";
-  private String authValueShared = "";
   PluginProvider provider = new PluginProvider();
   public OperatorFactory operatorFactory = new OperatorFactory(provider);
 
@@ -49,40 +43,10 @@ public class NearpaySdkModule extends ReactContextBaseJavaModule {
     return NAME;
   }
 
-  public AuthenticationData getAuthType(String authType, String inputValue) {
-    AuthenticationData authentication = authType.equals("userenter") ? AuthenticationData.UserEnter.INSTANCE
-        : authType.equals("email") ? new AuthenticationData.Email(inputValue)
-            : authType.equals("mobile") ? new AuthenticationData.Mobile(inputValue)
-                : authType.equals(jwtKey) ? new AuthenticationData.Jwt(inputValue)
-                    : AuthenticationData.UserEnter.INSTANCE;
-    return authentication;
-  }
-
-  public boolean isAuthInputValidation(String authType, String inputValue) {
-    boolean isAuthValidate = authType.equals("userenter") ? true : inputValue == "" ? false : true;
-    return isAuthValidate;
-  }
 
   private void runOperation(String operationName, ReadableMap params, Promise reactPromise) {
     Log.i("ReactNative", "=-=-=-=-=-=-= -=-=-=-=-=-= -=-=-=-=-= " + operationName);
-    // Map args = NearPayUtil.toMap(params);
-    // NearpaySender sender = new CompletableFuture<>();
-    // provider.getArgsFilter().filter(args);
-    //
-    // promise.thenAccept(res -> {
-    // // importtant: we must return a string, because react native doesnt support
-    // maps
-    // // to be sent like flutter
-    // reactPromise.resolve(this.toJson(res));
-    // });
-    //
-    // BaseOperation operation = operatorFactory.getOperation(operationName)
-    // .orElseThrow(() -> new IllegalArgumentException("Invalid Operator"));
-    //
-    // operation.run(args, promise);
-
     Map args = NearPayUtil.toMap(params);
-    // provider.getArgsFilter().filter(args);
 
     ArgsFilter filter = new ArgsFilter(args);
 
@@ -182,6 +146,11 @@ public class NearpaySdkModule extends ReactContextBaseJavaModule {
   @ReactMethod
   public void getReconciliationsList(ReadableMap params, Promise reactPromise) {
     runOperation("getReconciliationsList", params, reactPromise);
+  }
+
+  @ReactMethod
+  public void getUserSession(ReadableMap params, Promise reactPromise) {
+    runOperation("getUserSession", params, reactPromise);
   }
 
 }

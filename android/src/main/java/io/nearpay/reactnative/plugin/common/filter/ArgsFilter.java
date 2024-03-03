@@ -12,6 +12,7 @@ import java.util.UUID;
 import io.nearpay.reactnative.plugin.common.PluginProvider;
 import io.nearpay.sdk.Environments;
 import io.nearpay.sdk.utils.enums.NetworkConfiguration;
+//import io.nearpay.sdk.utils.enums.Region;
 import io.nearpay.sdk.utils.enums.UIPosition;
 
 public class ArgsFilter {
@@ -43,6 +44,7 @@ public class ArgsFilter {
     }
 
     public String getReceipt() {
+        // this receipt could be a reconciliation or transaction receipt
         return savedArgs.get("receipt") == null ? "" : (String) savedArgs.get("receipt");
     }
 
@@ -112,11 +114,20 @@ public class ArgsFilter {
         return locale;
     }
 
-    public Environments getEnviroment() {
+    public Environments getEnvironment() {
+
+        Map<String, Environments> envMap = new HashMap<>();
+
+        envMap.put("sandbox", Environments.SANDBOX);
+        envMap.put("production", Environments.PRODUCTION);
+        envMap.put("testing", Environments.TESTING);
+        envMap.put("staging", Environments.STAGING);
+
         String environmentStr = savedArgs.get("environment") == null ? "sandbox"
                 : savedArgs.get("environment").toString();
-        Environments env = environmentStr.equals("sandbox") ? Environments.SANDBOX
-                : environmentStr.equals("production") ? Environments.PRODUCTION : Environments.TESTING;
+
+
+        Environments env = envMap.get((environmentStr));
 
         return env;
     }
@@ -172,7 +183,7 @@ public class ArgsFilter {
 
     public String getArabicPaymentText() {
         return savedArgs.get("arabic_payment_text") != null ? (String) savedArgs.get("arabic_payment_text")
-                : "يرجى تمرير الطاقة";
+                : "يرجى تمرير البطاقة";
     }
 
     public String getEnglishPaymentText() {
@@ -180,15 +191,51 @@ public class ArgsFilter {
                 : "please tap your card";
 
     }
+//
+//    public Region getRegion() {
+//        Map<String, Region> regionsMap = new HashMap<>();
+//
+//        regionsMap.put("SAUDI", Region.SAUDI);
+//        regionsMap.put("JORDAN", Region.JORDAN);
+//        regionsMap.put("AFRICA", Region.AFRICA);
+//
+//        String regionStr = savedArgs.get("region") != null ? (String) savedArgs.get("region")
+//                : "SAUDI";
+//
+//        Region result = regionsMap.get(regionStr);
+//
+//        return result;
+//    }
 
     @SuppressLint("NewApi")
     public LocalDateTime getStartDate() {
+        // String isoDate = savedArgs.get("start_date") != null ? (String)
+        // savedArgs.get("start_date") : null;
+        //
+        // System.out.println("from: " + isoDate);
+        //
+        // if(isoDate == null) return null;
+        //
+        // return LocalDateTime.parse(isoDate);
         return getIsoDate("start_date");
     }
 
     @SuppressLint("NewApi")
     public LocalDateTime getEndDate() {
+        // String isoDate = savedArgs.get("end_date") != null ? (String)
+        // savedArgs.get("end_date") : null;
+        //
+        // DateTimeFormatter formatter
+        // = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+        //
+        // System.out.println("to: " + isoDate);
+        //
+        // if(isoDate == null) return null;
+        //
+        // return LocalDateTime.parse(isoDate, formatter);
+        //
         return getIsoDate("end_date");
+
     }
 
     public Boolean isEnableUiDismiss() {

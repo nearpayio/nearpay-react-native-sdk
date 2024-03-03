@@ -26,6 +26,7 @@ public class OperatorFactory {
         map.put("reconcile", new ReconciliationOperation(provider));
         map.put("reverse", new ReverseOperation(provider));
         map.put("logout", new LogoutOperation(provider));
+        map.put("close", new CloseOperation(provider));
         map.put("setup", new SetupOperation(provider));
         map.put("session", new SessionOperation(provider));
         map.put("updateAuthentication", new UpdateAuthOperation(provider));
@@ -34,7 +35,8 @@ public class OperatorFactory {
         map.put("getTransaction", new GetTransactionOperation(provider));
         map.put("getTransactionsList", new GetTransactionPageOperation(provider));
         map.put("receiptToImage", new ReceiptToImageOperation(provider));
-        // more operators
+        map.put("reconciliationReceiptToImage", new ReconciliationReceiptToImageOperation(provider));
+        map.put("getUserSession", new GetUserSessionOperation(provider));
 
         return map;
     }
