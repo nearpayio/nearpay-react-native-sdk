@@ -122,7 +122,7 @@ public class ArgsFilter {
         envMap.put("production", Environments.PRODUCTION);
         envMap.put("testing", Environments.TESTING);
         envMap.put("staging", Environments.STAGING);
-        
+
         String environmentStr = savedArgs.get("environment") == null ? "sandbox"
                 : savedArgs.get("environment").toString();
 

@@ -236,12 +236,14 @@ export class EmbededNearpay {
     limit,
     startDate,
     endDate,
+    customerReferenceNumber,
   }: EmbededGetTransactionsListOptions): Promise<TransactionBannerList> {
     const data = {
       page,
       limit,
       start_date: startDate?.toISOString(),
       end_date: endDate?.toISOString(),
+      customer_reference_number: customerReferenceNumber,
     };
 
     const response = await this._callPluginMethod(async () =>

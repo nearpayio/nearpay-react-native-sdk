@@ -125,6 +125,7 @@ export type EmbededGetTransactionsListOptions = {
   limit?: number;
   startDate?: Date;
   endDate?: Date;
+  customerReferenceNumber?: string;
 };
 
 export type EmbededGetTransactionOptions = {

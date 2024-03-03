@@ -35,7 +35,7 @@ export default function useEmbededSide() {
       .current!.purchase({
         amount: amount, // Required
         transactionId: uuidv4(), //[Optional] speacify the transaction uuid
-        customerReferenceNumber: '', // [Optional] referance nuber for customer use only
+        customerReferenceNumber: 'abc', // [Optional] referance nuber for customer use only
         enableReceiptUi: true, // [Optional] show the reciept in ui
         enableReversalUi: true, //[Optional] enable reversal of transaction from ui
         enableUiDismiss: true, //[Optional] the ui is dimissible
@@ -244,9 +244,10 @@ export default function useEmbededSide() {
     embededNearpay.current
       ?.getTransactionsList({
         page: 1,
-        limit: 20,
+        limit: 40,
         startDate: from,
         endDate: to,
+        // customerReferenceNumber: 'abc',
       })
       .then((res) => {
         console.log(`=-=-=-= get transactions success =-=-=-=`);
