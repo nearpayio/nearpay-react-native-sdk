@@ -37,6 +37,7 @@ public class NearpayLib {
         return isAuthValidate;
     }
 
+
     public static Map<String, Object> ApiResponse(int responseCode, String message, Object data) {
         Map<String, Object> paramMap = new HashMap<>();
 
@@ -49,13 +50,13 @@ public class NearpayLib {
     }
 
     public static Map<String, Object> ApiResponse(int responseCode, String message) {
-        return ApiResponse(responseCode, message, new HashMap<>());
+        return  ApiResponse(responseCode, message, new HashMap<>());
     }
 
     public static Object classToMap(Object obj) {
         // return default hashmap for empty given obj
         if (obj == null) {
-            return new HashMap<>();
+            return  new HashMap<>();
         }
 
         Map tempConvertor = new HashMap<>();
@@ -66,5 +67,6 @@ public class NearpayLib {
         Map asMap = gson.fromJson(inString, HashMap.class);
         return asMap.get("__");
     }
+
 
 }

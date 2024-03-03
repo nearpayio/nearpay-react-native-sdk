@@ -29,6 +29,7 @@ public class GetReconciliationsPageOperation extends BaseOperation {
     LocalDateTime from = filter.getStartDate();
     LocalDateTime to = filter.getEndDate();
 
+
     provider.getNearpayLib().nearpay.getReconciliationListPage(page, limit, from, to,
         new GetReconciliationPageListener() {
           @Override

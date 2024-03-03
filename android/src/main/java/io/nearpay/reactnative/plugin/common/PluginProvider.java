@@ -2,17 +2,17 @@ package io.nearpay.reactnative.plugin.common;
 
 public class PluginProvider {
     private NearpayLib nearpayLib;
-
-    public PluginProvider() {
+    public PluginProvider(){
         nearpayLib = new NearpayLib(this);
 
     }
+
 
     public NearpayLib getNearpayLib() {
         return nearpayLib;
     }
 
-    // public ArgsFilter getArgsFilter() {
-    // return argsFilter;
-    // }
+//    public ArgsFilter getArgsFilter() {
+//        return argsFilter;
+//    }
 }

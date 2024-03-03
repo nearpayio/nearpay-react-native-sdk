@@ -129,6 +129,8 @@ export type EmbededGetTransactionsListOptions = {
 
 export type EmbededGetTransactionOptions = {
   transactionUUID: string;
+  enableReceiptUi?: boolean;
+  finishTimeOut?: number;
 };
 
 export type EmbededGetReconciliationsListOptions = {
@@ -140,6 +142,8 @@ export type EmbededGetReconciliationsListOptions = {
 
 export type EmbededGetReconciliationOptions = {
   reconciliationUUID: string;
+  enableReceiptUi?: boolean;
+  finishTimeOut?: number;
 };
 
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=

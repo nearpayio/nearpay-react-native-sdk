@@ -254,9 +254,13 @@ export class EmbededNearpay {
 
   public async getTransaction({
     transactionUUID,
+    enableReceiptUi,
+    finishTimeOut,
   }: EmbededGetTransactionOptions): Promise<TransactionData> {
     const data = {
       transaction_uuid: transactionUUID,
+      enableReceiptUi: enableReceiptUi,
+      finishTimeOut: finishTimeOut,
     };
 
     const response = await this._callPluginMethod(async () =>
@@ -270,9 +274,13 @@ export class EmbededNearpay {
 
   public async getReconciliation({
     reconciliationUUID,
+    enableReceiptUi,
+    finishTimeOut,
   }: EmbededGetReconciliationOptions): Promise<ReconciliationReceipt> {
     const data = {
       reconciliation_uuid: reconciliationUUID,
+      enableReceiptUi: enableReceiptUi,
+      finishTimeOut: finishTimeOut,
     };
 
     const response = await this._callPluginMethod(async () =>

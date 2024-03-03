@@ -8,14 +8,14 @@ import java.io.ByteArrayOutputStream;
 
 import io.nearpay.reactnative.plugin.common.NearpayLib;
 import io.nearpay.reactnative.plugin.common.PluginProvider;
-import io.nearpay.reactnative.plugin.common.sender.NearpaySender;
 import io.nearpay.reactnative.plugin.common.filter.ArgsFilter;
+import io.nearpay.reactnative.plugin.common.sender.NearpaySender;
+import io.nearpay.sdk.data.models.ReconciliationReceipt;
 import io.nearpay.sdk.data.models.TransactionReceipt;
 import io.nearpay.sdk.utils.ReceiptUtilsKt;
 
-public class ReceiptToImageOperation extends BaseOperation {
-
-    public ReceiptToImageOperation(PluginProvider provider) {
+public class ReconciliationReceiptToImageOperation extends BaseOperation {
+    public ReconciliationReceiptToImageOperation(PluginProvider provider) {
         super(provider);
     }
 
@@ -27,7 +27,7 @@ public class ReceiptToImageOperation extends BaseOperation {
         int receiptFontSize= filter. getReceiptFontSize();
 
 //        create receipt object
-        TransactionReceipt receipt = new Gson().fromJson(stringfiedReceipt, TransactionReceipt.class);
+        ReconciliationReceipt receipt = new Gson().fromJson(stringfiedReceipt, ReconciliationReceipt.class);
 
 //        convert receipt to image
         ReceiptUtilsKt.toImage(receipt, provider.getNearpayLib().context, receiptWidth, receiptFontSize, bitmap -> {
@@ -40,6 +40,5 @@ public class ReceiptToImageOperation extends BaseOperation {
 
             sender.send(NearpayLib.ApiResponse(200,"", byteArray));
         });
-
     }
 }

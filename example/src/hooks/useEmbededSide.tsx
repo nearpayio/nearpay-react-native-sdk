@@ -10,7 +10,7 @@ global.Buffer = require('buffer').Buffer;
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 let authtype = AuthenticationType.email;
-let authvalue = '<your email>';
+let authvalue = 'f.alhajeri@nearpay.io';
 let environment = Environments.sandbox;
 //Time out n seconds
 let timeout = 60;
@@ -257,7 +257,9 @@ export default function useEmbededSide() {
   function getTransaction() {
     return embededNearpay.current
       ?.getTransaction({
-        transactionUUID: 'a2fd6519-2b37-4336-be6d-5520bb3b6427',
+        transactionUUID: '94cd7017-ff71-410f-a4e8-31803c042dec',
+        enableReceiptUi: true,
+        finishTimeOut: 10,
       })
       .then((res) => {
         console.log(`=-=-=-= get transaction success =-=-=-=`);
@@ -285,7 +287,9 @@ export default function useEmbededSide() {
   function getReconciliation() {
     return embededNearpay.current
       ?.getReconciliation({
-        reconciliationUUID: '6d4a48b8-d194-4aad-92c9-a77606758799',
+        reconciliationUUID: 'fda8153a-2f93-4327-b6c0-4ac9e4e933c2',
+        enableReceiptUi: true,
+        finishTimeOut: 10,
       })
       .then((res) => {
         console.log(`=-=-=-= get Reconciliation success =-=-=-=`);
