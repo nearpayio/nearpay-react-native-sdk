@@ -298,6 +298,15 @@ export default function useEmbededSide() {
       });
   }
 
+  function getUserSession() {
+    return embededNearpay.current?.getUserSession({
+      onSessionBusy: (e) => console.log('onSessionBusy', e),
+      onSessionFailed: (e) => console.log('onSessionFailed', e),
+      onSessionFree: () => console.log('onSessionFree'),
+      onSessionInfo: (e) => console.log('onSessionInfo', e),
+    });
+  }
+
   async function doReceiptToImage() {
     const transactionData = await embededNearpay.current?.purchase({
       amount: 1200,
@@ -331,5 +340,6 @@ export default function useEmbededSide() {
     getReconciliation,
     doUpdateAuthentication,
     doReceiptToImage,
+    getUserSession,
   };
 }

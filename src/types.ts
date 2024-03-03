@@ -3,6 +3,7 @@ import {
   TransactionData,
   TransactionReceipt,
 } from '@nearpaydev/nearpay-ts-sdk';
+import { UserSession } from './models/user-session';
 
 export enum Environments {
   sandbox = 'sandbox',
@@ -145,6 +146,13 @@ export type EmbededGetReconciliationOptions = {
   reconciliationUUID: string;
   enableReceiptUi?: boolean;
   finishTimeOut?: number;
+};
+
+export type GetUserSessionOptions = {
+  onSessionFailed(e: any): void;
+  onSessionFree(): void;
+  onSessionBusy(message: string): void;
+  onSessionInfo(user: UserSession): void;
 };
 
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=

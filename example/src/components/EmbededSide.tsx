@@ -29,6 +29,7 @@ export default function EmbededSide() {
     getTransaction,
     getTransactions,
     doReceiptToImage,
+    getUserSession,
     isAndroid,
     embededNearpay,
     base64Image,
@@ -97,6 +98,9 @@ export default function EmbededSide() {
               title="get Reconciliations"
               onPress={() => getReconciliations()}
             />
+          </View>
+          <View style={styles.containerrow}>
+            <Button title="get user session" onPress={() => getUserSession()} />
           </View>
           <View style={styles.containerrow}>
             <Button

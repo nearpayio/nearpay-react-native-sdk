@@ -13,13 +13,13 @@ import type {
   EmbededGetReconciliationOptions,
   EmbededReceiptToImageOptions,
   SessionResponse,
+  GetUserSessionOptions,
 } from '../../types';
 import {
   ReconciliationBannerList,
   ReconciliationReceipt,
   TransactionData,
 } from '@nearpaydev/nearpay-ts-sdk';
-import { SessionData } from '@nearpaydev/nearpay-ts-sdk';
 import { TransactionBannerList } from '@nearpaydev/nearpay-ts-sdk';
 
 const LINKING_ERROR =
@@ -332,6 +332,30 @@ export class EmbededNearpay {
     const bytes = Uint8Array.from(response['result']);
 
     return bytes;
+  }
+
+  public async getUserSession({
+    onSessionBusy,
+    onSessionFailed,
+    onSessionFree,
+    onSessionInfo,
+  }: GetUserSessionOptions) {
+    const response = await this._callPluginMethod(async () =>
+      NearpayPlugin.getUserSession({})
+    );
+    const status = response['status'];
+    const data = response['result'];
+    const message = response['message'];
+
+    if (status === 200) {
+      onSessionInfo(data);
+    } else if (status === 201) {
+      onSessionFree();
+    } else if (status === 202) {
+      onSessionBusy(message);
+    } else {
+      onSessionFailed(response);
+    }
   }
 
   // TODO: revise return types
