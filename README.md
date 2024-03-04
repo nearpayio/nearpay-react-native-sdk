@@ -286,7 +286,7 @@ embededNearpay
 
 ### checkCompatibility
 
-get reconciliations
+Check compatibility
 
 ```typescript
     let isCompatibile = await embededNearpay.current?.checkCompatibility();
