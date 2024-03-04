@@ -1,4 +1,6 @@
 import { NativeModules, Platform } from 'react-native';
+import NfcManager, { NfcEvents } from 'react-native-nfc-manager';
+
 import type {
   EmbededSessionOptions,
   EmbededReverseOptions,
@@ -368,6 +370,15 @@ export class EmbededNearpay {
       return res;
     } else {
       throw res;
+    }
+  }
+
+  public async checkCompatibility(): Promise<Boolean> {
+    const deviceIsSupported = await NfcManager.isSupported();
+    if (deviceIsSupported && Number(Platform.Version) >= 8) {
+      return true;
+    } else {
+      return false;
     }
   }
 }

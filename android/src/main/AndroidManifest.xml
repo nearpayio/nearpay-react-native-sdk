@@ -1,4 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="io.nearpay.reactnative.plugin">
+<uses-feature android:name="android.hardware.nfc" android:required="true" />
+<uses-permission android:name="android.permission.NFC" />npm i --save react-native-nfc-manager
 
 </manifest>

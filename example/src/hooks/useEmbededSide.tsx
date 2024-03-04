@@ -10,7 +10,7 @@ global.Buffer = require('buffer').Buffer;
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 let authtype = AuthenticationType.email;
-let authvalue = 'f.alhajeri@nearpay.io';
+let authvalue = 'a.khalifa@nearpay.io';
 let environment = Environments.sandbox;
 //Time out n seconds
 let timeout = 60;
@@ -29,8 +29,18 @@ export default function useEmbededSide() {
       : undefined
   );
 
-  async function doPurchase(amount: number) {
+
+  async function checkCompatibility() {
     console.log(`=-=-=-= purchse start =-=-=-=`);
+    let isCompatibile = await embededNearpay.current?.checkCompatibility();
+    if(isCompatibile == true) {
+     console.log('isDeviceCompatible');
+    } else {
+     console.log('isDeviceNotCompatible');
+    }
+  }
+  
+  async function doPurchase(amount: number) {
     return await embededNearpay
       .current!.purchase({
         amount: amount, // Required
