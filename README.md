@@ -284,6 +284,20 @@ embededNearpay
   });
 ```
 
+### checkCompatibility
+
+get reconciliations
+
+```typescript
+    console.log(`=-=-=-= purchse start =-=-=-=`);
+    let isCompatibile = await embededNearpay.current?.checkCompatibility();
+    if(isCompatibile == true) {
+     console.log('isDeviceCompatible');
+    } else {
+     console.log('isDeviceNotCompatible');
+    }
+```
+
 ### Nearpay plugin response will be be in below formats
 
 [Model Response](https://docs.nearpay.io/sdk/sdk-models)
