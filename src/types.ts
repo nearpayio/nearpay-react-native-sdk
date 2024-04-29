@@ -69,6 +69,11 @@ export type EmbededPurchaseOptions = {
   finishTimeout?: number;
 };
 
+export type EmbededRequestCancelOptions = {
+  transactionId: string;
+  cancelWithReverse?: boolean;
+};
+
 export type EmbededRefundOptions = {
   amount: number;
   originalTransactionUUID: string;

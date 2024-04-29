@@ -16,6 +16,7 @@ import type {
   EmbededReceiptToImageOptions,
   SessionResponse,
   GetUserSessionOptions,
+  EmbededRequestCancelOptions,
 } from '../../types';
 import {
   ReconciliationBannerList,
@@ -183,6 +184,22 @@ export class EmbededNearpay {
     return transactionData;
   }
 
+  public async requestCancel({
+    transactionId,
+    cancelWithReverse = false,
+  }: EmbededRequestCancelOptions) : Promise<boolean> {
+    const data = {
+      transactionId: transactionId,
+      cancelWithReverse: cancelWithReverse,
+    };
+    console.log(data);
+    const response = await this._callPluginMethod(async () =>
+      NearpayPlugin.requestCancel(data)
+    );
+    const result = response['result'];
+    return result;   
+  }
+  
   public async logout() {
     return await this._callPluginMethod(async () =>
       NearpayPlugin.logout({ __dummy__: 1 })

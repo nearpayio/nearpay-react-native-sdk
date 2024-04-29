@@ -160,6 +160,19 @@ export default function useEmbededSide() {
     console.log({ reverseData });
   }
 
+  async function doPurchaseAndCancel() {
+    console.log(`=-=-=-= purchse then cancel start =-=-=-=`);
+    const transactionData = await doPurchase(100).catch((e) => {
+      console.log(`=-=-=-= purchse then reverse failed =-=-=-=`);
+      throw e;
+    });
+
+    let uuid = transactionData.receipts![0]?.transaction_uuid!;
+    const cancelResponse = await requestCancel(uuid);
+
+    console.log({ cancelResponse });
+  }
+
   function doLogout() {
     console.log(`=-=-=-= logout start =-=-=-=`);
     embededNearpay
@@ -333,6 +346,20 @@ export default function useEmbededSide() {
     setBase64Image(() => Buffer.from(bytes).toString('base64'));
   }
 
+  function requestCancel(uuid: string) {
+    const cancelWithReverse = true;
+    console.log(`=-=-=-= Request cancel with reverse start =-=-=-=`);
+    return embededNearpay.current
+      ?.requestCancel({
+        transactionId: uuid,
+        cancelWithReverse: cancelWithReverse,
+      })
+      .then((res) => {
+        console.log(`=-=-=-= Request cancel with reverse success =-=-=-=`);
+      }).catch((error) => {
+        console.log(`=-=-=-= Request cancel with reverse failure =-=-=-=`);
+      });
+  }
   return {
     embededNearpay,
     isAndroid,
@@ -350,6 +377,7 @@ export default function useEmbededSide() {
     getReconciliation,
     doUpdateAuthentication,
     doReceiptToImage,
+    doPurchaseAndCancel,
     getUserSession,
   };
 }
