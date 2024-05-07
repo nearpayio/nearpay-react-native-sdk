@@ -382,7 +382,6 @@ export class EmbededNearpay {
     methodFunc: () => Promise<any>
   ): Promise<any> {
     const res = JSON.parse(await methodFunc());
-
     if (res.status >= 200 && res.status < 300) {
       return res;
     } else {

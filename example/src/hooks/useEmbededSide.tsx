@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Platform } from 'react-native';
 import {
   AuthenticationType,
@@ -18,7 +18,7 @@ const isAndroid = Platform.select({ android: true });
 
 export default function useEmbededSide() {
   const [base64Image, setBase64Image] = useState<string | undefined>(undefined);
-
+  var globalTransactionID = "";
   const embededNearpay = useRef(
     Platform.select({ android: true })
       ? new EmbededNearpay({
@@ -41,10 +41,12 @@ export default function useEmbededSide() {
   }
   
   async function doPurchase(amount: number) {
+    const transactionID = uuidv4();
+    globalTransactionID = transactionID as string;
     return await embededNearpay
       .current!.purchase({
         amount: amount, // Required
-        transactionId: uuidv4(), //[Optional] speacify the transaction uuid
+        transactionId: transactionID, //[Optional] speacify the transaction uuid
         customerReferenceNumber: 'abc', // [Optional] referance nuber for customer use only
         enableReceiptUi: true, // [Optional] show the reciept in ui
         enableReversalUi: true, //[Optional] enable reversal of transaction from ui
@@ -162,16 +164,13 @@ export default function useEmbededSide() {
 
   async function doPurchaseAndCancel() {
     console.log(`=-=-=-= purchse then cancel start =-=-=-=`);
-    const transactionData = await doPurchase(100).catch((e) => {
-      console.log(`=-=-=-= purchse then reverse failed =-=-=-=`);
-      throw e;
-    });
-
-    let uuid = transactionData.receipts![0]?.transaction_uuid!;
-    const cancelResponse = await requestCancel(uuid);
-
-    console.log({ cancelResponse });
+    doPurchase(100);
+    cancel();
   }
+  async function cancel(){     
+  const cancelResponse = await requestCancel(globalTransactionID);
+  console.log({ cancelResponse });
+ }
 
   function doLogout() {
     console.log(`=-=-=-= logout start =-=-=-=`);
