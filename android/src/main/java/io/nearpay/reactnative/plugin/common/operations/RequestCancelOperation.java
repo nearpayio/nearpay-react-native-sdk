@@ -1,12 +1,7 @@
 
 package io.nearpay.reactnative.plugin.common.operations;
-
-import android.os.AsyncTask;
-
 import androidx.annotation.NonNull;
-
 import java.util.Map;
-
 import io.nearpay.reactnative.plugin.common.NearpayLib;
 import io.nearpay.reactnative.plugin.common.PluginProvider;
 import io.nearpay.reactnative.plugin.common.filter.ArgsFilter;
