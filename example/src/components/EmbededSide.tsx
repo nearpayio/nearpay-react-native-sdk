@@ -30,6 +30,7 @@ export default function EmbededSide() {
     getTransactions,
     doReceiptToImage,
     getUserSession,
+    doPurchaseAndCancel,
     isAndroid,
     embededNearpay,
     base64Image,
@@ -55,6 +56,12 @@ export default function EmbededSide() {
             <Button
               title="Purchase and Reverse "
               onPress={() => doPurchaseAndReverse()}
+            />
+          </View>
+          <View style={styles.containerrow}>
+            <Button
+              title="Purchase and cancel "
+              onPress={() => doPurchaseAndCancel()}
             />
           </View>
           <View style={styles.containerrow}>

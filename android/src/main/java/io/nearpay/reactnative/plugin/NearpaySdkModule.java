@@ -153,4 +153,8 @@ public class NearpaySdkModule extends ReactContextBaseJavaModule {
     runOperation("getUserSession", params, reactPromise);
   }
 
+@ReactMethod
+public void requestCancel(ReadableMap params, Promise reactPromise) {
+    runOperation("requestCancel", params, reactPromise);
+  }
 }

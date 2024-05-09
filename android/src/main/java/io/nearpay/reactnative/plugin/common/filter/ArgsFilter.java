@@ -52,6 +52,14 @@ public class ArgsFilter {
         return savedArgs.get("receipt_width") != null ? (int) savedArgs.get("receipt_width") : 850;
     }
 
+  public String getTransactionId() {
+    // this receipt could be a reconciliation or transaction receipt
+    return savedArgs.get("transactionId") == null ? "" : (String) savedArgs.get("transactionId");
+  }
+
+public Boolean getCancelWithReverse() {
+    return savedArgs.get("cancelWithReverse") != null ? (Boolean) savedArgs.get("cancelWithReverse") : false;
+}
     public int getReceiptFontSize() {
         return savedArgs.get("receipt_font_size") != null ? (int) savedArgs.get("receipt_font_size") : 1;
     }

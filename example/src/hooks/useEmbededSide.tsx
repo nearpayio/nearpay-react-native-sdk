@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Platform } from 'react-native';
 import {
   AuthenticationType,
@@ -18,7 +18,7 @@ const isAndroid = Platform.select({ android: true });
 
 export default function useEmbededSide() {
   const [base64Image, setBase64Image] = useState<string | undefined>(undefined);
-
+  var globalTransactionID = "";
   const embededNearpay = useRef(
     Platform.select({ android: true })
       ? new EmbededNearpay({
@@ -41,10 +41,12 @@ export default function useEmbededSide() {
   }
   
   async function doPurchase(amount: number) {
+    const transactionID = uuidv4();
+    globalTransactionID = transactionID as string;
     return await embededNearpay
       .current!.purchase({
         amount: amount, // Required
-        transactionId: uuidv4(), //[Optional] speacify the transaction uuid
+        transactionId: transactionID, //[Optional] speacify the transaction uuid
         customerReferenceNumber: 'abc', // [Optional] referance nuber for customer use only
         enableReceiptUi: true, // [Optional] show the reciept in ui
         enableReversalUi: true, //[Optional] enable reversal of transaction from ui
@@ -159,6 +161,16 @@ export default function useEmbededSide() {
 
     console.log({ reverseData });
   }
+
+  async function doPurchaseAndCancel() {
+    console.log(`=-=-=-= purchse then cancel start =-=-=-=`);
+    doPurchase(100);
+    cancel();
+  }
+  async function cancel(){     
+  const cancelResponse = await requestCancel(globalTransactionID);
+  console.log({ cancelResponse });
+ }
 
   function doLogout() {
     console.log(`=-=-=-= logout start =-=-=-=`);
@@ -333,6 +345,20 @@ export default function useEmbededSide() {
     setBase64Image(() => Buffer.from(bytes).toString('base64'));
   }
 
+  function requestCancel(uuid: string) {
+    const cancelWithReverse = true;
+    console.log(`=-=-=-= Request cancel with reverse start =-=-=-=`);
+    return embededNearpay.current
+      ?.requestCancel({
+        transactionId: uuid,
+        cancelWithReverse: cancelWithReverse,
+      })
+      .then((res) => {
+        console.log(`=-=-=-= Request cancel with reverse success =-=-=-=`);
+      }).catch((error) => {
+        console.log(`=-=-=-= Request cancel with reverse failure =-=-=-=`);
+      });
+  }
   return {
     embededNearpay,
     isAndroid,
@@ -350,6 +376,7 @@ export default function useEmbededSide() {
     getReconciliation,
     doUpdateAuthentication,
     doReceiptToImage,
+    doPurchaseAndCancel,
     getUserSession,
   };
 }
