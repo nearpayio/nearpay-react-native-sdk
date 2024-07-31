@@ -33,7 +33,7 @@ import {
   Locale,
 } from '@nearpaydev/react-native-nearpay-sdk';
 
-const EmbededNearpay = new EmbededNearpay({
+const embeddedNearpay = new EmbededNearpay({
   authtype: AuthenticationType.email, // the Authentication type (Email, mobile, etc)
   authvalue: '<Enter Your Email Here>', // the Authentication value
   environment: Environments.sandbox, // Transaction environment
@@ -57,7 +57,7 @@ optionally initialize the plugin, if not used the plugin will initialize him sel
 you can use this method if you want to do any optional behavior on initialize success
 
 ```typescript
-EmbededNearpay.initialize().then(() => {
+embeddedNearpay.initialize().then(() => {
   // do some thing
 });
 ```
@@ -67,7 +67,7 @@ EmbededNearpay.initialize().then(() => {
 used to install payment plugin and verify the entered authentication
 
 ```typescript
-EmbededNearpay
+embeddedNearpay
   .setup()
   .then((res) => {
     console.log('=-=-=-=-=-= setup success =-=-==-=-=-');
@@ -82,7 +82,7 @@ EmbededNearpay
 ### Purchase
 
 ```typescript
-EmbededNearpay
+embededNearpay
   .purchase({
     amount: 1000, // Required, means 10.00
     transactionId: uuidv4(), //[Optional] specify the transaction uuid for later retrieval
@@ -108,7 +108,7 @@ EmbededNearpay
 ### Refund
 
 ```typescript
-EmbededNearpay
+embeddedNearpay
   .refund({
     amount: 1000, // [Required], means 10.00
     originalTransactionUUID: 'f5079b9d-b61c-4180-8a4d-9780f7a9cd8f', // [Required] the original transaction uuid that you want to refund
@@ -136,7 +136,7 @@ EmbededNearpay
 ### Reverse
 
 ```typescript
-EmbededNearpay
+embeddedNearpay
   .reverse({
     originalTransactionUUID: '2ddbbd15-a97e-4949-b5c2-fa073ab750eb', // [Required] the original transaction uuid that you want to reverse
     enableReceiptUi: true, // [Optional] show the receipt in ui
@@ -159,7 +159,7 @@ EmbededNearpay
 ### Reconcile
 
 ```typescript
-EmbededNearpay
+embeddedNearpay
   .reconcile({
     enableReceiptUi: true, // [Optional] show the receipt in ui
     enableUiDismiss: true, //[Optional] the ui is dismissible
@@ -181,7 +181,7 @@ EmbededNearpay
 ### Session
 
 ```typescript
-EmbededNearpay
+embeddedNearpay
   .session({
     sessionID: 'ea5e30d4-54c7-4ad9-8372-f798259ff589', // Required
     enableReceiptUi: true, // [Optional] show the receipt in ui
@@ -204,7 +204,7 @@ EmbededNearpay
 ### Logout
 
 ```typescript
-EmbededNearpay
+embeddedNearpay
   .logout()
   .then((response) => {
     console.log(`=-=-=-= logout success =-=-=-=`);
@@ -223,7 +223,7 @@ EmbededNearpay
 get a transaction by uuid
 
 ```typescript
-EmbededNearpay
+embeddedNearpay
   .getTransaction({
     transactionUUID: 'a2fd6519-2b37-4336-be6d-5520bb3b6427',
     adminPin: '0000',
@@ -239,7 +239,7 @@ EmbededNearpay
 get transactions
 
 ```typescript
-EmbededNearpay
+embeddedNearpay
   .getTransactionsList({
     page: 1,
     limit: 20,
@@ -256,7 +256,7 @@ EmbededNearpay
 get a reconciliation by uuid
 
 ```typescript
-EmbededNearpay
+embeddedNearpay
   .getReconciliation({
     reconciliationUUID: '6d4a48b8-d194-4aad-92c9-a77606758799',
     adminPin: '0000',
@@ -272,7 +272,7 @@ EmbededNearpay
 get reconciliations
 
 ```typescript
-EmbededNearpay
+embeddedNearpay
   .getReconciliationsList({
     page: 1,
     limit: 20,
@@ -289,7 +289,7 @@ EmbededNearpay
 Check compatibility
 
 ```typescript
-    let isCompatible = await EmbededNearpay.current?.checkCompatibility();
+    let isCompatible = await embeddedNearpay.current?.checkCompatibility();
     if(isCompatible == true) {
      console.log('isDeviceCompatible');
     } else {
