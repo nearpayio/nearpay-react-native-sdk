@@ -245,6 +245,10 @@ public Boolean getCancelWithReverse() {
         return getIsoDate("end_date");
 
     }
+    
+    public UUID getRequestId() {
+        return savedArgs.get("requestId") == null ? null :  UUID.fromString((String) savedArgs.get("requestId"));
+     } 
 
     public Boolean isEnableUiDismiss() {
         return savedArgs.get("enableUiDismiss") == null ? true : (Boolean) savedArgs.get("enableUiDismiss");
