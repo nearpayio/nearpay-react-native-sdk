@@ -126,7 +126,6 @@ public class ArgsFilter {
         String environmentStr = savedArgs.get("environment") == null ? "sandbox"
                 : savedArgs.get("environment").toString();
 
-
         Environments env = envMap.get((environmentStr));
 
         return env;
@@ -191,21 +190,22 @@ public class ArgsFilter {
                 : "please tap your card";
 
     }
-//
-//    public Region getRegion() {
-//        Map<String, Region> regionsMap = new HashMap<>();
-//
-//        regionsMap.put("SAUDI", Region.SAUDI);
-//        regionsMap.put("JORDAN", Region.JORDAN);
-//        regionsMap.put("AFRICA", Region.AFRICA);
-//
-//        String regionStr = savedArgs.get("region") != null ? (String) savedArgs.get("region")
-//                : "SAUDI";
-//
-//        Region result = regionsMap.get(regionStr);
-//
-//        return result;
-//    }
+    //
+    // public Region getRegion() {
+    // Map<String, Region> regionsMap = new HashMap<>();
+    //
+    // regionsMap.put("SAUDI", Region.SAUDI);
+    // regionsMap.put("JORDAN", Region.JORDAN);
+    // regionsMap.put("AFRICA", Region.AFRICA);
+    //
+    // String regionStr = savedArgs.get("region") != null ? (String)
+    // savedArgs.get("region")
+    // : "SAUDI";
+    //
+    // Region result = regionsMap.get(regionStr);
+    //
+    // return result;
+    // }
 
     @SuppressLint("NewApi")
     public LocalDateTime getStartDate() {
@@ -253,6 +253,10 @@ public class ArgsFilter {
     public Boolean isEnableEditableRefundAmountUi() {
         return savedArgs.get("enableEditableRefundAmountUi") == null ? true
                 : (Boolean) savedArgs.get("enableEditableRefundAmountUi");
+    }
+
+    public UUID getRequestId() {
+        return savedArgs.get("requestId") == null ? null : UUID.fromString((String) savedArgs.get("requestId"));
     }
 
     @SuppressLint("NewApi")
