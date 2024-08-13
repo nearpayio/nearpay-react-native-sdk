@@ -1,8 +1,8 @@
 # Nearpay SDK React Native Plugin For Android
 
-Nearpay SDK for Embeded and Remote connections
+Nearpay SDK for Embedded and Remote connections
 
-- Embeded Nearpay plugin for Android device payment using NFC. Plugin supported from
+- Embedded Nearpay plugin for Android device payment using NFC. Plugin supported from
   Minimum SDK version 21. This plugin will work based on
   [Nearpay SDK](https://docs.nearpay.io/sdk/)
 
@@ -33,15 +33,15 @@ import {
   Locale,
 } from '@nearpaydev/react-native-nearpay-sdk';
 
-const embededNearpay = new EmbededNearpay({
+const embeddedNearpay = new EmbededNearpay({
   authtype: AuthenticationType.email, // the Authentication type (Email, mobile, etc)
   authvalue: '<Enter Your Email Here>', // the Authentication value
-  environment: Environments.sandbox, // Transation enviroment
+  environment: Environments.sandbox, // Transaction environment
   locale: Locale.default, // [Optional] language options
 });
 ```
 
-`EmbededNearpay` obeject should be created once and served to the wholl application
+`EmbededNearpay` object should be created once and served to the whole application
 
 ### Authentications Types
 
@@ -54,10 +54,10 @@ const embededNearpay = new EmbededNearpay({
 
 optionally initialize the plugin, if not used the plugin will initialize him self automatically
 
-you can use this method if you want to do any optional behaviour on initialize success
+you can use this method if you want to do any optional behavior on initialize success
 
 ```typescript
-embededNearpay.initialize().then(() => {
+embeddedNearpay.initialize().then(() => {
   // do some thing
 });
 ```
@@ -67,7 +67,7 @@ embededNearpay.initialize().then(() => {
 used to install payment plugin and verify the entered authentication
 
 ```typescript
-embededNearpay
+embeddedNearpay
   .setup()
   .then((res) => {
     console.log('=-=-=-=-=-= setup success =-=-==-=-=-');
@@ -84,22 +84,22 @@ embededNearpay
 ```typescript
 embededNearpay
   .purchase({
-    amount: 1000, // Required, maens 10.00
-    transactionId: uuidv4(), //[Optional] speacify the transaction uuid for later retreval
-    customerReferenceNumber: '', // [Optional] referance number for customer use only
-    enableReceiptUi: true, // [Optional] show the reciept in ui
+    amount: 1000, // Required, means 10.00
+    transactionId: uuidv4(), //[Optional] specify the transaction uuid for later retrieval
+    customerReferenceNumber: '', // [Optional] reference number for customer use only
+    enableReceiptUi: true, // [Optional] show the receipt in ui
     enableReversalUi: true, //[Optional] enable reversal of transaction from ui
-    enableUiDismiss: true, //[Optional] the ui is dimissible
+    enableUiDismiss: true, //[Optional] the ui is dismissible
     finishTimeout: 60, //[Optional] finish timeout in seconds
   })
   .then((response) => {
-    console.log(`=-=-=-= purchse success =-=-=-=`);
-    console.log(`purchse respone:`);
+    console.log(`=-=-=-= purchase success =-=-=-=`);
+    console.log(`purchase response:`);
     console.log(JSON.stringify(response, null, 2));
     return response;
   })
   .catch((e) => {
-    console.log(`=-=-=-= purchse failed =-=-=-=`);
+    console.log(`=-=-=-= purchase failed =-=-=-=`);
     console.log(`error: ${e}`);
     throw e;
   });
@@ -108,22 +108,22 @@ embededNearpay
 ### Refund
 
 ```typescript
-embededNearpay
+embeddedNearpay
   .refund({
     amount: 1000, // [Required], means 10.00
-    originalTransactionUUID: 'f5079b9d-b61c-4180-8a4d-9780f7a9cd8f', // [Required] the orginal trnasaction uuid that you want to refund
-    transactionId: uuidv4(), //[Optional] speacify the transaction uuid for later retreval
+    originalTransactionUUID: 'f5079b9d-b61c-4180-8a4d-9780f7a9cd8f', // [Required] the original transaction uuid that you want to refund
+    transactionId: uuidv4(), //[Optional] specify the transaction uuid for later retrieval
     customerReferenceNumber: '', //[Optional]
-    enableReceiptUi: true, // [Optional] show the reciept in ui
+    enableReceiptUi: true, // [Optional] show the receipt in ui
     enableReversalUi: true, //[Optional] enable reversal of transaction from ui
     editableReversalAmountUI: true, // [Optional] edit the reversal amount from uid
-    enableUiDismiss: true, //[Optional] the ui is dimissible
+    enableUiDismiss: true, //[Optional] the ui is dismissible
     finishTimeout: 60, //[Optional] finish timeout in seconds
     adminPin: '0000', // [Optional] when you add the admin pin here , the UI for admin pin won't be shown.
   })
   .then((response) => {
     console.log(`=-=-=-= refund success =-=-=-=`);
-    console.log(`refund respone: ${response}`);
+    console.log(`refund response: ${response}`);
     return response;
   })
   .catch((e) => {
@@ -136,16 +136,16 @@ embededNearpay
 ### Reverse
 
 ```typescript
-embededNearpay
+embeddedNearpay
   .reverse({
-    originalTransactionUUID: '2ddbbd15-a97e-4949-b5c2-fa073ab750eb', // [Required] the orginal trnasaction uuid that you want to reverse
-    enableReceiptUi: true, // [Optional] show the reciept in ui
-    enableUiDismiss: true, //[Optional] the ui is dimissible
+    originalTransactionUUID: '2ddbbd15-a97e-4949-b5c2-fa073ab750eb', // [Required] the original transaction uuid that you want to reverse
+    enableReceiptUi: true, // [Optional] show the receipt in ui
+    enableUiDismiss: true, //[Optional] the ui is dismissible
     finishTimeout: 60, //[Optional] finish timeout in seconds
   })
   .then((response) => {
     console.log(`=-=-=-= reverse success =-=-=-=`);
-    console.log(`reverse respone: ${response}`);
+    console.log(`reverse response: ${response}`);
     return response;
   })
   .catch((e) => {
@@ -159,16 +159,16 @@ embededNearpay
 ### Reconcile
 
 ```typescript
-embededNearpay
+embeddedNearpay
   .reconcile({
-    enableReceiptUi: true, // [Optional] show the reciept in ui
-    enableUiDismiss: true, //[Optional] the ui is dimissible
+    enableReceiptUi: true, // [Optional] show the receipt in ui
+    enableUiDismiss: true, //[Optional] the ui is dismissible
     finishTimeout: 60, //[Optional] finish timeout in seconds
     adminPin: '0000', // [optional] when you add the admin pin here , the UI for admin pin won't be shown.
   })
   .then((response) => {
     console.log(`=-=-=-= reconcile success =-=-=-=`);
-    console.log(`reconcile respone: ${response}`);
+    console.log(`reconcile response: ${response}`);
     return response;
   })
   .catch((e) => {
@@ -181,17 +181,17 @@ embededNearpay
 ### Session
 
 ```typescript
-embededNearpay
+embeddedNearpay
   .session({
     sessionID: 'ea5e30d4-54c7-4ad9-8372-f798259ff589', // Required
-    enableReceiptUi: true, // [Optional] show the reciept in ui
+    enableReceiptUi: true, // [Optional] show the receipt in ui
     enableReversalUi: true, //[Optional] enable reversal of transaction from ui
-    enableUiDismiss: true, //[Optional] the ui is dimissible
+    enableUiDismiss: true, //[Optional] the ui is dismissible
     finishTimeout: 60, //[Optional] finish timeout in seconds
   })
   .then((response) => {
     console.log(`=-=-=-= session success =-=-=-=`);
-    console.log(`session respone: ${response}`);
+    console.log(`session response: ${response}`);
     return response;
   })
   .catch((e) => {
@@ -204,11 +204,11 @@ embededNearpay
 ### Logout
 
 ```typescript
-embededNearpay
+embeddedNearpay
   .logout()
   .then((response) => {
     console.log(`=-=-=-= logout success =-=-=-=`);
-    console.log(`logout respone: ${response}`);
+    console.log(`logout response: ${response}`);
     return response;
   })
   .catch((e) => {
@@ -223,7 +223,7 @@ embededNearpay
 get a transaction by uuid
 
 ```typescript
-embededNearpay
+embeddedNearpay
   .getTransaction({
     transactionUUID: 'a2fd6519-2b37-4336-be6d-5520bb3b6427',
     adminPin: '0000',
@@ -239,7 +239,7 @@ embededNearpay
 get transactions
 
 ```typescript
-embededNearpay
+embeddedNearpay
   .getTransactionsList({
     page: 1,
     limit: 20,
@@ -256,7 +256,7 @@ embededNearpay
 get a reconciliation by uuid
 
 ```typescript
-embededNearpay
+embeddedNearpay
   .getReconciliation({
     reconciliationUUID: '6d4a48b8-d194-4aad-92c9-a77606758799',
     adminPin: '0000',
@@ -272,7 +272,7 @@ embededNearpay
 get reconciliations
 
 ```typescript
-embededNearpay
+embeddedNearpay
   .getReconciliationsList({
     page: 1,
     limit: 20,
@@ -289,8 +289,8 @@ embededNearpay
 Check compatibility
 
 ```typescript
-    let isCompatibile = await embededNearpay.current?.checkCompatibility();
-    if(isCompatibile == true) {
+    let isCompatible = await embeddedNearpay.current?.checkCompatibility();
+    if(isCompatible == true) {
      console.log('isDeviceCompatible');
     } else {
      console.log('isDeviceNotCompatible');
@@ -314,7 +314,7 @@ remoteNearpay.addAutoReconnect(); // [optional] add an auto reconnect to last co
 remoteNearpay.connectToLastUser(); // [optional] try to connect to last connection on launch
 ```
 
-`RemoteNearPay` object should be served to the whall application using `NearpayProvider`
+`RemoteNearPay` object should be served to the whole application using `NearpayProvider`
 
 ```typescript
 import { NearpayProvider } from '@nearpaydev/react-native-nearpay-sdk';
@@ -363,11 +363,11 @@ you can disconnect using the method `remoteNearpay.disconnectDevice()`
 
 ### Terminal Operations
 
-Terminal Object is responsable of doing operations like purchase, refund, reverse, etc.
+Terminal Object is responsible of doing operations like purchase, refund, reverse, etc.
 
 you can access terminal operation using `remoteNearpay.getTerminal()`
 
-you can see Terminal Operations and thier results [here](https://docs.nearpay.io/sdk/remote-integration/web-sdk/web-sdk#purchase)
+you can see Terminal Operations and their results [here](https://docs.nearpay.io/sdk/remote-integration/web-sdk/web-sdk#purchase)
 
 ### Listeners
 
@@ -375,8 +375,8 @@ you can use listeners to get state update of the `RemoteNearpay` object
 
 see the [listener section](https://docs.nearpay.io/sdk/remote-integration/web-sdk/listeners)
 
-### Stetes
+### States
 
-`RemoteNearpay` has differant states that describes the `RemoteNearpay` device or the POS device
+`RemoteNearpay` has different states that describes the `RemoteNearpay` device or the POS device
 
 you can see the states [here](https://docs.nearpay.io/sdk/remote-integration/web-sdk/sdk-states)
