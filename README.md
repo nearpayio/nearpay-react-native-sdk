@@ -38,6 +38,8 @@ const embededNearpay = new EmbededNearpay({
   authvalue: '<Enter Your Email Here>', // the Authentication value
   environment: Environments.sandbox, // Transation enviroment
   locale: Locale.default, // [Optional] language options
+  arabicPaymentText: 'يرجى تمرير الطاقة', // [Optional] 
+  englishPaymentText: 'please tap your card' // [Optional]
 });
 ```
 
