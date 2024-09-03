@@ -4,6 +4,11 @@ import {
   TransactionReceipt,
 } from '@nearpaydev/nearpay-ts-sdk';
 import { UserSession } from './models/user-session';
+import { PurchaseAuthenticationFailed, PurchaseDeclined, PurchaseGeneralFailure, PurchaseInvalidStatus, PurchaseRejected } from './libs/errors/purchase_error/purchase_error';
+import { ReconcileFailureMessage, ReconcileAuthenticationFailed, ReconcileInvalidStatus, ReconcileGeneralFailure } from './libs/errors/reconcile_error/reconcile_error';
+import { RefundInvalidStatus, RefundGeneralFailure, RefundDeclined, RefundAuthenticationFailed, RefundRejected } from './libs/errors/refund_error/refund_error';
+import { ReversalFailureMessage, ReversalAuthenticationFailed, ReversalInvalidStatus, ReversalGeneralFailure } from './libs/errors/reversal_error/reversal_error';
+import { QueryAuthenticationFailed, QueryFailureMessage, QueryGeneralFailure, QueryInvalidStatus } from './libs/errors/query_error/query_error';
 
 export enum Environments {
   sandbox = 'sandbox',
@@ -115,6 +120,17 @@ export type EmbededReceiptToImageOptions = {
   receiptFontSize?: number;
 };
 
+export { PurchaseDeclined, PurchaseRejected, PurchaseAuthenticationFailed, PurchaseInvalidStatus, PurchaseGeneralFailure}
+
+export { RefundDeclined, RefundRejected, RefundAuthenticationFailed, RefundInvalidStatus, RefundGeneralFailure}
+
+export { ReconcileFailureMessage, ReconcileAuthenticationFailed, ReconcileInvalidStatus, ReconcileGeneralFailure}
+
+export { ReversalFailureMessage, ReversalAuthenticationFailed, ReversalInvalidStatus, ReversalGeneralFailure}
+
+export { QueryFailureMessage, QueryAuthenticationFailed, QueryInvalidStatus, QueryGeneralFailure}
+
+
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=
 // =-=-=-=-=-=-=-=-=-=-=-=-=- Queries =-=-=-=-=-=-=-=-=-=-=-=
@@ -164,3 +180,9 @@ export type GetUserSessionOptions = {
 export type SessionResponse =
   | { session_closed: true; data: SessionData }
   | { session_closed: false; data: TransactionData };
+
+
+
+
+
+

@@ -21,6 +21,17 @@ import {
   TransactionData,
 } from '@nearpaydev/nearpay-ts-sdk';
 import { TransactionBannerList } from '@nearpaydev/nearpay-ts-sdk';
+import { getPurchaseError } from '../errors/purchase_error/purchase_error_switch';
+import {
+  PurchaseDeclined,
+  PurchaseGeneralFailure,
+  PurchaseInvalidStatus,
+  PurchaseRejected,
+} from '../errors/purchase_error/purchase_error';
+import { getRefundError } from '../errors/refund_error/refund_error_switch';
+import { getReconcileError } from '../errors/reconcile_error/reconcile_error_switch';
+import { getReversalError } from '../errors/reversal_error/reversal_error_switch';
+import { getQueryError } from '../errors/query_error/query_error_switch';
 
 const LINKING_ERROR =
   `The package '@nearpaydev/react-native-nearpay-sdk' doesn't seem to be linked. Make sure: \n\n` +
@@ -94,12 +105,13 @@ export class EmbededNearpay {
       job_id: transactionId,
     };
 
-    const response = await this._callPluginMethod(async () =>
-      NearpayPlugin.purchase(data)
-    );
+    const response = await NearpayPlugin.purchase(data);
+    const result = JSON.parse(response);
 
+    if (result.status != 200) {
+      throw getPurchaseError(result);
+    }
     const transactionData = response['result'];
-
     return transactionData;
   }
 
@@ -128,9 +140,12 @@ export class EmbededNearpay {
       ...(adminPin !== undefined ? { adminPin } : null),
     };
 
-    const response = await this._callPluginMethod(async () =>
-      NearpayPlugin.refund(data)
-    );
+    const response = await NearpayPlugin.refund(data);
+    const result = JSON.parse(response);
+
+    if (result.status != 200) {
+      throw getRefundError(result);
+    }
 
     const transactionData = response['result'];
 
@@ -149,10 +164,12 @@ export class EmbededNearpay {
       enableUiDismiss: enableUiDismiss,
       ...(adminPin !== undefined ? { adminPin } : null),
     };
+    const response = await NearpayPlugin.reconcile(data);
+    const result = JSON.parse(response);
 
-    const response = await this._callPluginMethod(async () =>
-      NearpayPlugin.reconcile(data)
-    );
+    if (result.status != 200) {
+      throw getReconcileError(result);
+    }
 
     const reconciliationReceipt = response['result'];
 
@@ -172,9 +189,12 @@ export class EmbededNearpay {
       enableReceiptUi: enableReceiptUi,
     };
 
-    const response = await this._callPluginMethod(async () =>
-      NearpayPlugin.reverse(data)
-    );
+    const response = await NearpayPlugin.reverse(data);
+    const result = JSON.parse(response);
+
+    if (result.status != 200) {
+      throw getReversalError(result);
+    }
 
     const transactionData = response['result'];
 
@@ -246,9 +266,13 @@ export class EmbededNearpay {
       customer_reference_number: customerReferenceNumber,
     };
 
-    const response = await this._callPluginMethod(async () =>
-      NearpayPlugin.getTransactionsList(data)
-    );
+    const response = await NearpayPlugin.getTransactionsList(data);
+    const result = JSON.parse(response);
+
+    if (result.status != 200) {
+      throw getQueryError(result);
+    }
+
     const transactionBannerList = response['result'];
 
     return transactionBannerList;
@@ -265,9 +289,12 @@ export class EmbededNearpay {
       finishTimeOut: finishTimeOut,
     };
 
-    const response = await this._callPluginMethod(async () =>
-      NearpayPlugin.getTransaction(data)
-    );
+    const response = await NearpayPlugin.getTransaction(data);
+    const result = JSON.parse(response);
+
+    if (result.status != 200) {
+      throw getQueryError(result);
+    }
 
     const transactionData = response['result'];
 
@@ -285,9 +312,13 @@ export class EmbededNearpay {
       finishTimeOut: finishTimeOut,
     };
 
-    const response = await this._callPluginMethod(async () =>
-      NearpayPlugin.getReconciliation(data)
-    );
+    const response = await NearpayPlugin.getReconciliation(data);
+    const result = JSON.parse(response);
+
+    if (result.status != 200) {
+      throw getQueryError(result);
+    }
+
     const reconciliationReceipt = response['result'];
 
     return reconciliationReceipt;
@@ -306,9 +337,13 @@ export class EmbededNearpay {
       end_date: endDate?.toISOString(),
     };
 
-    const response = await this._callPluginMethod(async () =>
-      NearpayPlugin.getReconciliationsList(data)
-    );
+    const response = await NearpayPlugin.getReconciliationsList(data);
+    const result = JSON.parse(response);
+
+    if (result.status != 200) {
+      throw getQueryError(result);
+    }
+
     const ReconciliationBannerList = response['result'];
 
     return ReconciliationBannerList;
