@@ -1,3 +1,5 @@
+import { PurchaseDeclined } from './libs/errors/purchase_error/purchase_error';
+
 export {
   default as NearpayProvider,
   useNearpay,
@@ -34,6 +36,28 @@ export type {
 export { RemoteNearPay } from './libs/remote/remoteNearpay';
 export { EmbededNearpay } from './libs/embeded/embeded';
 export {
+  PurchaseDeclined,
+  PurchaseRejected,
+  PurchaseAuthenticationFailed,
+  PurchaseInvalidStatus,
+  PurchaseGeneralFailure,
+  RefundDeclined,
+  RefundRejected,
+  RefundAuthenticationFailed,
+  RefundInvalidStatus,
+  RefundGeneralFailure,
+  ReconcileFailureMessage,
+  ReconcileAuthenticationFailed,
+  ReconcileInvalidStatus,
+  ReconcileGeneralFailure,
+  ReversalFailureMessage,
+  ReversalAuthenticationFailed,
+  ReversalInvalidStatus,
+  ReversalGeneralFailure,
+  QueryFailureMessage,
+  QueryAuthenticationFailed,
+  QueryInvalidStatus,
+  QueryGeneralFailure,
   Locale,
   AuthenticationType,
   Environments,

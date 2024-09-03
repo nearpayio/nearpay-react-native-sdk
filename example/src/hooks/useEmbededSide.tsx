@@ -4,11 +4,39 @@ import {
   AuthenticationType,
   EmbededNearpay,
   Environments,
+  PurchaseAuthenticationFailed,
+  PurchaseDeclined,
+  PurchaseGeneralFailure,
+  PurchaseInvalidStatus,
+  PurchaseRejected,
+  QueryAuthenticationFailed,
+  QueryFailureMessage,
+  QueryGeneralFailure,
+  QueryInvalidStatus,
+  ReconcileAuthenticationFailed,
+  ReconcileFailureMessage,
+  ReconcileGeneralFailure,
+  ReconcileInvalidStatus,
+  RefundAuthenticationFailed,
+  RefundDeclined,
+  RefundGeneralFailure,
+  RefundInvalidStatus,
+  RefundRejected,
+  ReversalAuthenticationFailed,
+  ReversalFailureMessage,
+  ReversalGeneralFailure,
+  ReversalInvalidStatus,
 } from '@nearpaydev/react-native-nearpay-sdk';
 global.Buffer = require('buffer').Buffer;
 
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
+// import {
+//   PurchaseGeneralFailure,
+//   PurchaseInvalidStatus,
+//   PurchaseRejected,
+// } from '../../../src/libs/errors/purchase_error/purchase_error';
+
 let authtype = AuthenticationType.email;
 let authvalue = 'a.khalifa@nearpay.io';
 let environment = Environments.sandbox;
@@ -18,7 +46,7 @@ const isAndroid = Platform.select({ android: true });
 
 export default function useEmbededSide() {
   const [base64Image, setBase64Image] = useState<string | undefined>(undefined);
-  var globalTransactionID = "";
+  var globalTransactionID = '';
   const embededNearpay = useRef(
     Platform.select({ android: true })
       ? new EmbededNearpay({
@@ -29,17 +57,6 @@ export default function useEmbededSide() {
       : undefined
   );
 
-
-  async function checkCompatibility() {
-    console.log(`=-=-=-= purchse start =-=-=-=`);
-    let isCompatibile = await embededNearpay.current?.checkCompatibility();
-    if(isCompatibile == true) {
-     console.log('isDeviceCompatible');
-    } else {
-     console.log('isDeviceNotCompatible');
-    }
-  }
-  
   async function doPurchase(amount: number) {
     const transactionID = uuidv4();
     globalTransactionID = transactionID as string;
@@ -58,10 +75,18 @@ export default function useEmbededSide() {
         console.log(`purchse respone:`);
         console.log(JSON.stringify(response, null, 2));
         return response;
-      })
-      .catch((e) => {
-        console.log(`=-=-=-= purchse failed =-=-=-=`);
-        console.dir({ e }, { depth: null });
+      }).catch((e) => {
+        if (e instanceof PurchaseDeclined) {
+          // when the payment declined.
+        } else if (e instanceof PurchaseRejected) {
+          // Handle purchase rejected
+        } else if (e instanceof PurchaseGeneralFailure) {
+          // Handle general failure
+        } else if (e instanceof PurchaseInvalidStatus) {
+          // Handle invalid status
+        } else if (e instanceof PurchaseAuthenticationFailed) {
+          // when the authentication failed .
+        }
         throw e;
       });
   }
@@ -87,8 +112,17 @@ export default function useEmbededSide() {
         return response;
       })
       .catch((e) => {
-        console.log(`=-=-=-= refund failed =-=-=-=`);
-        console.log(`error: ${e}`);
+        if (e instanceof RefundAuthenticationFailed) {
+          // when the authentication failed .
+        } else if (e instanceof RefundGeneralFailure) {
+          // Handle general failure
+        } else if (e instanceof RefundInvalidStatus) {
+          // Handle invalid status
+        } else if (e instanceof RefundDeclined) {
+          // when the refund is declined.
+        } else if (e instanceof RefundRejected) {
+          // when the refund is rejected
+        }
         throw e;
       });
   }
@@ -108,9 +142,15 @@ export default function useEmbededSide() {
         return response;
       })
       .catch((e) => {
-        console.log(`=-=-=-= reverse failed =-=-=-=`);
-        console.log(`error:`);
-        console.log(JSON.stringify(e, null, 2));
+        if (e instanceof ReversalAuthenticationFailed) {
+          // when the authentication failed .
+        } else if (e instanceof ReversalGeneralFailure) {
+          // Handle general failure
+        } else if (e instanceof ReversalFailureMessage) {
+          // when there is FailureMessage
+        } else if (e instanceof ReversalInvalidStatus) {
+          // Handle invalid status
+        }
         throw e;
       });
   }
@@ -130,8 +170,15 @@ export default function useEmbededSide() {
         return response;
       })
       .catch((e) => {
-        console.log(`=-=-=-= reconcile failed =-=-=-=`);
-        console.log(`error: ${e}`);
+        if (e instanceof ReconcileAuthenticationFailed) {
+          // when the authentication failed .
+        } else if (e instanceof ReconcileGeneralFailure) {
+          // Handle general failure
+        } else if (e instanceof ReconcileFailureMessage) {
+          // when there is FailureMessage
+        } else if (e instanceof ReconcileInvalidStatus) {
+          // Handle invalid status
+        }
         throw e;
       });
   }
@@ -167,10 +214,10 @@ export default function useEmbededSide() {
     doPurchase(100);
     cancel();
   }
-  async function cancel(){     
-  const cancelResponse = await requestCancel(globalTransactionID);
-  console.log({ cancelResponse });
- }
+  async function cancel() {
+    const cancelResponse = await requestCancel(globalTransactionID);
+    console.log({ cancelResponse });
+  }
 
   function doLogout() {
     console.log(`=-=-=-= logout start =-=-=-=`);
@@ -274,6 +321,17 @@ export default function useEmbededSide() {
       .then((res) => {
         console.log(`=-=-=-= get transactions success =-=-=-=`);
         console.log(res);
+      })
+      .catch((e) => {
+        if (e instanceof QueryAuthenticationFailed) {
+          // when the authentication failed .
+        } else if (e instanceof QueryGeneralFailure) {
+          // Handle general failure
+        } else if (e instanceof QueryFailureMessage) {
+          // when there is FailureMessage
+        } else if (e instanceof QueryInvalidStatus) {
+          // Handle invalid status
+        }
       });
   }
 
@@ -287,6 +345,17 @@ export default function useEmbededSide() {
       .then((res) => {
         console.log(`=-=-=-= get transaction success =-=-=-=`);
         console.log(res);
+      })
+      .catch((e) => {
+        if (e instanceof QueryAuthenticationFailed) {
+          // when the authentication failed .
+        } else if (e instanceof QueryGeneralFailure) {
+          // Handle general failure
+        } else if (e instanceof QueryFailureMessage) {
+          // when there is FailureMessage
+        } else if (e instanceof QueryInvalidStatus) {
+          // Handle invalid status
+        }
       });
   }
 
@@ -304,6 +373,17 @@ export default function useEmbededSide() {
       .then((res) => {
         console.log(`=-=-=-= get Reconciliations success =-=-=-=`);
         console.log(res);
+      })
+      .catch((e) => {
+        if (e instanceof QueryAuthenticationFailed) {
+          // when the authentication failed .
+        } else if (e instanceof QueryGeneralFailure) {
+          // Handle general failure
+        } else if (e instanceof QueryFailureMessage) {
+          // when there is FailureMessage
+        } else if (e instanceof QueryInvalidStatus) {
+          // Handle invalid status
+        }
       });
   }
 
@@ -317,6 +397,17 @@ export default function useEmbededSide() {
       .then((res) => {
         console.log(`=-=-=-= get Reconciliation success =-=-=-=`);
         console.log(res);
+      })
+      .catch((e) => {
+        if (e instanceof QueryAuthenticationFailed) {
+          // when the authentication failed .
+        } else if (e instanceof QueryGeneralFailure) {
+          // Handle general failure
+        } else if (e instanceof QueryFailureMessage) {
+          // when there is FailureMessage
+        } else if (e instanceof QueryInvalidStatus) {
+          // Handle invalid status
+        }
       });
   }
 
@@ -355,7 +446,8 @@ export default function useEmbededSide() {
       })
       .then((res) => {
         console.log(`=-=-=-= Request cancel with reverse success =-=-=-=`);
-      }).catch((error) => {
+      })
+      .catch((error) => {
         console.log(`=-=-=-= Request cancel with reverse failure =-=-=-=`);
       });
   }

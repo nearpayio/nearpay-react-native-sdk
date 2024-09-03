@@ -38,8 +38,8 @@ const embededNearpay = new EmbededNearpay({
   authvalue: '<Enter Your Email Here>', // the Authentication value
   environment: Environments.sandbox, // Transation enviroment
   locale: Locale.default, // [Optional] language options
-  arabicPaymentText: 'يرجى تمرير الطاقة', // [Optional] 
-  englishPaymentText: 'please tap your card' // [Optional]
+  arabicPaymentText: 'يرجى تمرير الطاقة', // [Optional]
+  englishPaymentText: 'please tap your card', // [Optional]
 });
 ```
 
@@ -101,8 +101,17 @@ embededNearpay
     return response;
   })
   .catch((e) => {
-    console.log(`=-=-=-= purchse failed =-=-=-=`);
-    console.log(`error: ${e}`);
+    if (e instanceof PurchaseDeclined) {
+      // when the payment declined.
+    } else if (e instanceof PurchaseRejected) {
+      // Handle purchase rejected
+    } else if (e instanceof PurchaseGeneralFailure) {
+      // Handle general failure
+    } else if (e instanceof PurchaseInvalidStatus) {
+      // Handle invalid status
+    } else if (e instanceof PurchaseAuthenticationFailed) {
+      // when the authentication failed .
+    }
     throw e;
   });
 ```
@@ -129,8 +138,17 @@ embededNearpay
     return response;
   })
   .catch((e) => {
-    console.log(`=-=-=-= refund failed =-=-=-=`);
-    console.log(`error: ${e}`);
+    if (e instanceof RefundAuthenticationFailed) {
+      // when the authentication failed .
+    } else if (e instanceof RefundGeneralFailure) {
+      // Handle general failure
+    } else if (e instanceof RefundInvalidStatus) {
+      // Handle invalid status
+    } else if (e instanceof RefundDeclined) {
+      // when the refund is declined.
+    } else if (e instanceof RefundRejected) {
+      // when the refund is rejected
+    }
     throw e;
   });
 ```
@@ -151,9 +169,15 @@ embededNearpay
     return response;
   })
   .catch((e) => {
-    console.log(`=-=-=-= reverse failed =-=-=-=`);
-    console.log(`error:`);
-    console.log(JSON.stringify(e, null, 2));
+    if (e instanceof ReversalAuthenticationFailed) {
+      // when the authentication failed .
+    } else if (e instanceof ReversalGeneralFailure) {
+      // Handle general failure
+    } else if (e instanceof ReversalFailureMessage) {
+      // when there is FailureMessage
+    } else if (e instanceof ReversalInvalidStatus) {
+      // Handle invalid status
+    }
     throw e;
   });
 ```
@@ -174,8 +198,15 @@ embededNearpay
     return response;
   })
   .catch((e) => {
-    console.log(`=-=-=-= reconcile failed =-=-=-=`);
-    console.log(`error: ${e}`);
+    if (e instanceof ReconcileAuthenticationFailed) {
+      // when the authentication failed .
+    } else if (e instanceof ReconcileGeneralFailure) {
+      // Handle general failure
+    } else if (e instanceof ReconcileFailureMessage) {
+      // when there is FailureMessage
+    } else if (e instanceof ReconcileInvalidStatus) {
+      // Handle invalid status
+    }
     throw e;
   });
 ```
@@ -233,6 +264,17 @@ embededNearpay
   .then((res) => {
     console.log(`=-=-=-= get transaction success =-=-=-=`);
     console.log(res);
+  })
+  .catch((e) => {
+    if (e instanceof QueryAuthenticationFailed) {
+      // when the authentication failed .
+    } else if (e instanceof QueryGeneralFailure) {
+      // Handle general failure
+    } else if (e instanceof QueryFailureMessage) {
+      // when there is FailureMessage
+    } else if (e instanceof QueryInvalidStatus) {
+      // Handle invalid status
+    }
   });
 ```
 
@@ -250,6 +292,17 @@ embededNearpay
   .then((res) => {
     console.log(`=-=-=-= get transactions success =-=-=-=`);
     console.log(res);
+  })
+  .catch((e) => {
+    if (e instanceof QueryAuthenticationFailed) {
+      // when the authentication failed .
+    } else if (e instanceof QueryGeneralFailure) {
+      // Handle general failure
+    } else if (e instanceof QueryFailureMessage) {
+      // when there is FailureMessage
+    } else if (e instanceof QueryInvalidStatus) {
+      // Handle invalid status
+    }
   });
 ```
 
@@ -266,6 +319,17 @@ embededNearpay
   .then((res) => {
     console.log(`=-=-=-= get Reconciliation success =-=-=-=`);
     console.log(res);
+  })
+  .catch((e) => {
+    if (e instanceof QueryAuthenticationFailed) {
+      // when the authentication failed .
+    } else if (e instanceof QueryGeneralFailure) {
+      // Handle general failure
+    } else if (e instanceof QueryFailureMessage) {
+      // when there is FailureMessage
+    } else if (e instanceof QueryInvalidStatus) {
+      // Handle invalid status
+    }
   });
 ```
 
@@ -283,6 +347,17 @@ embededNearpay
   .then((res) => {
     console.log(`=-=-=-= get Reconciliations success =-=-=-=`);
     console.log(res);
+  })
+  .catch((e) => {
+    if (e instanceof QueryAuthenticationFailed) {
+      // when the authentication failed .
+    } else if (e instanceof QueryGeneralFailure) {
+      // Handle general failure
+    } else if (e instanceof QueryFailureMessage) {
+      // when there is FailureMessage
+    } else if (e instanceof QueryInvalidStatus) {
+      // Handle invalid status
+    }
   });
 ```
 
@@ -291,12 +366,12 @@ embededNearpay
 Check compatibility
 
 ```typescript
-    let isCompatibile = await embededNearpay.current?.checkCompatibility();
-    if(isCompatibile == true) {
-     console.log('isDeviceCompatible');
-    } else {
-     console.log('isDeviceNotCompatible');
-    }
+let isCompatibile = await embededNearpay.current?.checkCompatibility();
+if (isCompatibile == true) {
+  console.log('isDeviceCompatible');
+} else {
+  console.log('isDeviceNotCompatible');
+}
 ```
 
 ### Nearpay plugin response will be be in below formats
