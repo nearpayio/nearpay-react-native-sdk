@@ -106,16 +106,31 @@ export class EmbededNearpay {
       enableUiDismiss: enableUiDismiss,
       job_id: transactionId,
     };
+    try {
+      const response = await NearpayPlugin.purchase(data);
+      const result = JSON.parse(response);
 
-    const response = await NearpayPlugin.purchase(data);
-    const result = JSON.parse(response);
+      if (result.status != 200) {
+        throw getPurchaseError(result);
+      }
 
-    if (result.status != 200) {
-      throw getPurchaseError(result);
+      const transactionData = result.result;
+
+      return transactionData;
+    } catch (error) {
+      // Handle specific error cases or rethrow custom error for further processing
+      if (error instanceof SyntaxError) {
+        // Handle JSON parsing errors
+        console.error('Failed to parse response:', error);
+        throw new Error('Unexpected response format. Please try again.');
+      } else {
+        // Handle general or unexpected errors
+        console.error('An unexpected error occurred:', error);
+        throw new Error(
+          'Something went wrong during the purchase. Please try again later.'
+        );
+      }
     }
-    const transactionData = result.result;
-
-    return transactionData;
   }
 
   public async refund({
