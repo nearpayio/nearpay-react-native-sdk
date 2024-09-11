@@ -111,7 +111,7 @@ export class EmbededNearpay {
     if (result.status != 200) {
       throw getPurchaseError(result);
     }
-    const transactionData = response['result'];
+    const transactionData = result.result;
     return transactionData;
   }
 
@@ -147,7 +147,7 @@ export class EmbededNearpay {
       throw getRefundError(result);
     }
 
-    const transactionData = response['result'];
+    const transactionData = result.result;
 
     return transactionData;
   }
@@ -171,7 +171,7 @@ export class EmbededNearpay {
       throw getReconcileError(result);
     }
 
-    const reconciliationReceipt = response['result'];
+    const reconciliationReceipt = result.result;
 
     return reconciliationReceipt;
   }
@@ -196,7 +196,7 @@ export class EmbededNearpay {
       throw getReversalError(result);
     }
 
-    const transactionData = response['result'];
+    const transactionData = result.result;
 
     return transactionData;
   }
@@ -273,7 +273,7 @@ export class EmbededNearpay {
       throw getQueryError(result);
     }
 
-    const transactionBannerList = response['result'];
+    const transactionBannerList = result.result;
 
     return transactionBannerList;
   }
@@ -296,7 +296,7 @@ export class EmbededNearpay {
       throw getQueryError(result);
     }
 
-    const transactionData = response['result'];
+    const transactionData = result.result;
 
     return transactionData;
   }
@@ -319,7 +319,7 @@ export class EmbededNearpay {
       throw getQueryError(result);
     }
 
-    const reconciliationReceipt = response['result'];
+    const reconciliationReceipt = result.result;
 
     return reconciliationReceipt;
   }
@@ -344,7 +344,7 @@ export class EmbededNearpay {
       throw getQueryError(result);
     }
 
-    const ReconciliationBannerList = response['result'];
+    const ReconciliationBannerList = result.result;
 
     return ReconciliationBannerList;
   }
