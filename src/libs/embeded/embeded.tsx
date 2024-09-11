@@ -109,10 +109,15 @@ export class EmbededNearpay {
 
     const response = await NearpayPlugin.purchase(data);
     const result = JSON.parse(response);
+    console.log(`response ${response}`);
+    console.log(`result ${result}`);
+
     if (result.status != 200) {
       throw getPurchaseError(result);
     }
     const transactionData = result.result;
+    console.log(`transactionData ${transactionData}`);
+
     return transactionData;
   }
 
