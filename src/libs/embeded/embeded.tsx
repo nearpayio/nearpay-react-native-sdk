@@ -24,6 +24,7 @@ import { TransactionBannerList } from '@nearpaydev/nearpay-ts-sdk';
 import { getPurchaseError } from '../errors/purchase_error/purchase_error_switch';
 import {
   PurchaseDeclined,
+  PurchaseError,
   PurchaseGeneralFailure,
   PurchaseInvalidStatus,
   PurchaseRejected,
@@ -32,6 +33,10 @@ import { getRefundError } from '../errors/refund_error/refund_error_switch';
 import { getReconcileError } from '../errors/reconcile_error/reconcile_error_switch';
 import { getReversalError } from '../errors/reversal_error/reversal_error_switch';
 import { getQueryError } from '../errors/query_error/query_error_switch';
+import { QueryError } from '../errors/query_error/query_error';
+import { ReconcileError } from '../errors/reconcile_error/reconcile_error';
+import { RefundError } from '../errors/refund_error/refund_error';
+import { ReversalError } from '../errors/reversal_error/reversal_error';
 
 const LINKING_ERROR =
   `The package '@nearpaydev/react-native-nearpay-sdk' doesn't seem to be linked. Make sure: \n\n` +
@@ -105,14 +110,34 @@ export class EmbededNearpay {
       job_id: transactionId,
     };
 
-    const response = await NearpayPlugin.purchase(data);
-    const result = JSON.parse(response);
+    try {
+      const response = await NearpayPlugin.purchase(data);
+      const result = JSON.parse(response);
 
-    if (result.status != 200) {
-      throw getPurchaseError(result);
+      if (result.status != 200) {
+        throw getPurchaseError(result);
+      } else {
+        const transactionData = result.result;
+        return transactionData;
+      }
+    } catch (error) {
+      // Handle specific error cases or rethrow custom error for further processing
+      if (error instanceof SyntaxError) {
+        // Handle JSON parsing errors
+        console.error('Failed to parse response:', error);
+        throw new Error('Unexpected response format. Please try again.');
+      } else if (error instanceof PurchaseError) {
+        // Handle custom errors like NearpayPlugin failures
+        console.error('Purchase failed:', error);
+        throw error; // Re-throw the custom error for handling elsewhere
+      } else {
+        // Handle general or unexpected errors
+        console.error('An unexpected error occurred:', error);
+        throw new Error(
+          'Something went wrong during the purchase. Please try again later.'
+        );
+      }
     }
-    const transactionData = result.result;
-    return transactionData;
   }
 
   public async refund({
@@ -140,16 +165,34 @@ export class EmbededNearpay {
       ...(adminPin !== undefined ? { adminPin } : null),
     };
 
-    const response = await NearpayPlugin.refund(data);
-    const result = JSON.parse(response);
+    try {
+      const response = await NearpayPlugin.refund(data);
+      const result = JSON.parse(response);
 
-    if (result.status != 200) {
-      throw getRefundError(result);
+      if (result.status != 200) {
+        throw getRefundError(result);
+      } else {
+        const transactionData = result.result;
+        return transactionData;
+      }
+    } catch (error) {
+      // Handle specific error cases or rethrow custom error for further processing
+      if (error instanceof SyntaxError) {
+        // Handle JSON parsing errors
+        console.error('Failed to parse response:', error);
+        throw new Error('Unexpected response format. Please try again.');
+      } else if (error instanceof RefundError) {
+        // Handle custom errors like NearpayPlugin failures
+        console.error('Refund failed:', error);
+        throw error; // Re-throw the custom error for handling elsewhere
+      } else {
+        // Handle general or unexpected errors
+        console.error('An unexpected error occurred:', error);
+        throw new Error(
+          'Something went wrong during the refund. Please try again later.'
+        );
+      }
     }
-
-    const transactionData = result.result;
-
-    return transactionData;
   }
 
   public async reconcile({
@@ -164,16 +207,34 @@ export class EmbededNearpay {
       enableUiDismiss: enableUiDismiss,
       ...(adminPin !== undefined ? { adminPin } : null),
     };
-    const response = await NearpayPlugin.reconcile(data);
-    const result = JSON.parse(response);
+    try {
+      const response = await NearpayPlugin.reconcile(data);
+      const result = JSON.parse(response);
 
-    if (result.status != 200) {
-      throw getReconcileError(result);
+      if (result.status != 200) {
+        throw getReconcileError(result);
+      } else {
+        const reconciliationReceipt = result.result;
+        return reconciliationReceipt;
+      }
+    } catch (error) {
+      // Handle specific error cases or rethrow custom error for further processing
+      if (error instanceof SyntaxError) {
+        // Handle JSON parsing errors
+        console.error('Failed to parse response:', error);
+        throw new Error('Unexpected response format. Please try again.');
+      } else if (error instanceof ReconcileError) {
+        // Handle custom errors like NearpayPlugin failures
+        console.error('Reconcile failed:', error);
+        throw error; // Re-throw the custom error for handling elsewhere
+      } else {
+        // Handle general or unexpected errors
+        console.error('An unexpected error occurred:', error);
+        throw new Error(
+          'Something went wrong during the reconcile. Please try again later.'
+        );
+      }
     }
-
-    const reconciliationReceipt = result.result;
-
-    return reconciliationReceipt;
   }
 
   public async reverse({
@@ -189,16 +250,34 @@ export class EmbededNearpay {
       enableReceiptUi: enableReceiptUi,
     };
 
-    const response = await NearpayPlugin.reverse(data);
-    const result = JSON.parse(response);
+    try {
+      const response = await NearpayPlugin.reverse(data);
+      const result = JSON.parse(response);
 
-    if (result.status != 200) {
-      throw getReversalError(result);
+      if (result.status != 200) {
+        throw getReversalError(result);
+      } else {
+        const transactionData = result.result;
+        return transactionData;
+      }
+    } catch (error) {
+      // Handle specific error cases or rethrow custom error for further processing
+      if (error instanceof SyntaxError) {
+        // Handle JSON parsing errors
+        console.error('Failed to parse response:', error);
+        throw new Error('Unexpected response format. Please try again.');
+      } else if (error instanceof ReversalError) {
+        // Handle custom errors like NearpayPlugin failures
+        console.error('Reverse failed:', error);
+        throw error; // Re-throw the custom error for handling elsewhere
+      } else {
+        // Handle general or unexpected errors
+        console.error('An unexpected error occurred:', error);
+        throw new Error(
+          'Something went wrong during the reverse. Please try again later.'
+        );
+      }
     }
-
-    const transactionData = result.result;
-
-    return transactionData;
   }
 
   public async logout() {
@@ -266,16 +345,34 @@ export class EmbededNearpay {
       customer_reference_number: customerReferenceNumber,
     };
 
-    const response = await NearpayPlugin.getTransactionsList(data);
-    const result = JSON.parse(response);
+    try {
+      const response = await NearpayPlugin.getTransactionsList(data);
+      const result = JSON.parse(response);
 
-    if (result.status != 200) {
-      throw getQueryError(result);
+      if (result.status != 200) {
+        throw getQueryError(result);
+      } else {
+        const transactionBannerList = result.result;
+        return transactionBannerList;
+      }
+    } catch (error) {
+      // Handle specific error cases or rethrow custom error for further processing
+      if (error instanceof SyntaxError) {
+        // Handle JSON parsing errors
+        console.error('Failed to parse response:', error);
+        throw new Error('Unexpected response format. Please try again.');
+      } else if (error instanceof QueryError) {
+        // Handle custom errors like NearpayPlugin failures
+        console.error('TransactionListQuery failed:', error);
+        throw error; // Re-throw the custom error for handling elsewhere
+      } else {
+        // Handle general or unexpected errors
+        console.error('An unexpected error occurred:', error);
+        throw new Error(
+          'Something went wrong during the query transaction list. Please try again later.'
+        );
+      }
     }
-
-    const transactionBannerList = result.result;
-
-    return transactionBannerList;
   }
 
   public async getTransaction({
@@ -289,16 +386,34 @@ export class EmbededNearpay {
       finishTimeOut: finishTimeOut,
     };
 
-    const response = await NearpayPlugin.getTransaction(data);
-    const result = JSON.parse(response);
+    try {
+      const response = await NearpayPlugin.getTransaction(data);
+      const result = JSON.parse(response);
 
-    if (result.status != 200) {
-      throw getQueryError(result);
+      if (result.status != 200) {
+        throw getQueryError(result);
+      } else {
+        const transactionData = result.result;
+        return transactionData;
+      }
+    } catch (error) {
+      // Handle specific error cases or rethrow custom error for further processing
+      if (error instanceof SyntaxError) {
+        // Handle JSON parsing errors
+        console.error('Failed to parse response:', error);
+        throw new Error('Unexpected response format. Please try again.');
+      } else if (error instanceof QueryError) {
+        // Handle custom errors like NearpayPlugin failures
+        console.error('TransactionQuery failed:', error);
+        throw error; // Re-throw the custom error for handling elsewhere
+      } else {
+        // Handle general or unexpected errors
+        console.error('An unexpected error occurred:', error);
+        throw new Error(
+          'Something went wrong during the query transaction . Please try again later.'
+        );
+      }
     }
-
-    const transactionData = result.result;
-
-    return transactionData;
   }
 
   public async getReconciliation({
@@ -312,16 +427,34 @@ export class EmbededNearpay {
       finishTimeOut: finishTimeOut,
     };
 
-    const response = await NearpayPlugin.getReconciliation(data);
-    const result = JSON.parse(response);
+    try {
+      const response = await NearpayPlugin.getReconciliation(data);
+      const result = JSON.parse(response);
 
-    if (result.status != 200) {
-      throw getQueryError(result);
+      if (result.status != 200) {
+        throw getQueryError(result);
+      } else {
+        const reconciliationReceipt = result.result;
+        return reconciliationReceipt;
+      }
+    } catch (error) {
+      // Handle specific error cases or rethrow custom error for further processing
+      if (error instanceof SyntaxError) {
+        // Handle JSON parsing errors
+        console.error('Failed to parse response:', error);
+        throw new Error('Unexpected response format. Please try again.');
+      } else if (error instanceof QueryError) {
+        // Handle custom errors like NearpayPlugin failures
+        console.error('ReconciliationQuery failed:', error);
+        throw error; // Re-throw the custom error for handling elsewhere
+      } else {
+        // Handle general or unexpected errors
+        console.error('An unexpected error occurred:', error);
+        throw new Error(
+          'Something went wrong during the query reconciliation. Please try again later.'
+        );
+      }
     }
-
-    const reconciliationReceipt = result.result;
-
-    return reconciliationReceipt;
   }
 
   public async getReconciliationsList({
@@ -337,16 +470,34 @@ export class EmbededNearpay {
       end_date: endDate?.toISOString(),
     };
 
-    const response = await NearpayPlugin.getReconciliationsList(data);
-    const result = JSON.parse(response);
+    try {
+      const response = await NearpayPlugin.getReconciliationsList(data);
+      const result = JSON.parse(response);
 
-    if (result.status != 200) {
-      throw getQueryError(result);
+      if (result.status != 200) {
+        throw getQueryError(result);
+      } else {
+        const ReconciliationBannerList = result.result;
+        return ReconciliationBannerList;
+      }
+    } catch (error) {
+      // Handle specific error cases or rethrow custom error for further processing
+      if (error instanceof SyntaxError) {
+        // Handle JSON parsing errors
+        console.error('Failed to parse response:', error);
+        throw new Error('Unexpected response format. Please try again.');
+      } else if (error instanceof QueryError) {
+        // Handle custom errors like NearpayPlugin failures
+        console.error('ReconciliationListQuery failed:', error);
+        throw error; // Re-throw the custom error for handling elsewhere
+      } else {
+        // Handle general or unexpected errors
+        console.error('An unexpected error occurred:', error);
+        throw new Error(
+          'Something went wrong during the query reconciliation list. Please try again later.'
+        );
+      }
     }
-
-    const ReconciliationBannerList = result.result;
-
-    return ReconciliationBannerList;
   }
 
   public async receiptToImage({
