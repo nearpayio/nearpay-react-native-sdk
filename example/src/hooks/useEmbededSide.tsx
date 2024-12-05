@@ -57,6 +57,11 @@ export default function useEmbededSide() {
       : undefined
   );
 
+  async function doInitilize() {
+    authvalue = 'a.saeed@nearpay.io';
+    embededNearpay.current?.initialize({ authtype, authvalue, environment });
+  }
+
   async function doPurchase(amount: number) {
     const transactionID = uuidv4();
     globalTransactionID = transactionID as string;
@@ -75,7 +80,8 @@ export default function useEmbededSide() {
         console.log(`purchse respone:`);
         console.log(JSON.stringify(response, null, 2));
         return response;
-      }).catch((e) => {
+      })
+      .catch((e) => {
         if (e instanceof PurchaseDeclined) {
           // when the payment declined.
         } else if (e instanceof PurchaseRejected) {
@@ -250,6 +256,11 @@ export default function useEmbededSide() {
         console.log(e);
         throw e;
       });
+  }
+
+  function doClose() {
+    console.log(`=-=-=-= close start =-=-=-=`);
+    embededNearpay.current!.close();
   }
 
   async function doSession() {
@@ -455,6 +466,8 @@ export default function useEmbededSide() {
     embededNearpay,
     isAndroid,
     base64Image,
+    doInitilize,
+    doClose,
     doLogout,
     doPurchase,
     doPurchaseAndRefund,

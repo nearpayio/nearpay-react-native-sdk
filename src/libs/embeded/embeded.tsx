@@ -306,6 +306,12 @@ export class EmbededNearpay {
     );
   }
 
+  public async close() {
+    return await this._callPluginMethod(async () =>
+      NearpayPlugin.close({ __dummy__: 1 })
+    );
+  }
+
   public async session({
     sessionID,
     finishTimeout = 60,
