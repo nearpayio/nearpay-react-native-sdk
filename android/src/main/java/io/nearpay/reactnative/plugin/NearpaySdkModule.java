@@ -43,7 +43,6 @@ public class NearpaySdkModule extends ReactContextBaseJavaModule {
     return NAME;
   }
 
-
   private void runOperation(String operationName, ReadableMap params, Promise reactPromise) {
     Log.i("ReactNative", "=-=-=-=-=-=-= -=-=-=-=-=-= -=-=-=-=-= " + operationName);
     Map args = NearPayUtil.toMap(params);
@@ -151,6 +150,11 @@ public class NearpaySdkModule extends ReactContextBaseJavaModule {
   @ReactMethod
   public void getUserSession(ReadableMap params, Promise reactPromise) {
     runOperation("getUserSession", params, reactPromise);
+  }
+
+  @ReactMethod
+  public void close(ReadableMap params, Promise reactPromise) {
+    runOperation("close", params, reactPromise);
   }
 
 }

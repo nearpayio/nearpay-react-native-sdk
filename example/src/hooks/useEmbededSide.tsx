@@ -57,6 +57,11 @@ export default function useEmbededSide() {
       : undefined
   );
 
+  async function doInitilize() {
+    authvalue = 'a.saeed@nearpay.io';
+    embededNearpay.current?.initialize({ authtype, authvalue, environment });
+  }
+  
   async function doPurchase(amount: number) {
     console.log(`=-=-=-= purchse start =-=-=-=`);
     return await embededNearpay
@@ -240,6 +245,11 @@ export default function useEmbededSide() {
         console.log(e);
         throw e;
       });
+  }
+
+  function doClose() {
+    console.log(`=-=-=-= close start =-=-=-=`);
+    embededNearpay.current!.close();
   }
 
   async function doSession() {
@@ -430,6 +440,7 @@ export default function useEmbededSide() {
     embededNearpay,
     isAndroid,
     base64Image,
+    doInitilize,
     doLogout,
     doPurchase,
     doPurchaseAndRefund,
@@ -437,6 +448,7 @@ export default function useEmbededSide() {
     doReconcile,
     doSession,
     doSetupClick,
+    doClose,
     getTransactions,
     getTransaction,
     getReconciliations,

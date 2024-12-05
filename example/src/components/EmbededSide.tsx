@@ -16,6 +16,8 @@ import {
 
 export default function EmbededSide() {
   const {
+    doInitilize,
+    doClose,
     doLogout,
     doPurchase,
     doPurchaseAndRefund,
@@ -43,6 +45,9 @@ export default function EmbededSide() {
       {isAndroid && (
         <>
           <View style={styles.containerrow}>
+            <Button title="Initilize" onPress={() => doInitilize()} />
+          </View>
+          <View style={styles.containerrow}>
             <Button title="Purchase" onPress={() => doPurchase(100)} />
           </View>
           <View style={styles.containerrow}>
@@ -62,6 +67,9 @@ export default function EmbededSide() {
           </View>
           <View style={styles.containerrow}>
             <Button title="Setup" onPress={() => doSetupClick()} />
+          </View>
+          <View style={styles.containerrow}>
+            <Button title="close" onPress={() => doClose()} />
           </View>
           <View style={styles.containerrow}>
             <Button title="Logout" onPress={() => doLogout()} />
