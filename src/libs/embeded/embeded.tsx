@@ -341,15 +341,17 @@ export class EmbededNearpay {
     limit,
     startDate,
     endDate,
-    customerReferenceNumber,
-  }: EmbededGetTransactionsListOptions): Promise<TransactionBannerList> {
-    const data = {
-      page,
-      limit,
-      start_date: startDate?.toISOString(),
-      end_date: endDate?.toISOString(),
-      customer_reference_number: customerReferenceNumber,
-    };
+   customerReferenceNumber,
+       isReconciled
+     }: EmbededGetTransactionsListOptions): Promise<TransactionBannerList> {
+       const data = {
+         page,
+         limit,
+         start_date: startDate?.toISOString(),
+         end_date: endDate?.toISOString(),
+         customer_reference_number: customerReferenceNumber,
+         isReconciled: isReconciled
+       };
 
     try {
       const response = await NearpayPlugin.getTransactionsList(data);

@@ -91,6 +91,9 @@ public class ArgsFilter {
                 : savedArgs.get("customer_reference_number").toString();
     }
 
+  public Boolean isReconciled() {
+    return savedArgs.get("isReconciled") != null ? (Boolean) savedArgs.get("isReconciled") : null;
+  }
     public String getAuthType() {
         return savedArgs.get("authtype") == null ? "" : savedArgs.get("authtype").toString();
     }

@@ -61,7 +61,7 @@ export default function useEmbededSide() {
     authvalue = 'a.saeed@nearpay.io';
     embededNearpay.current?.initialize({ authtype, authvalue, environment });
   }
-  
+
   async function doPurchase(amount: number) {
     console.log(`=-=-=-= purchse start =-=-=-=`);
     return await embededNearpay
@@ -317,6 +317,7 @@ export default function useEmbededSide() {
         startDate: from,
         endDate: to,
         // customerReferenceNumber: 'abc',
+        isReconciled: true
       })
       .then((res) => {
         console.log(`=-=-=-= get transactions success =-=-=-=`);
