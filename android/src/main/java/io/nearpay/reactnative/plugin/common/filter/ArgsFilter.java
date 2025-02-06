@@ -115,7 +115,12 @@ public Boolean getCancelWithReverse() {
         return savedArgs.get("original_transaction_uuid").toString();
     }
 
-    public Locale getLocale() {
+  public Boolean isReconciled() {
+    return  (Boolean) savedArgs.get("isReconciled");
+  }
+
+
+  public Locale getLocale() {
         String localeStr = savedArgs.get("locale") != null ? savedArgs.get("locale").toString() : "default";
         Locale locale = localeStr.equals("default") ? Locale.getDefault() : Locale.getDefault();
 
@@ -245,10 +250,10 @@ public Boolean getCancelWithReverse() {
         return getIsoDate("end_date");
 
     }
-    
+
     public UUID getRequestId() {
         return savedArgs.get("requestId") == null ? null :  UUID.fromString((String) savedArgs.get("requestId"));
-     } 
+     }
 
     public Boolean isEnableUiDismiss() {
         return savedArgs.get("enableUiDismiss") == null ? true : (Boolean) savedArgs.get("enableUiDismiss");

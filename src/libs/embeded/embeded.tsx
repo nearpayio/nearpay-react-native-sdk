@@ -356,6 +356,7 @@ export class EmbededNearpay {
     startDate,
     endDate,
     customerReferenceNumber,
+    isReconciled
   }: EmbededGetTransactionsListOptions): Promise<TransactionBannerList> {
     const data = {
       page,
@@ -363,6 +364,7 @@ export class EmbededNearpay {
       start_date: startDate?.toISOString(),
       end_date: endDate?.toISOString(),
       customer_reference_number: customerReferenceNumber,
+      isReconciled: isReconciled
     };
     try {
       const response = await NearpayPlugin.getTransactionsList(data);

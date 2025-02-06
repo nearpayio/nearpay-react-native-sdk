@@ -148,6 +148,7 @@ export type EmbededGetTransactionsListOptions = {
   startDate?: Date;
   endDate?: Date;
   customerReferenceNumber?: string;
+  isReconciled?:boolean;
 };
 
 export type EmbededGetTransactionOptions = {
