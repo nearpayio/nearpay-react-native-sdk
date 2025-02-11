@@ -347,8 +347,8 @@ export class EmbededNearpay {
        const data = {
          page,
          limit,
-         start_date: startDate?.toISOString(),
-         end_date: endDate?.toISOString(),
+         start_date: startDate?.getTime(),
+         end_date: endDate?.getTime(),
          customer_reference_number: customerReferenceNumber,
          isReconciled: isReconciled
        };
@@ -474,8 +474,8 @@ export class EmbededNearpay {
     const data = {
       page,
       limit,
-      start_date: startDate?.toISOString(),
-      end_date: endDate?.toISOString(),
+      start_date: startDate?.getTime(),
+      end_date: endDate?.getTime(),
     };
 
     try {

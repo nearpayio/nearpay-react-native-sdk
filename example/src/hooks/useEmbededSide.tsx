@@ -306,18 +306,18 @@ export default function useEmbededSide() {
     });
   }
 
-  function getTransactions() {
-    const from = new Date(Date.UTC(2023, 7, 10));
-    const to = new Date(Date.now());
 
+  function getTransactions() {
+    const startDate = new Date(Date.UTC(2023, 7, 10, 0, 0, 0)); // Fixed UTC date
+    const endDate = new Date(); // Local system date
     embededNearpay.current
       ?.getTransactionsList({
-        page: 1,
-        limit: 40,
-        startDate: from,
-        endDate: to,
+        page: 0,
+        limit: 50,
+        startDate: startDate,
+        endDate: endDate,
         // customerReferenceNumber: 'abc',
-        isReconciled: true
+        isReconciled: false
       })
       .then((res) => {
         console.log(`=-=-=-= get transactions success =-=-=-=`);
@@ -361,7 +361,7 @@ export default function useEmbededSide() {
   }
 
   function getReconciliations() {
-    const from = new Date(Date.UTC(2023, 7, 10));
+    const from = new Date(Date.UTC(2023, 9, 10));
     const to = new Date(Date.now());
 
     return embededNearpay.current

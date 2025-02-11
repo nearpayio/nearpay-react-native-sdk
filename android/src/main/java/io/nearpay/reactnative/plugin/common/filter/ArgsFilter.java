@@ -2,8 +2,9 @@ package io.nearpay.reactnative.plugin.common.filter;
 
 import android.annotation.SuppressLint;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -264,14 +265,19 @@ public class ArgsFilter {
 
     @SuppressLint("NewApi")
     private LocalDateTime getIsoDate(String fieldName) {
-        String isoDate = savedArgs.get(fieldName) != null ? (String) savedArgs.get(fieldName) : null;
+      Object millisObj = savedArgs.get(fieldName);
 
-        DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
+      if (!(millisObj instanceof Number)) {
+        return null;
+      }
 
-        if (isoDate == null)
-            return null;
+      long millis = ((Number) millisObj).longValue(); // Convert to long
 
-        return LocalDateTime.parse(isoDate, formatter);
+      // Convert milliseconds to LocalDateTime using system timezone
+      LocalDateTime localDateTime = Instant.ofEpochMilli(millis)
+        .atZone(ZoneId.systemDefault()) // Convert to local time
+        .toLocalDateTime();
+
+      return localDateTime;
     }
-
 }
