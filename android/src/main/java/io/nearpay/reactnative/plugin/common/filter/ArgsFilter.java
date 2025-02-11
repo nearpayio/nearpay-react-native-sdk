@@ -14,7 +14,8 @@ import io.nearpay.sdk.Environments;
 import io.nearpay.sdk.utils.enums.NetworkConfiguration;
 //import io.nearpay.sdk.utils.enums.Region;
 import io.nearpay.sdk.utils.enums.UIPosition;
-
+import java.time.Instant;
+import java.time.ZoneId;
 public class ArgsFilter {
     private PluginProvider provider;
     private Map savedArgs;
@@ -272,16 +273,22 @@ public Boolean getCancelWithReverse() {
                 : (Boolean) savedArgs.get("enableEditableRefundAmountUi");
     }
 
-    @SuppressLint("NewApi")
-    private LocalDateTime getIsoDate(String fieldName) {
-        String isoDate = savedArgs.get(fieldName) != null ? (String) savedArgs.get(fieldName) : null;
+  @SuppressLint("NewApi")
+  private LocalDateTime getIsoDate(String fieldName) {
+    Object millisObj = savedArgs.get(fieldName);
 
-        DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
-
-        if (isoDate == null)
-            return null;
-
-        return LocalDateTime.parse(isoDate, formatter);
+    if (!(millisObj instanceof Number)) {
+      return null;
     }
+
+    long millis = ((Number) millisObj).longValue(); // Convert to long
+
+    // Convert milliseconds to LocalDateTime using system timezone
+    LocalDateTime localDateTime = Instant.ofEpochMilli(millis)
+      .atZone(ZoneId.systemDefault()) // Convert to local time
+      .toLocalDateTime();
+
+    return localDateTime;
+  }
 
 }
