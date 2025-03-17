@@ -214,6 +214,20 @@ export default function useEmbededSide() {
     console.log({ reverseData });
   }
 
+  async function doDismiss() {
+    console.log(`=-=-=-= dismiss start =-=-=-=`);
+    try {
+      const response = await embededNearpay.current!.dismiss({});
+      console.log(`=-=-=-= dismiss success =-=-=-=`);
+      console.log('dismiss response:', response);
+      return response;
+    } catch (error) {
+      console.log(`=-=-=-= dismiss failed =-=-=-=`);
+      console.log('error:', error);
+      throw error;
+    }
+  }
+
   function doLogout() {
     console.log(`=-=-=-= logout start =-=-=-=`);
     embededNearpay
@@ -443,6 +457,7 @@ export default function useEmbededSide() {
     base64Image,
     doInitilize,
     doLogout,
+    doDismiss,
     doPurchase,
     doPurchaseAndRefund,
     doPurchaseAndReverse,

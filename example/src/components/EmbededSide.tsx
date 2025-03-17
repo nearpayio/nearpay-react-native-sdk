@@ -19,6 +19,7 @@ export default function EmbededSide() {
     doInitilize,
     doClose,
     doLogout,
+    doDismiss,
     doPurchase,
     doPurchaseAndRefund,
     doPurchaseAndReverse,
@@ -73,6 +74,9 @@ export default function EmbededSide() {
           </View>
           <View style={styles.containerrow}>
             <Button title="Logout" onPress={() => doLogout()} />
+          </View>
+          <View style={styles.containerrow}>
+           <Button title="Dismiss" onPress={() => doDismiss()} />
           </View>
           <View style={styles.containerrow}>
             <Button title="Session" onPress={() => doSession()} />

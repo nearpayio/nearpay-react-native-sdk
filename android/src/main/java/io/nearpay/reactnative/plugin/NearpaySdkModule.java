@@ -157,4 +157,9 @@ public class NearpaySdkModule extends ReactContextBaseJavaModule {
     runOperation("close", params, reactPromise);
   }
 
+  @ReactMethod
+  public void dismiss(ReadableMap params, Promise reactPromise) {
+    runOperation("dismiss", params, reactPromise);
+  }
+
 }

@@ -298,6 +298,17 @@ export class EmbededNearpay {
     );
   }
 
+  public async dismiss() {
+    try {
+      const response = await NearpayPlugin.dismiss({});
+      const result = JSON.parse(response);
+      return result.status === 200;
+    } catch (error) {
+      console.error('Dismiss operation failed:', error);
+      throw error;
+    }
+  }
+
   public async session({
     sessionID,
     finishTimeout = 60,
