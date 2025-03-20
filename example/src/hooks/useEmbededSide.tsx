@@ -241,6 +241,20 @@ export default function useEmbededSide() {
       });
   }
 
+async function doDismiss() {
+  console.log(`=-=-=-= dismiss start =-=-=-=`);
+  try {
+    const response = await embededNearpay.current!.dismiss({});
+    console.log(`=-=-=-= dismiss success =-=-=-=`);
+    console.log('dismiss response:', response);
+    return response;
+  } catch (error) {
+    console.log(`=-=-=-= dismiss failed =-=-=-=`);
+    console.log('error:', error);
+    throw error;
+  }
+}
+
   function doSetupClick() {
     console.log(`=-=-=-= setup start =-=-=-=`);
     embededNearpay
@@ -470,6 +484,7 @@ export default function useEmbededSide() {
     doInitilize,
     doClose,
     doLogout,
+    doDismiss,
     doPurchase,
     doPurchaseAndRefund,
     doPurchaseAndReverse,
