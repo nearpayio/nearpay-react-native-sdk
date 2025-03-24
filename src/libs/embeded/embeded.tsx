@@ -14,6 +14,7 @@ import type {
   EmbededReceiptToImageOptions,
   SessionResponse,
   GetUserSessionOptions,
+  EmbededReconciliationReceiptToImageOptions,
 } from '../../types';
 import {
   ReconciliationBannerList,
@@ -518,7 +519,26 @@ export class EmbededNearpay {
       }
     }
   }
-
+  
+  public async reconciliationReceiptToImage({
+    receipt,
+    receiptFontSize = 1,
+    receiptWidth = 850,
+  }: EmbededReconciliationReceiptToImageOptions): Promise<Uint8Array> {
+    const data = {
+      receipt: JSON.stringify(receipt),
+      receipt_width: receiptWidth,
+      receipt_font_size: receiptFontSize,
+    };
+  
+    const response = await this._callPluginMethod(async () =>
+      NearpayPlugin.reconciliationReceiptToImage(data)
+    );
+  
+    const bytes = Uint8Array.from(response['result']);
+    return bytes;
+  }
+  
   public async receiptToImage({
     receipt,
     receiptFontSize = 1,

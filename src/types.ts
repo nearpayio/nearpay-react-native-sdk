@@ -1,4 +1,5 @@
 import {
+  ReconciliationReceipt,
   SessionData,
   TransactionData,
   TransactionReceipt,
@@ -116,6 +117,12 @@ export type EmbededUpdateAuthenticationOptions = {
 
 export type EmbededReceiptToImageOptions = {
   receipt: TransactionReceipt;
+  receiptWidth?: number;
+  receiptFontSize?: number;
+};
+
+export type EmbededReconciliationReceiptToImageOptions = {
+  receipt: ReconciliationReceipt;
   receiptWidth?: number;
   receiptFontSize?: number;
 };

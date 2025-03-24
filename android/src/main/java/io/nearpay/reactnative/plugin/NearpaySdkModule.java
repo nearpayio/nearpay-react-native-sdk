@@ -162,4 +162,8 @@ public class NearpaySdkModule extends ReactContextBaseJavaModule {
     runOperation("dismiss", params, reactPromise);
   }
 
+  @ReactMethod
+  public void reconciliationReceiptToImage(ReadableMap params, Promise reactPromise) {
+    runOperation("reconciliationReceiptToImage", params, reactPromise);
+  }
 }
