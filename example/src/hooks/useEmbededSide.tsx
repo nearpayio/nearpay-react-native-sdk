@@ -170,9 +170,20 @@ export default function useEmbededSide() {
         finishTimeout: timeout, //[Optional] finish timeout in seconds
         adminPin: '0000', // [optional] when you add the admin pin here , the UI for admin pin won't be shown.
       })
-      .then((response) => {
+      .then(async (response) => {
         console.log(`=-=-=-= reconcile success =-=-=-=`);
         console.log(`reconcile respone: ${response}`);
+        const imageBytes =   await embededNearpay.current!.reconciliationReceiptToImage({
+          receipt: response, 
+          receiptFontSize: 2,
+          receiptWidth: 900,
+        });
+        if (!imageBytes) {
+          console.error('Image bytes are undefined');
+          return;
+        }  
+        const base64 = Buffer.from(imageBytes).toString('base64');
+        setBase64Image(() => base64);
         return response;
       })
       .catch((e) => {
@@ -244,7 +255,7 @@ export default function useEmbededSide() {
 async function doDismiss() {
   console.log(`=-=-=-= dismiss start =-=-=-=`);
   try {
-    const response = await embededNearpay.current!.dismiss({});
+    const response = await embededNearpay.current!.dismiss();
     console.log(`=-=-=-= dismiss success =-=-=-=`);
     console.log('dismiss response:', response);
     return response;
