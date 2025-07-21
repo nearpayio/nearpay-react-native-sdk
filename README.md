@@ -362,6 +362,31 @@ embededNearpay
   });
 ```
 
+## Receipt → PNG
+```typescript
+const pngBytes = await nearpay.receiptToImage({
+  receipt: transactionData.receipts[0], // TransactionReceipt object
+  receiptWidth: 1000,  // optional, default 850
+  receiptFontSize: 1,  // optional, default 1
+});
+
+const base64 = Buffer.from(pngBytes).toString('base64');
+<Image source={{ uri: `data:image/png;base64,${base64}` }} />;
+```
+
+## Reconciliation receipt → PNG 
+```typescript
+const imgBytes = await nearpay.reconciliationReceiptToImage({
+  receipt: reconReceipt, // ReconciliationReceipt object
+  receiptWidth: 900,     // optional
+  receiptFontSize: 2,    // optional
+});
+
+const base64 = Buffer.from(imgBytes).toString('base64');
+<Image source={{ uri: `data:image/png;base64,${base64}` }} />;
+```
+
+
 ### Nearpay plugin response will be be in below formats
 
 [Model Response](https://docs.nearpay.io/sdk/sdk-models)
