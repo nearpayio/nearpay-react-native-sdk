@@ -120,6 +120,9 @@ public Boolean getCancelWithReverse() {
     return  (Boolean) savedArgs.get("isReconciled");
   }
 
+  public Boolean isApproved() {
+    return  (Boolean) savedArgs.get("isApproved");
+  }
 
   public Locale getLocale() {
         String localeStr = savedArgs.get("locale") != null ? savedArgs.get("locale").toString() : "default";

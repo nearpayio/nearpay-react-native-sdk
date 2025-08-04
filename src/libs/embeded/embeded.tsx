@@ -368,7 +368,8 @@ public async dismiss() {
     startDate,
     endDate,
     customerReferenceNumber,
-    isReconciled
+    isReconciled,
+    isApproved
   }: EmbededGetTransactionsListOptions): Promise<TransactionBannerList> {
     const data = {
       page,
@@ -376,7 +377,8 @@ public async dismiss() {
       start_date: startDate?.getTime(),
       end_date: endDate?.getTime(),
       customer_reference_number: customerReferenceNumber,
-      isReconciled: isReconciled
+      isReconciled: isReconciled,
+      isApproved: isApproved
     };
     try {
       const response = await NearpayPlugin.getTransactionsList(data);
@@ -540,11 +542,11 @@ public async dismiss() {
       receipt_width: receiptWidth,
       receipt_font_size: receiptFontSize,
     };
-  
+
     const response = await this._callPluginMethod(async () =>
       NearpayPlugin.reconciliationReceiptToImage(data)
     );
-  
+
     const bytes = Uint8Array.from(response['result']);
     return bytes;
   }
