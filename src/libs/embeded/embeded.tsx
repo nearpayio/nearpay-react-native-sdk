@@ -354,7 +354,8 @@ export class EmbededNearpay {
     startDate,
     endDate,
    customerReferenceNumber,
-       isReconciled
+       isReconciled,
+       isApproved
      }: EmbededGetTransactionsListOptions): Promise<TransactionBannerList> {
        const data = {
          page,
@@ -362,7 +363,8 @@ export class EmbededNearpay {
          start_date: startDate?.getTime(),
          end_date: endDate?.getTime(),
          customer_reference_number: customerReferenceNumber,
-         isReconciled: isReconciled
+         isReconciled: isReconciled,
+         isApproved: isApproved
        };
 
     try {
@@ -519,7 +521,7 @@ export class EmbededNearpay {
       }
     }
   }
-  
+
   public async reconciliationReceiptToImage({
     receipt,
     receiptFontSize = 1,
@@ -530,15 +532,15 @@ export class EmbededNearpay {
       receipt_width: receiptWidth,
       receipt_font_size: receiptFontSize,
     };
-  
+
     const response = await this._callPluginMethod(async () =>
       NearpayPlugin.reconciliationReceiptToImage(data)
     );
-  
+
     const bytes = Uint8Array.from(response['result']);
     return bytes;
   }
-  
+
   public async receiptToImage({
     receipt,
     receiptFontSize = 1,

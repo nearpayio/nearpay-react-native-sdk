@@ -95,6 +95,12 @@ public class ArgsFilter {
   public Boolean isReconciled() {
     return savedArgs.get("isReconciled") != null ? (Boolean) savedArgs.get("isReconciled") : null;
   }
+
+  public Boolean isApproved() {
+    return savedArgs.get("isApproved") != null ? (Boolean) savedArgs.get("isApproved") : null;
+  }
+
+
     public String getAuthType() {
         return savedArgs.get("authtype") == null ? "" : savedArgs.get("authtype").toString();
     }

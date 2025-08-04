@@ -173,14 +173,14 @@ export default function useEmbededSide() {
         console.log(`=-=-=-= reconcile success =-=-=-=`);
         console.log(`reconcile respone: ${response}`);
         const imageBytes =   await embededNearpay.current!.reconciliationReceiptToImage({
-          receipt: response, 
+          receipt: response,
           receiptFontSize: 2,
           receiptWidth: 900,
         });
         if (!imageBytes) {
           console.error('Image bytes are undefined');
           return;
-        }  
+        }
         const base64 = Buffer.from(imageBytes).toString('base64');
         setBase64Image(() => base64);
         return response;
@@ -342,7 +342,8 @@ export default function useEmbededSide() {
         startDate: startDate,
         endDate: endDate,
         // customerReferenceNumber: 'abc',
-        isReconciled: false
+        isReconciled: false,
+        isApproved: true
       })
       .then((res) => {
         console.log(`=-=-=-= get transactions success =-=-=-=`);

@@ -95,7 +95,7 @@ android {
 
     namespace "io.nearpay.demo.sandbox"
     defaultConfig {
-        applicationId "io.nearpay.demo.sandbox"
+        applicationId "io.nearpay.demo.sandbox233"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
