@@ -37,9 +37,15 @@ const embededNearpay = new EmbededNearpay({
   authtype: AuthenticationType.email, // the Authentication type (Email, mobile, etc)
   authvalue: '<Enter Your Email Here>', // the Authentication value
   environment: Environments.sandbox, // Transation enviroment
-  locale: Locale.default, // [Optional] language options
-  arabicPaymentText: 'يرجى تمرير الطاقة', // [Optional]
-  englishPaymentText: 'please tap your card', // [Optional]
+
+
+  // Optional
+  locale: Locale.default,                 // UI language (currently 'default')
+  networkConfig: NetworkConfig.DEFAULT,   // SIM/network preference: SIM_ONLY | SIM_PREFERRED | DEFAULT
+  uiPosition: UIPosition.DEFAULT,         // Overlay position: TOP_* | BOTTOM_* | CENTER_* | DEFAULT
+  loadingUi: true,                        // Show loading UI during operations
+  arabicPaymentText: 'يرجى تمرير البطاقة', // Custom Arabic payment text
+  englishPaymentText: 'Please tap your card', // Custom English payment text
 });
 ```
 
