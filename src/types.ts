@@ -56,6 +56,7 @@ export enum UIPosition {
 export type InitializeOptions = {
   authtype: AuthenticationType;
   authvalue: string;
+  tid?: string;
   environment: Environments;
   locale?: Locale;
   networkConfig?: NetworkConfig;
@@ -113,6 +114,7 @@ export type EmbededSessionOptions = {
 export type EmbededUpdateAuthenticationOptions = {
   authtype: AuthenticationType;
   authvalue: string;
+  tid?: string;
 };
 
 export type EmbededReceiptToImageOptions = {
@@ -189,7 +191,6 @@ export type GetUserSessionOptions = {
 export type SessionResponse =
   | { session_closed: true; data: SessionData }
   | { session_closed: false; data: TransactionData };
-
 
 
 

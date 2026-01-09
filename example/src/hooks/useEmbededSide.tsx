@@ -39,6 +39,7 @@ import axios from 'axios';
 
 let authtype = AuthenticationType.email;
 let authvalue = 'a.khalifa@nearpay.io';
+let authtid = 'tid';
 let environment = Environments.sandbox;
 //Time out n seconds
 let timeout = 60;
@@ -52,14 +53,20 @@ export default function useEmbededSide() {
       ? new EmbededNearpay({
           authtype,
           authvalue,
+          tid: authtid,
           environment,
         })
       : undefined
   );
 
   async function doInitilize() {
-    authvalue = 'a.saeed@nearpay.io';
-    embededNearpay.current?.initialize({ authtype, authvalue, environment });
+    authvalue = 'a.khalifa@nearpay.io';
+    embededNearpay.current?.initialize({
+      authtype,
+      authvalue,
+      tid: authtid,
+      environment,
+    });
   }
 
   async function doPurchase(amount: number) {
@@ -328,6 +335,7 @@ export default function useEmbededSide() {
     embededNearpay.current?.updateAuthentication({
       authtype: AuthenticationType.email,
       authvalue: 'xx@test.com',
+      tid: authtid,
     });
   }
 

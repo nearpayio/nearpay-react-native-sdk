@@ -159,8 +159,10 @@
     ]
   },
   "dependencies": {
+    "@babel/runtime": "^7.20.0",
     "@nearpaydev/nearpay-ts-sdk": "^1.0.5",
     "@react-native-async-storage/async-storage": "^1.18.1",
-    "react-native-get-random-values": "^1.8.0"
+    "react-native-get-random-values": "^1.8.0",
+    "uuid": "^9.0.1"
   }
 }

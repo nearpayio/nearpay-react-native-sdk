@@ -22,6 +22,7 @@ public class SetupOperation extends BaseOperation {
     public void run(ArgsFilter filter, NearpaySender sender) {
         String authvalue = provider.getNearpayLib().authValueShared;
         String authType = provider.getNearpayLib().authTypeShared;
+        String authTid = provider.getNearpayLib().authTidShared;
         boolean isAuthValidated = provider.getNearpayLib().isAuthInputValidation(authType, authvalue);
         if (!isAuthValidated) {
             Map<String, Object> paramMap = NearpayLib.ApiResponse(ErrorStatus.invalid_argument_code,
@@ -59,7 +60,7 @@ public class SetupOperation extends BaseOperation {
 
                     if (authType.equalsIgnoreCase("jwt")) {
                         provider.getNearpayLib().nearpay
-                                .updateAuthentication(provider.getNearpayLib().getAuthType(authType, authvalue));
+                                .updateAuthentication(provider.getNearpayLib().getAuthType(authType, authvalue, authTid));
                         Map<String, Object> paramMap = NearpayLib.ApiResponse(ErrorStatus.auth_failed_code, message);
                         sender.send(paramMap);
                     } else {

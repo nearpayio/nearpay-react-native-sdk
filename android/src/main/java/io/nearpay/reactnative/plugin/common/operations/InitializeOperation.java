@@ -25,6 +25,7 @@ public class InitializeOperation extends BaseOperation {
     public void run(ArgsFilter filter, NearpaySender sender) {
         String authValue = filter.getAuthValue();
         String authType = filter.getAuthType();
+        String authTid = filter.getAuthTid();
         Locale locale = filter.getLocale();
         Environments env = filter.getEnvironment();
         NetworkConfiguration networkConfig = filter.getNetworkConfiguration();
@@ -35,6 +36,7 @@ public class InitializeOperation extends BaseOperation {
 //        Region region = filter.getRegion();
         this.provider.getNearpayLib().authTypeShared = authType;
         this.provider.getNearpayLib().authValueShared = authValue;
+        this.provider.getNearpayLib().authTidShared = authTid;
         boolean isAuthValidated = this.provider.getNearpayLib().isAuthInputValidation(authType, authValue);
 
         Map<String, Object> response;
@@ -45,7 +47,7 @@ public class InitializeOperation extends BaseOperation {
         } else {
             NearPay.Builder builder = new NearPay.Builder()
                     .context(this.provider.getNearpayLib().context)
-                    .authenticationData(this.provider.getNearpayLib().getAuthType(authType, authValue))
+                    .authenticationData(this.provider.getNearpayLib().getAuthType(authType, authValue, authTid))
                     .environment(env)
                     .locale(locale)
                     .networkConfiguration(networkConfig)

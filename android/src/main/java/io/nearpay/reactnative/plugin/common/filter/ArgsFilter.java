@@ -109,6 +109,10 @@ public class ArgsFilter {
         return savedArgs.get("authvalue") == null ? "" : savedArgs.get("authvalue").toString();
     }
 
+    public String getAuthTid() {
+        return savedArgs.get("tid") == null ? null : savedArgs.get("tid").toString();
+    }
+
     public String getSessionId() {
         return savedArgs.get("sessionID") == null ? "" : savedArgs.get("sessionID").toString();
     }
