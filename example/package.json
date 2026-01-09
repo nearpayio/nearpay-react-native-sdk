@@ -10,6 +10,7 @@
     "logger": "react-native log-android"
   },
   "dependencies": {
+    "@nearpaydev/nearpay-ts-sdk": "^1.0.5",
     "@react-native-async-storage/async-storage": "^1.18.1",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.12",

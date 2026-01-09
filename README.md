@@ -36,6 +36,7 @@ import {
 const embededNearpay = new EmbededNearpay({
   authtype: AuthenticationType.email, // the Authentication type (Email, mobile, etc)
   authvalue: '<Enter Your Email Here>', // the Authentication value
+  tid: '<Enter Terminal ID Here>', // Optional for email/mobile authentication
   environment: Environments.sandbox, // Transation enviroment
 
 
@@ -54,8 +55,8 @@ const embededNearpay = new EmbededNearpay({
 ### Authentications Types
 
 - Login ( support both Email or Mobile user will chose )
-- Email
-- Mobile
+- Email (supports optional tid)
+- Mobile (supports optional tid)
 - JWT
 
 ### initialize (Optional)
@@ -85,6 +86,18 @@ embededNearpay
     console.log('=-=-=-=-=-= setup fail =-=-==-=-=-');
     console.log({ e });
   });
+```
+
+### updateAuthentication
+
+Use this to update the auth details while the SDK is running.
+
+```typescript
+embededNearpay.updateAuthentication({
+  authtype: AuthenticationType.email,
+  authvalue: 'user@example.com',
+  tid: '<Terminal ID>', // Optional for email/mobile
+});
 ```
 
 ### Purchase

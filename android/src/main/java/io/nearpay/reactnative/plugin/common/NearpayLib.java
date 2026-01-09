@@ -18,18 +18,31 @@ public class NearpayLib {
 
     public String authTypeShared = "";
     public String authValueShared = "";
+    public String authTidShared = "";
 
     public NearpayLib(PluginProvider provider) {
         this.provider = provider;
     }
 
     public static AuthenticationData getAuthType(String authType, String inputValue) {
-        AuthenticationData authentication = authType.equals("userenter") ? AuthenticationData.UserEnter.INSTANCE
-                : authType.equals("email") ? new AuthenticationData.Email(inputValue)
-                        : authType.equals("mobile") ? new AuthenticationData.Mobile(inputValue)
-                                : authType.equals("jwt") ? new AuthenticationData.Jwt(inputValue)
-                                        : AuthenticationData.UserEnter.INSTANCE;
-        return authentication;
+        return getAuthType(authType, inputValue, null);
+    }
+
+    public static AuthenticationData getAuthType(String authType, String inputValue, String tid) {
+        boolean hasTid = tid != null && !tid.isEmpty();
+        if ("userenter".equals(authType)) {
+            return AuthenticationData.UserEnter.INSTANCE;
+        }
+        if ("email".equals(authType)) {
+            return hasTid ? new AuthenticationData.Email(inputValue, tid) : new AuthenticationData.Email(inputValue);
+        }
+        if ("mobile".equals(authType)) {
+            return hasTid ? new AuthenticationData.Mobile(inputValue, tid) : new AuthenticationData.Mobile(inputValue);
+        }
+        if ("jwt".equals(authType)) {
+            return new AuthenticationData.Jwt(inputValue);
+        }
+        return AuthenticationData.UserEnter.INSTANCE;
     }
 
     public boolean isAuthInputValidation(String authType, String inputValue) {

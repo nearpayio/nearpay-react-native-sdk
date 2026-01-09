@@ -72,6 +72,7 @@ export class EmbededNearpay {
   public async initialize({
     authtype,
     authvalue,
+    tid,
     environment,
     locale,
     networkConfig,
@@ -80,7 +81,7 @@ export class EmbededNearpay {
     arabicPaymentText,
     englishPaymentText,
   }: InitializeOptions) {
-    const data = {
+    const data: Record<string, unknown> = {
       authtype,
       authvalue,
       environment,
@@ -91,6 +92,9 @@ export class EmbededNearpay {
       arabic_payment_text: arabicPaymentText,
       english_payment_text: englishPaymentText,
     };
+    if (typeof tid === 'string') {
+      data.tid = tid;
+    }
     return this._callPluginMethod(() => NearpayPlugin.initialize(data));
   }
 
@@ -350,11 +354,15 @@ public async dismiss() {
   public async updateAuthentication({
     authtype,
     authvalue,
+    tid,
   }: EmbededUpdateAuthenticationOptions) {
-    const data = {
+    const data: Record<string, unknown> = {
       authtype,
       authvalue,
     };
+    if (typeof tid === 'string') {
+      data.tid = tid;
+    }
 
     return await this._callPluginMethod(async () =>
       NearpayPlugin.updateAuthentication(data)

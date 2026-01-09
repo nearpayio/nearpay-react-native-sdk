@@ -19,7 +19,8 @@ public class UpdateAuthOperation extends BaseOperation {
   public void run(ArgsFilter filter, NearpaySender sender) {
     String authValue = filter.getAuthValue();
     String authType = filter.getAuthType();
-    AuthenticationData authData = NearpayLib.getAuthType(authType, authValue);
+    String authTid = filter.getAuthTid();
+    AuthenticationData authData = NearpayLib.getAuthType(authType, authValue, authTid);
     provider.getNearpayLib().nearpay.updateAuthentication(authData);
     sender.send(new HashMap<>());
   }
